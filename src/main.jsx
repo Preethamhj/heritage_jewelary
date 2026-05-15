@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Menu, ShoppingBag, X } from 'lucide-react';
+import { Heart, Home, Menu, Moon, Search, ShoppingBag, Sun, X } from 'lucide-react';
 import './styles.css';
 import logoImage from './assets/heritage-logo.jpg';
 
@@ -15,6 +15,14 @@ const images = Object.entries(heritageModules)
   .map(([, src]) => src);
 
 const pick = (start, count) => images.slice(start, start + count);
+
+const categories = ['All', 'Rings', 'Necklaces', 'Earrings', 'Bracelets'];
+const pressLogos = ['VOGUE', 'ELLE', 'BAZAAR', 'TATLER', 'BRIDES'];
+const giftProducts = pick(6, 8).map((image, index) => ({
+  image,
+  name: ['Temple Choker', 'Ruby Kundan Set', 'Pearl Jhumka', 'Emerald Pendant'][index % 4],
+  price: ['$420', '$680', '$290', '$510'][index % 4],
+}));
 
 const pages = [
   {
@@ -117,8 +125,58 @@ const pages = [
 
 const pageMap = Object.fromEntries(pages.map((page) => [page.id, page]));
 
-function Header({ activePage, onNavigate }) {
+function useScrollReveal(key) {
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nodes = [...document.querySelectorAll('[data-reveal]')];
+    if (reduceMotion) {
+      nodes.forEach((node) => node.classList.add('is-visible'));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+
+    nodes.forEach((node, index) => {
+      if (!node.dataset.delay) node.style.setProperty('--delay', `${(index % 6) * 80}ms`);
+      observer.observe(node);
+    });
+
+    return () => observer.disconnect();
+  }, [key]);
+}
+
+function useDarkMode() {
+  const getInitialTheme = () => {
+    const saved = localStorage.getItem('heritage-theme');
+    if (saved) return saved === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  };
+  const [darkMode, setDarkMode] = useState(getInitialTheme);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = darkMode ? 'dark' : 'light';
+    localStorage.setItem('heritage-theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
+
+  return [darkMode, setDarkMode];
+}
+
+function Header({ activePage, onNavigate, darkMode, onThemeToggle }) {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const navigate = (pageId, event) => {
     event?.currentTarget?.blur();
@@ -127,7 +185,7 @@ function Header({ activePage, onNavigate }) {
   };
 
   return (
-    <header className="site-header">
+    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
       <button className="icon-button menu-toggle" onClick={() => setOpen(true)} aria-label="Open menu">
         <Menu size={18} />
       </button>
@@ -162,7 +220,12 @@ function Header({ activePage, onNavigate }) {
           </div>
         ))}
       </nav>
-      <button className="icon-button bag-button" aria-label="Shopping bag"><ShoppingBag size={18} /></button>
+      <div className="header-actions">
+        <button className="icon-button" onClick={onThemeToggle} aria-label="Toggle evening mode">
+          {darkMode ? <Sun size={22} /> : <Moon size={22} />}
+        </button>
+        <button className="icon-button bag-button" aria-label="Shopping bag"><ShoppingBag size={22} /></button>
+      </div>
       <div className={`mobile-drawer ${open ? 'is-open' : ''}`}>
         <button className="icon-button drawer-close" onClick={() => setOpen(false)} aria-label="Close menu">
           <X size={20} />
@@ -206,17 +269,28 @@ function MovingLogoBackground() {
 
 function ImageGrid({ variant, items }) {
   return (
-    <section className={`image-grid ${variant}`}>
+    <section className={`image-grid ${variant}`} data-reveal="up">
       {items.map((item, index) => (
-        <figure key={`${item}-${index}`}>
+        <figure className="product-card" data-reveal={index % 2 ? 'scale' : 'up'} key={`${item}-${index}`}>
           <img src={item} alt="Heritage jewelary collection piece" loading="lazy" />
+          <figcaption className="quick-view">Quick View</figcaption>
         </figure>
       ))}
     </section>
   );
 }
 
-function Page({ page }) {
+function StaggeredHeadline({ text }) {
+  return (
+    <h1>
+      {text.split(' ').map((word, index) => (
+        <span className="hero-word" style={{ '--i': index }} key={`${word}-${index}`}>{word} </span>
+      ))}
+    </h1>
+  );
+}
+
+function Page({ page, onNavigate }) {
   return (
     <main className="page-shell" id="top" key={page.id}>
       <section className={`page-hero ${page.useLogoHero ? 'logo-hero' : ''}`}>
@@ -225,17 +299,20 @@ function Page({ page }) {
             <img src={page.hero} alt="" />
           </div>
         )}
-        <div className="page-hero-copy">
-          {page.useLogoHero && <img className="hero-logo-mark" src={logoImage} alt="Heritage Jewellery logo" />}
+        <div className="page-hero-copy" data-reveal="up">
+          {page.useLogoHero && <img className="hero-logo-mark hero-bg" src={logoImage} alt="Heritage Jewellery logo" />}
           <p className="category">{page.eyebrow}</p>
-          <h1>{page.title}</h1>
+          <StaggeredHeadline text={page.title} />
+          <div className="hero-underline" />
           <p>{page.intro}</p>
         </div>
       </section>
 
+      {page.useLogoHero && <HomeStory onNavigate={onNavigate} />}
+
       {page.sections.map((section, index) => (
         <React.Fragment key={section.title}>
-          <section className={`text-block ${index % 2 ? 'center' : 'left'}`}>
+          <section className={`text-block ${index % 2 ? 'center' : 'left'}`} data-reveal={index % 2 ? 'right' : 'left'}>
             <p className="eyebrow">{page.label}</p>
             <h2>{section.title}</h2>
             <p>{section.text}</p>
@@ -244,7 +321,9 @@ function Page({ page }) {
         </React.Fragment>
       ))}
 
-      <section className="statement">
+      <GiftFinder />
+
+      <section className="statement" data-reveal="scale">
         <p>
           Heritage Jewelary is built as a living archive: every page gives the collection space,
           movement, and the quiet pace of a luxury editorial.
@@ -254,10 +333,134 @@ function Page({ page }) {
   );
 }
 
+function HomeStory({ onNavigate }) {
+  const [filter, setFilter] = useState('All');
+  const featured = useMemo(() => pick(12, 12).map((image, index) => ({
+    image,
+    category: categories[(index % (categories.length - 1)) + 1],
+    name: ['Nakashi Gold Choker', 'Ruby Temple Pendant', 'Pearl Kundan Earrings', 'Emerald Bracelet'][index % 4],
+  })), []);
+  const visible = filter === 'All' ? featured : featured.filter((item) => item.category === filter);
+
+  return (
+    <section className="story-home">
+      <section className="story-split" data-reveal="left">
+        <img src={images[7]} alt="Hand-finished heritage jewellery detail" loading="lazy" />
+        <div>
+          <p className="eyebrow">THE HOUSE</p>
+          <h2>Made Slowly, Worn For Generations</h2>
+          <p>Every ornament is presented as a fragment of memory: antique gold, kundan, pearls, and ruby-green contrast composed with a boutique editorial rhythm.</p>
+          <button className="btn-primary btn-magnetic" onClick={() => onNavigate('world')}>Explore Craft</button>
+        </div>
+      </section>
+
+      <section className="category-tiles" data-reveal="up">
+        {['Rings', 'Necklaces', 'Earrings', 'Bracelets'].map((label, index) => (
+          <button className="category-tile product-card" onClick={() => onNavigate(index === 1 ? 'high' : 'accessories')} key={label}>
+            <img src={images[20 + index]} alt={`${label} collection`} loading="lazy" />
+            <span>{label}</span>
+            <small>View Edit</small>
+          </button>
+        ))}
+      </section>
+
+      <section className="featured-edit" data-reveal="up">
+        <div className="section-heading">
+          <p className="eyebrow">FEATURED COLLECTION</p>
+          <h2>Editorial Jewellery Edit</h2>
+        </div>
+        <div className="filter-bar">
+          {categories.map((item) => (
+            <button className={filter === item ? 'is-active' : ''} onClick={() => setFilter(item)} key={item}>{item}</button>
+          ))}
+        </div>
+        <div className="editorial-grid">
+          {visible.map((item, index) => (
+            <article className={`product-card editorial-card ${index % 7 === 0 ? 'featured' : ''} ${index % 4 === 0 ? 'tall' : ''}`} data-reveal="scale" key={`${item.name}-${index}`}>
+              <img src={item.image} alt={item.name} loading="lazy" />
+              <div className="card-copy">
+                <h3>{item.name}</h3>
+                <p>{item.category}</p>
+              </div>
+              <span className="quick-view">Quick View</span>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="press-strip" data-reveal="up">
+        {pressLogos.map((logo) => <span key={logo}>{logo}</span>)}
+      </section>
+
+      <section className="craft-scroll" data-reveal="left">
+        {['Sketch', 'Stone Setting', 'Gold Work', 'Final Polish'].map((step, index) => (
+          <article className="craft-card" key={step}>
+            <img src={images[44 + index]} alt={`${step} process`} loading="lazy" />
+            <span>0{index + 1}</span>
+            <h3>{step}</h3>
+          </article>
+        ))}
+      </section>
+
+      <section className="newsletter" data-reveal="scale">
+        <div>
+          <p className="eyebrow">PRIVATE NOTES</p>
+          <h2>Receive the next archive edit.</h2>
+        </div>
+        <form>
+          <input type="email" placeholder="Email address" aria-label="Email address" />
+          <button className="btn-primary btn-magnetic" type="submit">Join</button>
+        </form>
+      </section>
+    </section>
+  );
+}
+
+function GiftFinder() {
+  const [step, setStep] = useState(0);
+  const [budget, setBudget] = useState(250);
+  const groups = [
+    { title: 'Who is it for?', options: ['For Her', 'For Him', 'For Them', 'For Me'] },
+    { title: 'What is the occasion?', options: ['Birthday', 'Anniversary', 'Wedding', 'Just Because'] },
+  ];
+
+  return (
+    <section className="gift-finder" data-reveal="up">
+      <p className="eyebrow">GIFT FINDER</p>
+      <h2>A quieter way to choose.</h2>
+      {step < 2 ? (
+        <>
+          <h3>{groups[step].title}</h3>
+          <div className="option-grid">
+            {groups[step].options.map((option) => <button onClick={() => setStep(step + 1)} key={option}>{option}</button>)}
+          </div>
+        </>
+      ) : (
+        <>
+          <h3>What is your budget?</h3>
+          <input type="range" min="50" max="500" value={budget} onChange={(event) => setBudget(event.target.value)} />
+          <strong>${budget}</strong>
+          <div className="gift-results">
+            {giftProducts.slice(0, 4).map((item) => (
+              <article className="product-card" key={item.image}>
+                <img src={item.image} alt={item.name} loading="lazy" />
+                <h3>{item.name}</h3>
+                <p>{item.price}</p>
+              </article>
+            ))}
+          </div>
+        </>
+      )}
+    </section>
+  );
+}
+
 function App() {
   const initialPage = window.location.hash.replace('#/', '') || 'heritage';
   const [activePage, setActivePage] = useState(pageMap[initialPage] ? initialPage : 'heritage');
   const [transitionKey, setTransitionKey] = useState(0);
+  const [darkMode, setDarkMode] = useDarkMode();
+  useScrollReveal(transitionKey);
 
   const navigate = (pageId) => {
     if (pageId === activePage) return;
@@ -284,13 +487,83 @@ function App() {
 
   return (
     <>
+      <ProgressBar />
+      <CustomCursor />
       <MovingLogoBackground />
-      <Header activePage={activePage} onNavigate={navigate} />
+      <Header activePage={activePage} onNavigate={navigate} darkMode={darkMode} onThemeToggle={() => setDarkMode((value) => !value)} />
       <div className="page-transition" key={transitionKey}>
-        <Page page={pageMap[activePage]} />
+        <Page page={pageMap[activePage]} onNavigate={navigate} />
       </div>
+      <MobileBottomNav activePage={activePage} onNavigate={navigate} />
       <Footer />
     </>
+  );
+}
+
+function ProgressBar() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(total > 0 ? (window.scrollY / total) * 100 : 0);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return <div className="scroll-progress" style={{ transform: `scaleX(${progress / 100})` }} />;
+}
+
+function CustomCursor() {
+  useEffect(() => {
+    const cursor = document.querySelector('.custom-cursor');
+    if (!cursor || window.matchMedia('(pointer: coarse)').matches) return undefined;
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+    let targetX = x;
+    let targetY = y;
+    let frame = 0;
+    const move = (event) => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+    };
+    const animate = () => {
+      x += (targetX - x) * 0.18;
+      y += (targetY - y) * 0.18;
+      cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      frame = requestAnimationFrame(animate);
+    };
+    const hover = (event) => {
+      cursor.dataset.mode = event.target.closest('.product-card') ? 'view' : event.target.closest('a, button') ? 'link' : '';
+    };
+    window.addEventListener('mousemove', move);
+    document.addEventListener('mouseover', hover);
+    animate();
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('mousemove', move);
+      document.removeEventListener('mouseover', hover);
+    };
+  }, []);
+  return <div className="custom-cursor" aria-hidden="true" />;
+}
+
+function MobileBottomNav({ activePage, onNavigate }) {
+  const items = [
+    ['heritage', Home, 'Home'],
+    ['collections', Search, 'Collections'],
+    ['accessories', Heart, 'Wishlist'],
+    ['bridal', ShoppingBag, 'Bag'],
+  ];
+  return (
+    <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
+      {items.map(([id, Icon, label]) => (
+        <button className={activePage === id ? 'is-active' : ''} onClick={() => onNavigate(id)} key={id}>
+          <Icon size={19} />
+          <span>{label}</span>
+        </button>
+      ))}
+    </nav>
   );
 }
 
