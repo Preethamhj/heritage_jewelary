@@ -27,8 +27,8 @@ const giftProducts = pick(6, 8).map((image, index) => ({
 const pages = [
   {
     id: 'heritage',
-    label: 'HERITAGE JEWELARY',
-    title: 'HERITAGE JEWELARY',
+    label: 'HERITAGE JEWELLERY',
+    title: 'HERITAGE JEWELLERY',
     eyebrow: 'THE HOUSE COLLECTION',
     intro: 'A luxury editorial archive of antique gold, kundan work, temple forms, pearls, ruby-green contrasts, and hand-finished heirloom jewelary.',
     useLogoHero: true,
@@ -39,8 +39,8 @@ const pages = [
   },
   {
     id: 'high',
-    label: 'HIGH JEWELARY',
-    title: 'HIGH JEWELARY',
+    label: 'HIGH JEWELLERY',
+    title: 'HIGH JEWELLERY',
     eyebrow: 'CEREMONIAL PIECES',
     intro: 'Grand necklaces, pendants, and courtly jewelary forms composed for weddings, rituals, and formal heirloom dressing.',
     hero: images[6],
@@ -51,8 +51,8 @@ const pages = [
   },
   {
     id: 'fine',
-    label: 'FINE JEWELARY',
-    title: 'FINE JEWELARY',
+    label: 'FINE JEWELLERY',
+    title: 'FINE JEWELLERY',
     eyebrow: 'DETAIL STUDY',
     intro: 'Smaller ornaments carry the same heritage language at intimate scale: bangles, pendants, rings, earrings, and brooch-like pieces.',
     hero: images[20],
@@ -64,9 +64,9 @@ const pages = [
   {
     id: 'bridal',
     label: 'BRIDAL',
-    title: 'BRIDAL JEWELARY',
+    title: 'BRIDAL JEWELLERY',
     eyebrow: 'WEDDING ARCHIVE',
-    intro: 'Bridal jewelary with weight, polish, and presence: chokers, long necklaces, chandbalis, and complete ceremonial sets.',
+    intro: 'Bridal jewellery with weight, polish, and presence: chokers, long necklaces, chandbalis, and complete ceremonial sets.',
     hero: images[40],
     sections: [
       { title: 'WEDDING SETS', text: 'Pearl clusters and kundan settings create motion around the neckline and frame the face with softness.', layout: 'asymmetric', images: pick(40, 2) },
@@ -272,7 +272,7 @@ function ImageGrid({ variant, items }) {
     <section className={`image-grid ${variant}`} data-reveal="up">
       {items.map((item, index) => (
         <figure className="product-card" data-reveal={index % 2 ? 'scale' : 'up'} key={`${item}-${index}`}>
-          <img src={item} alt="Heritage jewelary collection piece" loading="lazy" />
+          <img src={item} alt="Heritage Jewellery collection piece" loading="lazy" />
           <figcaption className="quick-view">Quick View</figcaption>
         </figure>
       ))}
@@ -325,7 +325,7 @@ function Page({ page, onNavigate }) {
 
       <section className="statement" data-reveal="scale">
         <p>
-          Heritage Jewelary is built as a living archive: every page gives the collection space,
+          Heritage Jewellery is built as a living archive: every page gives the collection space,
           movement, and the quiet pace of a luxury editorial.
         </p>
       </section>
