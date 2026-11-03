@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Heart, Home, Menu, Moon, Search, ShoppingBag, Sun, X, ChevronRight, Sparkles, Gem } from 'lucide-react';
+import { Home, Menu, Moon, Search, Sun, X, ChevronRight, Sparkles, Gem, MessageCircle, Mail } from 'lucide-react';
 import './styles.css';
 import logoImage from './assets/heritage-logo.jpg';
 
@@ -16,21 +16,24 @@ const images = Object.entries(heritageModules)
 
 const pick = (start, count) => images.slice(start, start + count);
 
-/* ─── NEW FIVE-CATEGORY DATA ─── */
+/* ─── BUSINESS CONTACT CONFIGURATION ─── */
+const BUSINESS_CONFIG = {
+  whatsapp: {
+    number: '917090493768',
+    displayNumber: '+91 70904 93768',
+    message: 'Hello Heritage Jewellery! I would like to book a private jewellery consultation. Please share the available details.',
+  },
+  email: {
+    address: 'ravindraacharya1998@gmail.com',
+  },
+};
 
-const categoryFilters = ['All', 'Kundan', 'Nakashi / Temple', 'Polki', 'Daily Wear', 'Custom'];
-const pressLogos = ['VOGUE', 'ELLE', 'BAZAAR', 'TATLER', 'BRIDES'];
-
-const giftProducts = pick(6, 8).map((image, index) => ({
-  image,
-  name: ['Temple Choker', 'Ruby Kundan Set', 'Pearl Jhumka', 'Emerald Pendant'][index % 4],
-  price: ['$420', '$680', '$290', '$510'][index % 4],
-}));
+/* ─── FOUR-CATEGORY DATA ─── */
 
 const pages = [
   {
     id: 'kundan',
-    label: 'KUNDAN JEWELLERY',
+    label: 'KUNDAN',
     title: 'KUNDAN JEWELLERY',
     eyebrow: 'TRADITIONAL CRAFTSMANSHIP',
     intro: 'A celebration of regal Indian artistry — colourful gemstones set in intricate gold frameworks, each piece reflecting the luminous legacy of Kundan work passed down through generations of master craftsmen.',
@@ -63,7 +66,7 @@ const pages = [
   },
   {
     id: 'temple',
-    label: 'NAKASHI / TEMPLE',
+    label: 'TEMPLE',
     title: 'NAKASHI / TEMPLE JEWELLERY',
     eyebrow: 'SOUTH INDIAN HERITAGE',
     intro: 'Sacred motifs sculpted in antique gold — Lakshmi forms, peacock silhouettes, and intricate nakashi relief work honouring centuries of South Indian temple artistry and devotional craftsmanship.',
@@ -97,7 +100,7 @@ const pages = [
   },
   {
     id: 'polki',
-    label: 'POLKI JEWELLERY',
+    label: 'POLKI',
     title: 'UNCUT DIAMOND / POLKI JEWELLERY',
     eyebrow: 'NATURAL STONE CHARACTER',
     intro: 'The raw beauty of uncut diamonds set in traditional frameworks — Polki jewellery celebrates the natural character of each stone, creating pieces of ceremonial elegance and timeless distinction.',
@@ -129,11 +132,11 @@ const pages = [
     ],
   },
   {
-    id: 'daily',
-    label: 'DAILY WEAR',
-    title: 'DAILY WEAR JEWELLERY',
-    eyebrow: 'EVERYDAY ELEGANCE',
-    intro: 'Minimal, versatile, and effortlessly refined — jewellery designed for the rhythms of daily life, bringing quiet sophistication to every moment without compromising on comfort or style.',
+    id: 'lightweight-custom',
+    label: 'LIGHTWEIGHT / CUSTOM',
+    title: 'LIGHTWEIGHT & CUSTOM JEWELLERY',
+    eyebrow: 'EVERYDAY ELEGANCE & PERSONALISATION',
+    intro: 'From minimal daily wear to bespoke creations — jewellery that bridges heritage craftsmanship with contemporary lifestyle and personal expression, combining comfort with custom artistry.',
     hero: images[20],
     subcategories: [
       'Gold Chains',
@@ -145,6 +148,14 @@ const pages = [
       'Daily Wear Pendants',
       'Bracelets',
       'Lightweight Bangles',
+      'Custom Necklaces',
+      'Custom Earrings',
+      'Custom Rings',
+      'Custom Pendants',
+      'Lightweight Necklace Sets',
+      'Personalised Jewellery',
+      'Custom Mangalsutra',
+      'Custom Bracelet Designs',
     ],
     sections: [
       {
@@ -159,26 +170,6 @@ const pages = [
         layout: 'triptych',
         images: pick(30, 3),
       },
-    ],
-  },
-  {
-    id: 'custom',
-    label: 'CUSTOM JEWELLERY',
-    title: 'LIGHTWEIGHT CUSTOM JEWELLERY',
-    eyebrow: 'PERSONALISED ELEGANCE',
-    intro: 'Your vision, our craft — lightweight bespoke pieces designed around your personal story, combining modern elegance with heritage techniques to create jewellery that is uniquely yours.',
-    hero: images[15],
-    subcategories: [
-      'Custom Necklaces',
-      'Custom Earrings',
-      'Custom Rings',
-      'Custom Pendants',
-      'Lightweight Necklace Sets',
-      'Personalised Jewellery',
-      'Custom Mangalsutra',
-      'Custom Bracelet Designs',
-    ],
-    sections: [
       {
         title: 'BESPOKE CREATIONS',
         text: 'The collection balances personalised design with heritage goldsmithing — each piece crafted to the individual while honouring traditional handwork.',
@@ -197,28 +188,39 @@ const pages = [
 
 const pageMap = Object.fromEntries(pages.map((page) => [page.id, page]));
 
-/* ─── HOME PAGE DEFINITION ─── */
-const homePage = {
-  id: 'home',
-  label: 'HOME',
-  title: 'HERITAGE JEWELLERY',
-  eyebrow: 'THE HOUSE COLLECTION',
-  intro: 'A luxury editorial archive of antique gold, kundan work, temple forms, pearls, ruby-green contrasts, and hand-finished heirloom jewellery.',
-  useLogoHero: true,
-  sections: [
-    { title: 'THE DECONSTRUCTED MAHARANI NECKLACE', text: 'Royal necklaces are reimagined through jadau forms, river pearls, kundan settings, and dramatic pendants.', layout: 'triptych hero-grid', images: pick(39, 3) },
-    { title: 'CRAFTED AS MEMORY', text: 'Each piece is treated as miniature architecture: arches, birds, flowers, goddess motifs, and sacred geometry in antique gold.', layout: 'asymmetric', images: pick(33, 2) },
-  ],
+/* ─── LEGACY HASH REDIRECTS ─── */
+const legacyRedirects = {
+  daily: 'lightweight-custom',
+  custom: 'lightweight-custom',
 };
 
-/* ─── CATEGORY TILES DATA ─── */
+/* ─── CATEGORY TILES DATA (4 tiles) ─── */
 const categoryTiles = [
-  { id: 'kundan', label: 'Kundan Jewellery', imageIndex: 0, subtitle: 'Explore Collection' },
-  { id: 'temple', label: 'Nakashi / Temple', imageIndex: 9, subtitle: 'Explore Collection' },
-  { id: 'polki', label: 'Polki Jewellery', imageIndex: 6, subtitle: 'Explore Collection' },
-  { id: 'daily', label: 'Daily Wear', imageIndex: 20, subtitle: 'Explore Collection' },
-  { id: 'custom', label: 'Custom Jewellery', imageIndex: 15, subtitle: 'Explore Collection' },
+  { id: 'kundan', label: 'Kundan', imageIndex: 0, subtitle: 'Explore Collection' },
+  { id: 'temple', label: 'Temple', imageIndex: 9, subtitle: 'Explore Collection' },
+  { id: 'polki', label: 'Polki', imageIndex: 6, subtitle: 'Explore Collection' },
+  { id: 'lightweight-custom', label: 'Lightweight / Custom', imageIndex: 20, subtitle: 'Explore Collection' },
 ];
+
+/* ─── COLLECTION STORYTELLING ─── */
+const collectionStories = {
+  kundan: {
+    title: 'The Art of Kundan',
+    text: 'Kundan jewellery represents one of India\'s oldest forms of gemstone jewellery, originating in the royal courts of Rajasthan and Gujarat. Each piece begins with a gold framework into which carefully shaped stones are set using refined lac and gold foil, creating ornaments that radiate warmth, colour, and regal magnificence.',
+  },
+  temple: {
+    title: 'The Legacy of Temple Gold',
+    text: 'Nakashi and temple jewellery draw from the sacred art of South Indian temple architecture. Lakshmi, peacock, and floral motifs are sculpted into antique gold using repousse and relief techniques — each ornament a fragment of devotional art, carrying the spiritual weight and cultural memory of centuries.',
+  },
+  polki: {
+    title: 'The Character of Uncut Diamonds',
+    text: 'Polki jewellery preserves the raw, natural character of uncut diamonds — each stone unique in its shape, clarity, and luminance. Set in traditional gold frameworks with kundan technique and pearl accents, Polki pieces carry an authenticity and ceremonial grandeur that cut stones cannot replicate.',
+  },
+  'lightweight-custom': {
+    title: 'Elegance for Every Day & Your Story, Our Craft',
+    text: 'Lightweight jewellery bridges heritage craftsmanship with contemporary lifestyle — minimal studs, gold chains, and comfortable bangles bring quiet sophistication to everyday moments. Our custom creations invite you to co-create with our artisans, combining modern lightweight construction with heritage handwork to create jewellery that is intimately yours.',
+  },
+};
 
 function useScrollReveal(key) {
   useEffect(() => {
@@ -413,7 +415,7 @@ function StaggeredHeadline({ text }) {
 }
 
 /* ─── SUBCATEGORY NAV WITHIN COLLECTION PAGE ─── */
-function SubcategoryNav({ subcategories, pageId, label }) {
+function SubcategoryNav({ subcategories, label }) {
   return (
     <section className="subcategory-nav" data-reveal="up">
       <div className="subcategory-inner">
@@ -428,31 +430,57 @@ function SubcategoryNav({ subcategories, pageId, label }) {
   );
 }
 
-/* ─── COLLECTION STORYTELLING SECTION ─── */
-const collectionStories = {
-  kundan: {
-    title: 'The Art of Kundan',
-    text: 'Kundan jewellery represents one of India\'s oldest forms of gemstone jewellery, originating in the royal courts of Rajasthan and Gujarat. Each piece begins with a gold framework into which carefully shaped stones are set using refined lac and gold foil, creating ornaments that radiate warmth, colour, and regal magnificence.',
-  },
-  temple: {
-    title: 'The Legacy of Temple Gold',
-    text: 'Nakashi and temple jewellery draw from the sacred art of South Indian temple architecture. Lakshmi, peacock, and floral motifs are sculpted into antique gold using repousse and relief techniques — each ornament a fragment of devotional art, carrying the spiritual weight and cultural memory of centuries.',
-  },
-  polki: {
-    title: 'The Character of Uncut Diamonds',
-    text: 'Polki jewellery preserves the raw, natural character of uncut diamonds — each stone unique in its shape, clarity, and luminance. Set in traditional gold frameworks with kundan technique and pearl accents, Polki pieces carry an authenticity and ceremonial grandeur that cut stones cannot replicate.',
-  },
-  daily: {
-    title: 'Elegance for Every Day',
-    text: 'Daily wear jewellery bridges heritage craftsmanship with contemporary lifestyle. Lightweight gold chains, minimal studs, and comfortable bangles bring quiet sophistication to everyday moments — designed to move with you, complement any wardrobe, and become part of your personal signature.',
-  },
-  custom: {
-    title: 'Your Story, Our Craft',
-    text: 'Lightweight custom jewellery invites you to co-create with our artisans. From personalised necklaces to bespoke mangalsutras, each piece is designed around your vision — combining modern lightweight construction with heritage handwork to create jewellery that is intimately yours.',
-  },
-};
+/* ─── BOOK CONSULTATION SECTION ─── */
+function BookConsultation() {
+  const whatsappUrl = `https://wa.me/${BUSINESS_CONFIG.whatsapp.number}?text=${encodeURIComponent(BUSINESS_CONFIG.whatsapp.message)}`;
 
-function CollectionPage({ page, onNavigate }) {
+  return (
+    <section className="consultation" data-reveal="up">
+      <div className="consultation-inner">
+        <p className="eyebrow">PERSONALISED SERVICE</p>
+        <h2>Book a Private Consultation</h2>
+        <p className="consultation-description">
+          Discover jewellery that tells your story. Connect with our team for personalised assistance, custom designs, collection enquiries and expert guidance.
+        </p>
+        <div className="consultation-grid">
+          <div className="consultation-card">
+            <div className="consultation-icon">
+              <MessageCircle size={28} />
+            </div>
+            <h3>WHATSAPP</h3>
+            <p className="consultation-contact">{BUSINESS_CONFIG.whatsapp.displayNumber}</p>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary btn-magnetic consultation-btn"
+              aria-label="Book consultation via WhatsApp"
+            >
+              Book Consultation
+            </a>
+          </div>
+          <div className="consultation-card">
+            <div className="consultation-icon">
+              <Mail size={28} />
+            </div>
+            <h3>EMAIL</h3>
+            <p className="consultation-contact">{BUSINESS_CONFIG.email.address}</p>
+            <a
+              href={`mailto:${BUSINESS_CONFIG.email.address}`}
+              className="btn-primary btn-magnetic consultation-btn"
+              aria-label="Send email enquiry"
+            >
+              Send Enquiry
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── COLLECTION PAGE ─── */
+function CollectionPage({ page }) {
   const story = collectionStories[page.id];
 
   return (
@@ -469,7 +497,7 @@ function CollectionPage({ page, onNavigate }) {
         </div>
       </section>
 
-      <SubcategoryNav subcategories={page.subcategories} pageId={page.id} label={page.label} />
+      <SubcategoryNav subcategories={page.subcategories} label={page.label} />
 
       {page.sections.map((section, index) => (
         <React.Fragment key={section.title}>
@@ -482,7 +510,6 @@ function CollectionPage({ page, onNavigate }) {
         </React.Fragment>
       ))}
 
-      {/* Collection storytelling */}
       {story && (
         <section className="collection-story" data-reveal="scale">
           <div className="collection-story-inner">
@@ -493,8 +520,6 @@ function CollectionPage({ page, onNavigate }) {
         </section>
       )}
 
-      <GiftFinder />
-
       <section className="statement" data-reveal="scale">
         <p>
           Heritage Jewellery is built as a living archive: every page gives the collection space,
@@ -505,36 +530,48 @@ function CollectionPage({ page, onNavigate }) {
   );
 }
 
+/* ─── HOME PAGE ─── */
 function HomePage({ onNavigate }) {
-  const page = homePage;
-
   return (
     <main className="page-shell" id="top">
+      {/* Simplified hero: logo + description only */}
       <section className="page-hero logo-hero">
         <div className="page-hero-copy" data-reveal="up">
           <img className="hero-logo-mark hero-bg" src={logoImage} alt="Heritage Jewellery logo" />
-          <p className="category">{page.eyebrow}</p>
-          <StaggeredHeadline text={page.title} />
-          <div className="hero-underline" />
-          <p>{page.intro}</p>
+          <p className="hero-brand-description">
+            A luxury editorial archive of antique gold, Kundan work, Temple forms, pearls, ruby-green contrasts, and hand-finished heirloom jewellery.
+          </p>
         </div>
       </section>
 
-      <HomeStory onNavigate={onNavigate} />
+      {/* House story */}
+      <section className="story-home">
+        <section className="story-split" data-reveal="left">
+          <img src={images[7]} alt="Hand-finished heritage jewellery detail" loading="lazy" />
+          <div>
+            <p className="eyebrow">THE HOUSE</p>
+            <h2>Made Slowly, Worn For Generations</h2>
+            <p>Every ornament is presented as a fragment of memory: antique gold, kundan, pearls, and ruby-green contrast composed with a boutique editorial rhythm.</p>
+            <button className="btn-primary btn-magnetic" onClick={() => onNavigate('kundan')}>Explore Collections</button>
+          </div>
+        </section>
 
-      {page.sections.map((section, index) => (
-        <React.Fragment key={section.title}>
-          <section className={`text-block ${index % 2 ? 'center' : 'left'}`} data-reveal={index % 2 ? 'right' : 'left'}>
-            <p className="eyebrow">HERITAGE JEWELLERY</p>
-            <h2>{section.title}</h2>
-            <p>{section.text}</p>
-          </section>
-          <ImageGrid variant={section.layout} items={section.images} />
-        </React.Fragment>
-      ))}
+        {/* Four category tiles */}
+        <section className="category-tiles" data-reveal="up">
+          {categoryTiles.map((tile) => (
+            <button className="category-tile product-card" onClick={() => onNavigate(tile.id)} key={tile.id}>
+              <img src={images[tile.imageIndex]} alt={`${tile.label} collection`} loading="lazy" />
+              <span>{tile.label}</span>
+              <small>{tile.subtitle}</small>
+            </button>
+          ))}
+        </section>
+      </section>
 
-      <GiftFinder />
+      {/* Book Consultation — immediately after category tiles */}
+      <BookConsultation />
 
+      {/* Closing brand statement */}
       <section className="statement" data-reveal="scale">
         <p>
           Heritage Jewellery is built as a living archive: every page gives the collection space,
@@ -545,141 +582,29 @@ function HomePage({ onNavigate }) {
   );
 }
 
-function HomeStory({ onNavigate }) {
-  const [filter, setFilter] = useState('All');
-  const featured = useMemo(() => pick(12, 12).map((image, index) => ({
-    image,
-    category: categoryFilters[(index % (categoryFilters.length - 1)) + 1],
-    name: ['Nakashi Gold Choker', 'Polki Temple Pendant', 'Pearl Kundan Earrings', 'Daily Wear Bracelet'][index % 4],
-  })), []);
-  const visible = filter === 'All' ? featured : featured.filter((item) => item.category === filter);
-
-  return (
-    <section className="story-home">
-      <section className="story-split" data-reveal="left">
-        <img src={images[7]} alt="Hand-finished heritage jewellery detail" loading="lazy" />
-        <div>
-          <p className="eyebrow">THE HOUSE</p>
-          <h2>Made Slowly, Worn For Generations</h2>
-          <p>Every ornament is presented as a fragment of memory: antique gold, kundan, pearls, and ruby-green contrast composed with a boutique editorial rhythm.</p>
-          <button className="btn-primary btn-magnetic" onClick={() => onNavigate('kundan')}>Explore Collections</button>
-        </div>
-      </section>
-
-      <section className="category-tiles" data-reveal="up">
-        {categoryTiles.map((tile) => (
-          <button className="category-tile product-card" onClick={() => onNavigate(tile.id)} key={tile.id}>
-            <img src={images[tile.imageIndex]} alt={`${tile.label} collection`} loading="lazy" />
-            <span>{tile.label}</span>
-            <small>{tile.subtitle}</small>
-          </button>
-        ))}
-      </section>
-
-      <section className="featured-edit" data-reveal="up">
-        <div className="section-heading">
-          <p className="eyebrow">FEATURED COLLECTION</p>
-          <h2>Editorial Jewellery Edit</h2>
-        </div>
-        <div className="filter-bar">
-          {categoryFilters.map((item) => (
-            <button className={filter === item ? 'is-active' : ''} onClick={() => setFilter(item)} key={item}>{item}</button>
-          ))}
-        </div>
-        <div className="editorial-grid">
-          {visible.map((item, index) => (
-            <article className={`product-card editorial-card ${index % 7 === 0 ? 'featured' : ''} ${index % 4 === 0 ? 'tall' : ''}`} data-reveal="scale" key={`${item.name}-${index}`}>
-              <img src={item.image} alt={item.name} loading="lazy" />
-              <div className="card-copy">
-                <h3>{item.name}</h3>
-                <p>{item.category}</p>
-              </div>
-              <span className="quick-view">Quick View</span>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="press-strip" data-reveal="up">
-        {pressLogos.map((logo) => <span key={logo}>{logo}</span>)}
-      </section>
-
-      <section className="craft-scroll" data-reveal="left">
-        {['Sketch', 'Stone Setting', 'Gold Work', 'Final Polish'].map((step, index) => (
-          <article className="craft-card" key={step}>
-            <img src={images[44 + index]} alt={`${step} process`} loading="lazy" />
-            <span>0{index + 1}</span>
-            <h3>{step}</h3>
-          </article>
-        ))}
-      </section>
-
-      <section className="newsletter" data-reveal="scale">
-        <div>
-          <p className="eyebrow">PRIVATE NOTES</p>
-          <h2>Receive the next archive edit.</h2>
-        </div>
-        <form>
-          <input type="email" placeholder="Email address" aria-label="Email address" />
-          <button className="btn-primary btn-magnetic" type="submit">Join</button>
-        </form>
-      </section>
-    </section>
-  );
-}
-
-function GiftFinder() {
-  const [step, setStep] = useState(0);
-  const [budget, setBudget] = useState(250);
-  const groups = [
-    { title: 'Who is it for?', options: ['For Her', 'For Him', 'For Them', 'For Me'] },
-    { title: 'What is the occasion?', options: ['Birthday', 'Anniversary', 'Wedding', 'Just Because'] },
-  ];
-
-  return (
-    <section className="gift-finder" data-reveal="up">
-      <p className="eyebrow">GIFT FINDER</p>
-      <h2>A quieter way to choose.</h2>
-      {step < 2 ? (
-        <>
-          <h3>{groups[step].title}</h3>
-          <div className="option-grid">
-            {groups[step].options.map((option) => <button onClick={() => setStep(step + 1)} key={option}>{option}</button>)}
-          </div>
-        </>
-      ) : (
-        <>
-          <h3>What is your budget?</h3>
-          <input type="range" min="50" max="500" value={budget} onChange={(event) => setBudget(event.target.value)} />
-          <strong>${budget}</strong>
-          <div className="gift-results">
-            {giftProducts.slice(0, 4).map((item) => (
-              <article className="product-card" key={item.image}>
-                <img src={item.image} alt={item.name} loading="lazy" />
-                <h3>{item.name}</h3>
-                <p>{item.price}</p>
-              </article>
-            ))}
-          </div>
-        </>
-      )}
-    </section>
-  );
-}
-
+/* ─── APP ─── */
 function App() {
   const validIds = ['home', ...pages.map((p) => p.id)];
-  const initialPage = window.location.hash.replace('#/', '') || 'home';
-  const [activePage, setActivePage] = useState(validIds.includes(initialPage) ? initialPage : 'home');
+
+  const resolvePageId = (rawId) => {
+    if (!rawId || rawId === '') return 'home';
+    if (validIds.includes(rawId)) return rawId;
+    if (legacyRedirects[rawId]) return legacyRedirects[rawId];
+    return 'home';
+  };
+
+  const initialHash = window.location.hash.replace('#/', '');
+  const [activePage, setActivePage] = useState(resolvePageId(initialHash));
   const [transitionKey, setTransitionKey] = useState(0);
   const [darkMode, setDarkMode] = useDarkMode();
   useScrollReveal(transitionKey);
 
   const navigate = (pageId) => {
-    if (pageId === activePage) return;
-    setActivePage(pageId);
+    const resolved = resolvePageId(pageId);
+    if (resolved === activePage) return;
+    setActivePage(resolved);
     setTransitionKey((key) => key + 1);
-    window.history.pushState(null, '', `#/${pageId}`);
+    window.history.pushState(null, '', `#/${resolved}`);
   };
 
   useEffect(() => {
@@ -688,18 +613,20 @@ function App() {
 
   useEffect(() => {
     const onHashChange = () => {
-      const pageId = window.location.hash.replace('#/', '') || 'home';
-      if (validIds.includes(pageId)) {
-        setActivePage(pageId);
+      const rawId = window.location.hash.replace('#/', '');
+      const resolved = resolvePageId(rawId);
+      if (resolved !== activePage) {
+        setActivePage(resolved);
         setTransitionKey((key) => key + 1);
-      } else {
-        setActivePage('home');
-        setTransitionKey((key) => key + 1);
+      }
+      // Fix the URL if a legacy redirect was applied
+      if (legacyRedirects[rawId]) {
+        window.history.replaceState(null, '', `#/${resolved}`);
       }
     };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
-  }, []);
+  }, [activePage]);
 
   return (
     <>
@@ -711,7 +638,7 @@ function App() {
         {activePage === 'home' ? (
           <HomePage onNavigate={navigate} />
         ) : (
-          <CollectionPage page={pageMap[activePage]} onNavigate={navigate} />
+          <CollectionPage page={pageMap[activePage]} />
         )}
       </div>
       <MobileBottomNav activePage={activePage} onNavigate={navigate} />
@@ -790,18 +717,16 @@ function MobileBottomNav({ activePage, onNavigate }) {
 function Footer({ onNavigate }) {
   const columns = [
     { heading: 'COLLECTIONS', links: [
-      { label: 'Kundan Jewellery', id: 'kundan' },
-      { label: 'Nakashi / Temple', id: 'temple' },
-      { label: 'Polki Jewellery', id: 'polki' },
-      { label: 'Daily Wear', id: 'daily' },
-      { label: 'Custom Jewellery', id: 'custom' },
+      { label: 'Kundan', id: 'kundan' },
+      { label: 'Temple', id: 'temple' },
+      { label: 'Polki', id: 'polki' },
+      { label: 'Lightweight / Custom', id: 'lightweight-custom' },
     ]},
     { heading: 'FEATURED', links: [
       { label: 'Kundan Necklace Sets', id: 'kundan' },
       { label: 'Temple Haram', id: 'temple' },
       { label: 'Polki Bridal Sets', id: 'polki' },
-      { label: 'Daily Wear Earrings', id: 'daily' },
-      { label: 'Custom Necklaces', id: 'custom' },
+      { label: 'Custom Necklaces', id: 'lightweight-custom' },
     ]},
     { heading: 'CUSTOMER CARE', links: [
       { label: 'Contact' },
