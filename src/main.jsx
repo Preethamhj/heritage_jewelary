@@ -438,7 +438,7 @@ function BookConsultation() {
     <section className="consultation" data-reveal="up">
       <div className="consultation-inner">
         <p className="eyebrow">PERSONALISED SERVICE</p>
-        <h2>Book a Private Consultation</h2>
+        <h2>Book a Consultation</h2>
         <p className="consultation-description">
           Discover jewellery that tells your story. Connect with our team for personalised assistance, custom designs, collection enquiries and expert guidance.
         </p>
