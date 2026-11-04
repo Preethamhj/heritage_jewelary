@@ -19,8 +19,8 @@ const pick = (start, count) => images.slice(start, start + count);
 /* ─── BUSINESS CONTACT CONFIGURATION ─── */
 const BUSINESS_CONFIG = {
   whatsapp: {
-    number: '917090493768',
-    displayNumber: '+91 70904 93768',
+    number: '917483458586',
+    displayNumber: '+91 74834 58586',
     message: 'Hello Heritage Jewellery! I would like to book a private jewellery consultation. Please share the available details.',
   },
   email: {
