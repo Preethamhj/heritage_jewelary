@@ -37,7 +37,7 @@ const pages = [
     label: 'KUNDAN',
     title: 'KUNDAN JEWELLERY',
     eyebrow: 'TRADITIONAL CRAFTSMANSHIP',
-    intro: 'A celebration of regal Indian artistry — colourful gemstones set in intricate gold frameworks, each piece reflecting the luminous legacy of Kundan work passed down through generations of master craftsmen.',
+    intro: 'Its  a classic design and meticulous detailing make it more than details of legacy— it becomes a statement of Heritage and everlasting allure.',
     hero: images[0],
     subcategories: [
       'Kundan Necklace Sets',
