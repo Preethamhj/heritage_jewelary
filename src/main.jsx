@@ -527,16 +527,19 @@ function CollectionPage({ page }) {
 function HomePage({ onNavigate }) {
   return (
     <main className="page-shell" id="top">
-      {/* Simplified hero: logo + description only */}
-      <section className="page-hero logo-hero">
-        <div className="page-hero-copy" data-reveal="up">
-          <img className="hero-logo-mark hero-bg" src={logoImage} alt="Heritage Jewellery logo" />
-          <p className="hero-brand-description">
-            A luxury editorial archive of antique gold, Kundan work, Temple forms, pearls, ruby-green contrasts, and hand-finished heirloom jewellery.
-          </p>
-        </div>
-      </section>
-
+  <section className="page-hero logo-hero">
+    <div className="page-hero-copy" data-reveal="up">
+      <img className="hero-logo-mark hero-bg" src={logoImage} alt="Heritage Jewellery logo" />
+      <h2 className="para-style">ಪರಂಪರೆ ಮುಂದುವರೆಯಬೇಕು, ಮರೆಯಾಗಬಾರದು.</h2>
+      <p>We believe heritage deserves to evolve.</p>
+      {/* REMOVE THIS LINE: <br/> */}
+      <p className="hero-quote">"Trust and Value"</p>
+      <p className="hero-brand-description">
+        A luxury editorial archive of antique gold, Kundan work, Temple forms, pearls, ruby-green contrasts, and hand-finished heirloom jewellery.
+      </p>
+    </div>
+  </section>
+  
       {/* House story */}
       <section className="story-home">
         <section className="story-split" data-reveal="left">
