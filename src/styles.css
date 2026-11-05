@@ -1378,6 +1378,24 @@ h1 {
   .site-header {
     min-height: 74px;
     padding: 0 16px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  .menu-toggle {
+    display: none !important;
+  }
+
+  .brand {
+    grid-column: 2;
+    justify-self: center;
+    margin: 0;
+  }
+
+  .header-actions {
+    grid-column: 3;
+    justify-self: end;
   }
 
   .brand-name {
@@ -1482,7 +1500,7 @@ h1 {
   }
 
   .mobile-bottom-nav {
-    display: grid;
+    display: none !important;
   }
 
   .story-home,
