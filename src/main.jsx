@@ -133,7 +133,7 @@ const pages = [
   },
   {
     id: 'lightweight-custom',
-    label: 'LIGHTWEIGHT / CUSTOM',
+    label: 'LIGHTWEIGHT / DAILY WEARS',
     title: 'LIGHTWEIGHT & CUSTOM JEWELLERY',
     eyebrow: 'EVERYDAY ELEGANCE & PERSONALISATION',
     intro: 'From minimal daily wear to bespoke creations — jewellery that bridges heritage craftsmanship with contemporary lifestyle and personal expression, combining comfort with custom artistry.',
