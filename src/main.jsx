@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { Home, Menu, Moon, Search, Sun, X, ChevronRight, Sparkles, Gem, MessageCircle, Mail } from 'lucide-react';
 import './styles.css';
 import logoImage from './assets/heritage-logo.jpg';
+import frontpageImage from './assets/heritage-frontpage.jpg';
 
 const heritageModules = import.meta.glob('./assets/heritage/*.jpeg', {
   eager: true,
@@ -36,7 +37,7 @@ const pages = [
     label: 'KUNDAN',
     title: 'KUNDAN JEWELLERY',
     eyebrow: 'TRADITIONAL CRAFTSMANSHIP',
-    intro: 'A celebration of regal Indian artistry — colourful gemstones set in intricate gold frameworks, each piece reflecting the luminous legacy of Kundan work passed down through generations of master craftsmen.',
+    intro: 'Its  a classic design and meticulous detailing make it more than details of legacy— it becomes a statement of Heritage and everlasting allure.',
     hero: images[0],
     subcategories: [
       'Kundan Necklace Sets',
@@ -132,9 +133,9 @@ const pages = [
     ],
   },
   {
-    id: 'lightweight-custom',
+    id: 'lightweight-dialy wears',
     label: 'LIGHTWEIGHT / DAILY WEARS',
-    title: 'LIGHTWEIGHT & CUSTOM JEWELLERY',
+    title: 'LIGHTWEIGHT & DAILY WEAR JEWELLERY',
     eyebrow: 'EVERYDAY ELEGANCE & PERSONALISATION',
     intro: 'From minimal daily wear to bespoke creations — jewellery that bridges heritage craftsmanship with contemporary lifestyle and personal expression, combining comfort with custom artistry.',
     hero: images[20],
@@ -190,8 +191,8 @@ const pageMap = Object.fromEntries(pages.map((page) => [page.id, page]));
 
 /* ─── LEGACY HASH REDIRECTS ─── */
 const legacyRedirects = {
-  daily: 'lightweight-custom',
-  custom: 'lightweight-custom',
+  daily: 'lightweight-daily wears',
+  custom: 'lightweight-daily wears',
 };
 
 /* ─── CATEGORY TILES DATA (4 tiles) ─── */
@@ -199,7 +200,7 @@ const categoryTiles = [
   { id: 'kundan', label: 'Kundan', imageIndex: 0, subtitle: 'Explore Collection' },
   { id: 'temple', label: 'Temple', imageIndex: 9, subtitle: 'Explore Collection' },
   { id: 'polki', label: 'Polki', imageIndex: 6, subtitle: 'Explore Collection' },
-  { id: 'lightweight-custom', label: 'Lightweight / Custom', imageIndex: 20, subtitle: 'Explore Collection' },
+  { id: 'lightweight-daily wears', label: 'Lightweight / Daily Wears', imageIndex: 20, subtitle: 'Explore Collection' },
 ];
 
 /* ─── COLLECTION STORYTELLING ─── */
@@ -216,7 +217,7 @@ const collectionStories = {
     title: 'The Character of Uncut Diamonds',
     text: 'Polki jewellery preserves the raw, natural character of uncut diamonds — each stone unique in its shape, clarity, and luminance. Set in traditional gold frameworks with kundan technique and pearl accents, Polki pieces carry an authenticity and ceremonial grandeur that cut stones cannot replicate.',
   },
-  'lightweight-custom': {
+  'lightweight-daily wears': {
     title: 'Elegance for Every Day & Your Story, Our Craft',
     text: 'Lightweight jewellery bridges heritage craftsmanship with contemporary lifestyle — minimal studs, gold chains, and comfortable bangles bring quiet sophistication to everyday moments. Our custom creations invite you to co-create with our artisans, combining modern lightweight construction with heritage handwork to create jewellery that is intimately yours.',
   },
@@ -418,14 +419,6 @@ function StaggeredHeadline({ text }) {
 function SubcategoryNav({ subcategories, label }) {
   return (
     <section className="subcategory-nav" data-reveal="up">
-      <div className="subcategory-inner">
-        <p className="subcategory-heading">Browse {label}</p>
-        <div className="subcategory-pills">
-          {subcategories.map((sub) => (
-            <button className="subcategory-pill" key={sub}>{sub}</button>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
@@ -547,7 +540,7 @@ function HomePage({ onNavigate }) {
       {/* House story */}
       <section className="story-home">
         <section className="story-split" data-reveal="left">
-          <img src={images[7]} alt="Hand-finished heritage jewellery detail" loading="lazy" />
+          <img src={frontpageImage} alt="Handcrafted heritage gold necklace with uncut gems and pearls" loading="lazy" />
           <div>
             <p className="eyebrow">THE HOUSE</p>
             <h2>Made Slowly, Worn For Generations</h2>
