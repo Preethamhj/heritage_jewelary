@@ -374,6 +374,8 @@ function JewelleryShowcase() {
           }
           const rect = containerRef.current.getBoundingClientRect();
           const windowHeight = window.innerHeight;
+          // Determine the sticky header offset so rotation coordinates perfectly with the docked stage
+          const headerOffset = window.innerWidth > 991 ? 122 : (window.innerWidth > 767 ? 64 : 56);
           // Track distance is the total height minus one viewport
           const trackDistance = rect.height - windowHeight;
 
@@ -383,8 +385,8 @@ function JewelleryShowcase() {
             return;
           }
 
-          // Progress begins when container top hits top of viewport (rect.top <= 0)
-          const scrolled = -rect.top;
+          // Progress begins when container docks below the category nav bar, fully visible
+          const scrolled = headerOffset - rect.top;
           let progress = scrolled / trackDistance;
 
           // Strictly clamp between 0 and 1
@@ -629,9 +631,9 @@ function HomePage({ onNavigate }) {
   <section className="page-hero logo-hero">
     <div className="page-hero-copy" data-reveal="up">
       <img className="hero-logo-mark hero-bg" src={logoImage} alt="Heritage Jewellery logo" />
-      <h2 className="para-style">ಪರಂಪರೆ ಮುಂದುವರೆಯಬೇಕು, ಮರೆಯಾಗಬಾರದು.</h2>
-      <p>We believe heritage deserves to be preserved.</p>
-      <p className="hero-quote">"Trust and Value"</p>
+      <h2 className="hero-kannada-headline">ಪರಂಪರೆ ಮುಂದುವರೆಯಬೇಕು, ಮರೆಯಾಗಬಾರದು.</h2>
+      <p className="hero-belief">We believe heritage deserves to be preserved.</p>
+      <h3 className="hero-trust-value">"Trust and Value"</h3>
       <p className="hero-brand-description">
         A luxury editorial archive of antique gold, Kundan work, Temple forms, pearls, ruby-green contrasts, and hand-finished heirloom jewellery.
       </p>
