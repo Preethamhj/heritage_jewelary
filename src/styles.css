@@ -1705,3 +1705,480 @@ h1 {
     font-size: 10.5px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   LUXURY HERITAGE JEWELLERY 3D SHOWCASE SECTION
+   ═══════════════════════════════════════════════════════════ */
+
+.jewellery-showcase-section {
+  position: relative;
+  height: 220vh;
+  background: radial-gradient(circle at 50% 32%, #1e1712 0%, #130f0c 55%, #0a0806 100%);
+  color: #f7edd8;
+  border-top: 1px solid rgba(201, 168, 76, 0.25);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+}
+
+:root[data-theme="dark"] .jewellery-showcase-section {
+  background: radial-gradient(circle at 50% 32%, #16110d 0%, #0c0907 60%, #050403 100%);
+}
+
+.showcase-sticky-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(28px, 4.5vh, 44px) 24px clamp(20px, 3.5vh, 32px);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Ambient lighting aura behind the jewellery */
+.showcase-aura {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(680px, 88vw);
+  height: min(680px, 88vw);
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.18) 0%, rgba(201, 168, 76, 0.05) 45%, transparent 70%);
+  pointer-events: none;
+  filter: blur(45px);
+  z-index: 1;
+}
+
+/* Watermark logo */
+.showcase-watermark {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(480px, 72vw);
+  opacity: 0.05;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 1;
+}
+
+/* Header in sticky stage */
+.showcase-header {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  max-width: 720px;
+}
+
+.showcase-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--body-sans);
+  font-size: clamp(11px, 0.95vw, 13px);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold-warm);
+  margin-bottom: 8px;
+}
+
+.showcase-title {
+  font-family: var(--display-serif);
+  font-size: clamp(26px, 3.2vw, 42px);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  line-height: 1.22;
+  margin: 0;
+  color: #fff9ee;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+}
+
+.showcase-subtitle {
+  font-family: var(--body-sans);
+  font-size: clamp(12px, 1.05vw, 13.5px);
+  letter-spacing: 0.12em;
+  color: #c4b69d;
+  margin: 6px 0 0;
+  text-transform: uppercase;
+}
+
+/* 3D Scene Viewport */
+.showcase-3d-viewport {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+}
+
+/* The rotating jewel 3D card */
+.showcase-jewel-card {
+  position: relative;
+  width: min(340px, 32vw);
+  max-width: 360px;
+  aspect-ratio: 569 / 825;
+  max-height: 52vh;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.06s linear;
+}
+
+/* Front & Back Faces */
+.showcase-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.showcase-face-front {
+  transform: translateZ(2px);
+}
+
+.showcase-face-back {
+  transform: rotateY(180deg) translateZ(2px);
+}
+
+/* Depth relief layers along Z for authentic antique gold thickness */
+.showcase-depth-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  filter: brightness(0.55) saturate(0.85) drop-shadow(0 0 2px rgba(80, 60, 20, 0.85));
+}
+
+.showcase-face img,
+.showcase-depth-layer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 38px rgba(0, 0, 0, 0.85)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Specular Shimmer overlay */
+.showcase-specular-shimmer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-position: center;
+  opacity: 0.8;
+}
+
+/* Dynamic Ambient Ground Shadow */
+.showcase-ground-shadow {
+  position: absolute;
+  bottom: clamp(6px, 2vh, 18px);
+  left: 50%;
+  transform: translateX(-50%) rotateX(82deg);
+  width: min(340px, 44vw);
+  height: 36px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.35) 45%, transparent 75%);
+  pointer-events: none;
+  filter: blur(5px);
+  will-change: transform, opacity;
+  z-index: 1;
+}
+
+/* Rotation Progress & Interactive Indicator */
+.showcase-controls {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.showcase-compass-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  background: rgba(22, 17, 13, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--body-sans);
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.showcase-compass-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold-warm);
+  box-shadow: 0 0 8px var(--gold-warm);
+  animation: pulseGold 2s infinite ease-in-out;
+}
+
+.showcase-scroll-track {
+  width: 140px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.showcase-scroll-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-warm), #fff2b8);
+  border-radius: 2px;
+  transition: width 0.05s linear;
+}
+
+/* ─── DEDICATED INFORMATION AREA BELOW JEWELLERY ─── */
+.showcase-info-area {
+  position: relative;
+  z-index: 4;
+  background: linear-gradient(180deg, #0a0806 0%, #15110e 18%, var(--paper) 100%);
+  padding: clamp(64px, 8.5vw, 120px) clamp(20px, 5vw, 64px);
+  border-top: 1px solid rgba(201, 168, 76, 0.28);
+}
+
+:root[data-theme="dark"] .showcase-info-area {
+  background: linear-gradient(180deg, #050403 0%, #100d0a 20%, #0d0b08 100%);
+}
+
+.showcase-info-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.showcase-info-header {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto 48px;
+}
+
+.showcase-info-tag {
+  display: inline-block;
+  font-family: var(--body-sans);
+  font-size: 11.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold-warm);
+  margin-bottom: 12px;
+}
+
+.showcase-info-heading {
+  font-family: var(--display-serif);
+  font-size: clamp(30px, 4vw, 54px);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  margin: 0 0 16px;
+  color: var(--ink);
+}
+
+.showcase-info-subheading {
+  font-family: var(--body-sans);
+  font-size: clamp(14px, 1.2vw, 16px);
+  color: var(--soft-ink);
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Editorial Story Card (Placeholders for custom text) */
+.showcase-editorial-card {
+  background: var(--bone);
+  border: 1px solid var(--line);
+  padding: clamp(32px, 5vw, 54px);
+  margin-bottom: 40px;
+  position: relative;
+  box-shadow: var(--shadow-soft);
+}
+
+:root[data-theme="dark"] .showcase-editorial-card {
+  background: rgba(26, 20, 16, 0.6);
+  border-color: rgba(201, 168, 76, 0.2);
+}
+
+.showcase-editorial-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(201, 168, 76, 0.15);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-warm);
+  margin-bottom: 20px;
+}
+
+.showcase-editorial-text {
+  font-family: var(--display-serif);
+  font-size: clamp(18px, 1.4vw, 22px);
+  line-height: 1.85;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.showcase-editorial-note {
+  font-family: var(--body-sans);
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.7;
+  color: var(--soft-ink);
+  margin: 0;
+}
+
+/* Specifications Grid */
+.showcase-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 48px;
+}
+
+.showcase-spec-card {
+  padding: 24px 22px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold-warm);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+:root[data-theme="dark"] .showcase-spec-card {
+  background: rgba(22, 17, 13, 0.5);
+  border-color: rgba(201, 168, 76, 0.2);
+  border-top-color: var(--gold-warm);
+}
+
+.showcase-spec-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-warm);
+}
+
+.showcase-spec-label {
+  display: block;
+  font-family: var(--body-sans);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-warm);
+  margin-bottom: 8px;
+}
+
+.showcase-spec-value {
+  font-family: var(--display-serif);
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.45;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Call to action */
+.showcase-action-wrap {
+  text-align: center;
+}
+
+.showcase-enquire-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 36px;
+  background: var(--gold-warm);
+  color: #120e0a;
+  font-family: var(--body-sans);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--gold-warm);
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(201, 168, 76, 0.25);
+}
+
+.showcase-enquire-btn:hover {
+  background: transparent;
+  color: var(--gold-warm);
+  box-shadow: 0 8px 30px rgba(201, 168, 76, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .jewellery-showcase-section {
+    height: 200vh;
+  }
+  .showcase-spec-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .showcase-jewel-card {
+    width: min(300px, 45vw);
+    max-height: 50vh;
+  }
+}
+
+@media (max-width: 767px) {
+  .jewellery-showcase-section {
+    height: 180vh;
+  }
+  .showcase-sticky-stage {
+    padding: 24px 16px 20px;
+  }
+  .showcase-jewel-card {
+    width: min(270px, 68vw);
+    max-height: 46vh;
+  }
+  .showcase-title {
+    font-size: clamp(22px, 5.8vw, 28px);
+  }
+  .showcase-spec-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 430px) {
+  .showcase-jewel-card {
+    width: min(250px, 72vw);
+    max-height: 44vh;
+  }
+  .showcase-compass-pill {
+    font-size: 10px;
+    padding: 6px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-jewel-card {
+    transition: none !important;
+  }
+  .showcase-specular-shimmer {
+    display: none;
+  }
+  .showcase-compass-dot {
+    animation: none;
+  }
+}

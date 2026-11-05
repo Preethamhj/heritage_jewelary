@@ -4,6 +4,8 @@ import { Home, Menu, Moon, Search, Sun, X, ChevronRight, Sparkles, Gem, MessageC
 import './styles.css';
 import logoImage from './assets/heritage-logo.jpg';
 import frontpageImage from './assets/heritage-frontpage.jpg';
+import showcasePendant from './assets/heritage-showcase-pendant.webp';
+import showcasePendantBack from './assets/heritage-showcase-pendant-back.webp';
 
 const heritageModules = import.meta.glob('./assets/heritage/*.jpeg', {
   eager: true,
@@ -25,7 +27,7 @@ const BUSINESS_CONFIG = {
     message: 'Hello Heritage Jewellery! I would like to book a private jewellery consultation. Please share the available details.',
   },
   email: {
-    address: 'ravindraacharya1998@gmail.com',
+    address: 'heritage.jewellary@gmail.com',
   },
 };
 
@@ -432,12 +434,244 @@ function SubcategoryNav({ subcategories, label }) {
   );
 }
 
+/* ─── LUXURY HERITAGE JEWELLERY 3D SHOWCASE ─── */
+function JewelleryShowcase({ onNavigate }) {
+  const containerRef = React.useRef(null);
+  const [scrollProgress, setScrollProgress] = React.useState(0);
+  const [isReducedMotion, setIsReducedMotion] = React.useState(false);
+
+  React.useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setIsReducedMotion(mediaQuery.matches);
+    const handler = (e) => setIsReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
+  React.useEffect(() => {
+    if (isReducedMotion) return;
+
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (!containerRef.current) {
+            ticking = false;
+            return;
+          }
+          const rect = containerRef.current.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+          // Track distance is the total height minus one viewport
+          const trackDistance = rect.height - windowHeight;
+
+          if (trackDistance <= 0) {
+            setScrollProgress(0);
+            ticking = false;
+            return;
+          }
+
+          // Progress begins when container top hits top of viewport (rect.top <= 0)
+          const scrolled = -rect.top;
+          let progress = scrolled / trackDistance;
+
+          // Strictly clamp between 0 and 1
+          if (progress < 0) progress = 0;
+          if (progress > 1) progress = 1;
+
+          setScrollProgress(progress);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isReducedMotion]);
+
+  // Map progress directly to rotation: 0 to exactly 360 degrees, stopping at completion
+  const rotationAngle = isReducedMotion ? 0 : scrollProgress * 360;
+  const isComplete = scrollProgress >= 1;
+
+  // Specular lighting & shadow trigonometry
+  const rad = (rotationAngle * Math.PI) / 180;
+  const shimmerAngle = 120 + Math.sin(rad) * 50;
+  const shimmerOpacity = 0.14 + 0.22 * Math.abs(Math.cos(rad));
+  const shadowScaleX = 0.42 + 0.58 * Math.abs(Math.cos(rad));
+  const floatY = Math.sin(rad * 2) * -5;
+
+  return (
+    <section className="jewellery-showcase-section" ref={containerRef} id="jewellery-showcase">
+      {/* Viewport-pinned 3D Showcase Stage */}
+      <div className="showcase-sticky-stage">
+        <div className="showcase-aura" aria-hidden="true" />
+        <img className="showcase-watermark" src={logoImage} alt="" aria-hidden="true" />
+
+        {/* Showcase Header */}
+        <div className="showcase-header" data-reveal="up">
+          <span className="showcase-eyebrow">
+            <Sparkles size={13} />
+            HERITAGE HEIRLOOM SHOWCASE
+          </span>
+          <h2 className="showcase-title">The Sacred Uma-Maheshwara Pendant</h2>
+          <p className="showcase-subtitle">Scroll to experience 360° antique temple craftsmanship</p>
+        </div>
+
+        {/* 3D Scene Viewport */}
+        <div className="showcase-3d-viewport" aria-label="3D Interactive Jewellery Showcase">
+          <div
+            className="showcase-jewel-card"
+            style={{
+              transform: `rotateY(${rotationAngle}deg) translateY(${floatY}px)`,
+            }}
+          >
+            {/* Depth extrusion layers along Z for authentic relief thickness */}
+            <div className="showcase-depth-layer" style={{ transform: 'translateZ(-2px)' }}>
+              <img src={showcasePendant} alt="" aria-hidden="true" />
+            </div>
+            <div className="showcase-depth-layer" style={{ transform: 'translateZ(-1px)' }}>
+              <img src={showcasePendant} alt="" aria-hidden="true" />
+            </div>
+
+            {/* Front Face: Original High-Res Isolated Temple Pendant */}
+            <div className="showcase-face showcase-face-front">
+              <img
+                src={showcasePendant}
+                alt="Handcrafted Sacred Uma-Maheshwara Temple Jewellery Pendant in 22K antique gold with uncut cabochon rubies"
+                loading="eager"
+              />
+              <div
+                className="showcase-specular-shimmer"
+                style={{
+                  background: `linear-gradient(${shimmerAngle}deg, transparent 35%, rgba(255, 240, 190, ${shimmerOpacity}) 50%, transparent 65%)`,
+                  maskImage: `url(${showcasePendant})`,
+                  WebkitMaskImage: `url(${showcasePendant})`,
+                }}
+              />
+            </div>
+
+            {/* Back Face: Authentic Hand-Carved Antique Gold Repoussé Backplate */}
+            <div className="showcase-face showcase-face-back">
+              <img
+                src={showcasePendantBack}
+                alt="Authentic repoussé reverse gold backplate of the Uma-Maheshwara pendant"
+                loading="eager"
+              />
+              <div
+                className="showcase-specular-shimmer"
+                style={{
+                  background: `linear-gradient(${shimmerAngle + 180}deg, transparent 35%, rgba(255, 235, 175, ${shimmerOpacity * 0.7}) 50%, transparent 65%)`,
+                  maskImage: `url(${showcasePendantBack})`,
+                  WebkitMaskImage: `url(${showcasePendantBack})`,
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Dynamic Ambient Ground Shadow */}
+          <div
+            className="showcase-ground-shadow"
+            style={{
+              transform: `translateX(-50%) rotateX(82deg) scaleX(${shadowScaleX})`,
+              opacity: 0.5 + 0.35 * Math.abs(Math.cos(rad)),
+            }}
+            aria-hidden="true"
+          />
+        </div>
+
+        {/* Rotation Controls & Progress Status */}
+        <div className="showcase-controls">
+          <div className="showcase-compass-pill">
+            <span className="showcase-compass-dot" />
+            <span>
+              {isReducedMotion
+                ? 'STATIC HEIRLOOM VIEW'
+                : isComplete
+                ? '360° INSPECTION COMPLETE'
+                : `360° ARCHIVE VIEW • ${Math.round(rotationAngle)}°`}
+            </span>
+          </div>
+          <div className="showcase-scroll-track" aria-hidden="true">
+            <div className="showcase-scroll-fill" style={{ width: `${scrollProgress * 100}%` }} />
+          </div>
+        </div>
+      </div>
+
+      {/* Dedicated Information Area Immediately Below the Jewellery */}
+      <section className="showcase-info-area" id="showcase-information">
+        <div className="showcase-info-inner">
+          <div className="showcase-info-header" data-reveal="up">
+            <span className="showcase-info-tag">SOUTH INDIAN NAKASHI • HEIRLOOM ARCHIVE</span>
+            <h3 className="showcase-info-heading">Hand-Sculpted Antique Gold & Cabochon Rubies</h3>
+            <p className="showcase-info-subheading">
+              Devotional masterwork featuring Uma-Maheshwara on Nandi with Markandeya relief
+            </p>
+          </div>
+
+          {/* Editorial Content Placeholders (Ready for your custom narrative) */}
+          <div className="showcase-editorial-card" data-reveal="scale">
+            <span className="showcase-editorial-badge">
+              <Gem size={12} />
+              ARCHIVE PROVENANCE & EDITORIAL
+            </span>
+            <p className="showcase-editorial-text">
+              [EDITORIAL CONTENT PLACEHOLDER — Enter your custom historical provenance, devotional symbolism, or bespoke design narrative here. This layout is structured to hold your authentic story with luxury typography and generous editorial pacing.]
+            </p>
+            <p className="showcase-editorial-note">
+              [CRAFTSMANSHIP SUMMARY PLACEHOLDER — Add details describing the ancient lost-wax or repoussé chasing methods, the temple artisan guild lineage, and the heritage significance of the deity motifs.]
+            </p>
+          </div>
+
+          {/* Specification Badges Grid */}
+          <div className="showcase-spec-grid" data-reveal="up">
+            <div className="showcase-spec-card">
+              <span className="showcase-spec-label">ICONOGRAPHY</span>
+              <p className="showcase-spec-value">Uma-Maheshwara on Nandi with Markandeya</p>
+            </div>
+            <div className="showcase-spec-card">
+              <span className="showcase-spec-label">PRECIOUS METAL</span>
+              <p className="showcase-spec-value">22 Karat Antique Hallmarked Temple Gold</p>
+            </div>
+            <div className="showcase-spec-card">
+              <span className="showcase-spec-label">GEMSTONES</span>
+              <p className="showcase-spec-value">Natural Burmese Cabochon Rubies & Gold Drops</p>
+            </div>
+            <div className="showcase-spec-card">
+              <span className="showcase-spec-label">CRAFT TECHNIQUE</span>
+              <p className="showcase-spec-value">Nakashi Repoussé, Chasing & Hand Openwork</p>
+            </div>
+          </div>
+
+          {/* Consultation CTA */}
+          <div className="showcase-action-wrap" data-reveal="up">
+            <a
+              href="#consultation"
+              className="showcase-enquire-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById('consultation');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <MessageCircle size={16} />
+              Enquire About This Masterpiece
+            </a>
+          </div>
+        </div>
+      </section>
+    </section>
+  );
+}
+
 /* ─── BOOK CONSULTATION SECTION ─── */
 function BookConsultation() {
   const whatsappUrl = `https://wa.me/${BUSINESS_CONFIG.whatsapp.number}?text=${encodeURIComponent(BUSINESS_CONFIG.whatsapp.message)}`;
 
   return (
-    <section className="consultation" data-reveal="up">
+    <section className="consultation" id="consultation" data-reveal="up">
       <div className="consultation-inner">
         <p className="eyebrow">PERSONALISED SERVICE</p>
         <h2>Book a Consultation</h2>
@@ -577,7 +811,10 @@ function HomePage({ onNavigate }) {
         </section>
       </section>
 
-      {/* Book Consultation — immediately after category tiles */}
+      {/* NEW: 2. Heritage Jewellery Showcase section (Immediately after Categories, immediately before Book Consultation) */}
+      <JewelleryShowcase onNavigate={onNavigate} />
+
+      {/* 3. Existing Book Consultation section */}
       <BookConsultation />
 
       {/* Closing brand statement */}
@@ -728,28 +965,19 @@ function Footer({ onNavigate }) {
       { label: 'Kundan', id: 'kundan' },
       { label: 'Temple', id: 'temple' },
       { label: 'Polki', id: 'polki' },
-      { label: 'Lightweight / Custom', id: 'lightweight-custom' },
-    ]},
-    { heading: 'FEATURED', links: [
-      { label: 'Kundan Necklace Sets', id: 'kundan' },
-      { label: 'Temple Haram', id: 'temple' },
-      { label: 'Polki Bridal Sets', id: 'polki' },
-      { label: 'Custom Necklaces', id: 'lightweight-custom' },
+      { label: 'Lightweight / Daily Wears', id: 'lightweight-daily wears' },
     ]},
     { heading: 'CUSTOMER CARE', links: [
       { label: 'Contact' },
-      { label: 'Stores' },
       { label: 'Appointments' },
     ]},
     { heading: 'SOCIAL', links: [
       { label: 'Instagram' },
-      { label: 'YouTube' },
       { label: 'Facebook' },
     ]},
     { heading: 'CORPORATE', links: [
       { label: 'Privacy Policy' },
       { label: 'Terms of Use' },
-      { label: 'Careers' },
     ]},
   ];
 
@@ -770,7 +998,6 @@ function Footer({ onNavigate }) {
           </div>
         ))}
       </div>
-      <div className="ship-to">Ship to: United States (USD)</div>
     </footer>
   );
 }
