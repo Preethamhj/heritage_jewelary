@@ -419,14 +419,6 @@ function StaggeredHeadline({ text }) {
 function SubcategoryNav({ subcategories, label }) {
   return (
     <section className="subcategory-nav" data-reveal="up">
-      <div className="subcategory-inner">
-        <p className="subcategory-heading">Browse {label}</p>
-        <div className="subcategory-pills">
-          {subcategories.map((sub) => (
-            <button className="subcategory-pill" key={sub}>{sub}</button>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
