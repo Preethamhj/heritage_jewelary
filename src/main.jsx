@@ -435,7 +435,7 @@ function SubcategoryNav({ subcategories, label }) {
 }
 
 /* ─── LUXURY HERITAGE JEWELLERY 3D SHOWCASE ─── */
-function JewelleryShowcase({ onNavigate }) {
+function JewelleryShowcase() {
   const containerRef = React.useRef(null);
   const [scrollProgress, setScrollProgress] = React.useState(0);
   const [isReducedMotion, setIsReducedMotion] = React.useState(false);
@@ -494,33 +494,18 @@ function JewelleryShowcase({ onNavigate }) {
 
   // Map progress directly to rotation: 0 to exactly 360 degrees, stopping at completion
   const rotationAngle = isReducedMotion ? 0 : scrollProgress * 360;
-  const isComplete = scrollProgress >= 1;
 
   // Specular lighting & shadow trigonometry
   const rad = (rotationAngle * Math.PI) / 180;
   const shimmerAngle = 120 + Math.sin(rad) * 50;
-  const shimmerOpacity = 0.14 + 0.22 * Math.abs(Math.cos(rad));
-  const shadowScaleX = 0.42 + 0.58 * Math.abs(Math.cos(rad));
-  const floatY = Math.sin(rad * 2) * -5;
+  const shimmerOpacity = 0.12 + 0.16 * Math.abs(Math.cos(rad));
+  const shadowScaleX = 0.45 + 0.55 * Math.abs(Math.cos(rad));
+  const floatY = Math.sin(rad * 2) * -4;
 
   return (
     <section className="jewellery-showcase-section" ref={containerRef} id="jewellery-showcase">
-      {/* Viewport-pinned 3D Showcase Stage */}
       <div className="showcase-sticky-stage">
-        <div className="showcase-aura" aria-hidden="true" />
-        <img className="showcase-watermark" src={logoImage} alt="" aria-hidden="true" />
-
-        {/* Showcase Header */}
-        <div className="showcase-header" data-reveal="up">
-          <span className="showcase-eyebrow">
-            <Sparkles size={13} />
-            HERITAGE HEIRLOOM SHOWCASE
-          </span>
-          <h2 className="showcase-title">The Sacred Uma-Maheshwara Pendant</h2>
-          <p className="showcase-subtitle">Scroll to experience 360° antique temple craftsmanship</p>
-        </div>
-
-        {/* 3D Scene Viewport */}
+        {/* 3D Rotating Pendant */}
         <div className="showcase-3d-viewport" aria-label="3D Interactive Jewellery Showcase">
           <div
             className="showcase-jewel-card"
@@ -540,7 +525,7 @@ function JewelleryShowcase({ onNavigate }) {
             <div className="showcase-face showcase-face-front">
               <img
                 src={showcasePendant}
-                alt="Handcrafted Sacred Uma-Maheshwara Temple Jewellery Pendant in 22K antique gold with uncut cabochon rubies"
+                alt="Handcrafted Sacred Uma-Maheshwara Temple Jewellery Pendant in antique gold"
                 loading="eager"
               />
               <div
@@ -557,7 +542,7 @@ function JewelleryShowcase({ onNavigate }) {
             <div className="showcase-face showcase-face-back">
               <img
                 src={showcasePendantBack}
-                alt="Authentic repoussé reverse gold backplate of the Uma-Maheshwara pendant"
+                alt="Authentic repoussé reverse gold backplate of the pendant"
                 loading="eager"
               />
               <div
@@ -576,92 +561,20 @@ function JewelleryShowcase({ onNavigate }) {
             className="showcase-ground-shadow"
             style={{
               transform: `translateX(-50%) rotateX(82deg) scaleX(${shadowScaleX})`,
-              opacity: 0.5 + 0.35 * Math.abs(Math.cos(rad)),
+              opacity: 0.3 + 0.2 * Math.abs(Math.cos(rad)),
             }}
             aria-hidden="true"
           />
         </div>
 
-        {/* Rotation Controls & Progress Status */}
-        <div className="showcase-controls">
-          <div className="showcase-compass-pill">
-            <span className="showcase-compass-dot" />
-            <span>
-              {isReducedMotion
-                ? 'STATIC HEIRLOOM VIEW'
-                : isComplete
-                ? '360° INSPECTION COMPLETE'
-                : `360° ARCHIVE VIEW • ${Math.round(rotationAngle)}°`}
-            </span>
-          </div>
-          <div className="showcase-scroll-track" aria-hidden="true">
-            <div className="showcase-scroll-fill" style={{ width: `${scrollProgress * 100}%` }} />
-          </div>
+        {/* Text directly below the pendant */}
+        <div className="showcase-caption-wrap" data-reveal="up">
+          <h2 className="showcase-caption-heading">what is heritage jewellery?</h2>
+          <p className="showcase-caption-text">
+            Heritage jewelry represents purity and holiness, more than ornaments—it is a reflection of culture, traditional legacy, emotional value, craftsmanship, and stories passed down through generations. Each piece is inspired by traditional artistry, where skilled hands transform precious metals and stones into timeless designs rooted in history. These jewels carry the essence of rituals, celebrations, and identity, preserving the beauty of the past while remaining relevant in the present.
+          </p>
         </div>
       </div>
-
-      {/* Dedicated Information Area Immediately Below the Jewellery */}
-      <section className="showcase-info-area" id="showcase-information">
-        <div className="showcase-info-inner">
-          <div className="showcase-info-header" data-reveal="up">
-            <span className="showcase-info-tag">SOUTH INDIAN NAKASHI • HEIRLOOM ARCHIVE</span>
-            <h3 className="showcase-info-heading">Hand-Sculpted Antique Gold & Cabochon Rubies</h3>
-            <p className="showcase-info-subheading">
-              Devotional masterwork featuring Uma-Maheshwara on Nandi with Markandeya relief
-            </p>
-          </div>
-
-          {/* Editorial Content Placeholders (Ready for your custom narrative) */}
-          <div className="showcase-editorial-card" data-reveal="scale">
-            <span className="showcase-editorial-badge">
-              <Gem size={12} />
-              ARCHIVE PROVENANCE & EDITORIAL
-            </span>
-            <p className="showcase-editorial-text">
-              [EDITORIAL CONTENT PLACEHOLDER — Enter your custom historical provenance, devotional symbolism, or bespoke design narrative here. This layout is structured to hold your authentic story with luxury typography and generous editorial pacing.]
-            </p>
-            <p className="showcase-editorial-note">
-              [CRAFTSMANSHIP SUMMARY PLACEHOLDER — Add details describing the ancient lost-wax or repoussé chasing methods, the temple artisan guild lineage, and the heritage significance of the deity motifs.]
-            </p>
-          </div>
-
-          {/* Specification Badges Grid */}
-          <div className="showcase-spec-grid" data-reveal="up">
-            <div className="showcase-spec-card">
-              <span className="showcase-spec-label">ICONOGRAPHY</span>
-              <p className="showcase-spec-value">Uma-Maheshwara on Nandi with Markandeya</p>
-            </div>
-            <div className="showcase-spec-card">
-              <span className="showcase-spec-label">PRECIOUS METAL</span>
-              <p className="showcase-spec-value">22 Karat Antique Hallmarked Temple Gold</p>
-            </div>
-            <div className="showcase-spec-card">
-              <span className="showcase-spec-label">GEMSTONES</span>
-              <p className="showcase-spec-value">Natural Burmese Cabochon Rubies & Gold Drops</p>
-            </div>
-            <div className="showcase-spec-card">
-              <span className="showcase-spec-label">CRAFT TECHNIQUE</span>
-              <p className="showcase-spec-value">Nakashi Repoussé, Chasing & Hand Openwork</p>
-            </div>
-          </div>
-
-          {/* Consultation CTA */}
-          <div className="showcase-action-wrap" data-reveal="up">
-            <a
-              href="#consultation"
-              className="showcase-enquire-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                const el = document.getElementById('consultation');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              <MessageCircle size={16} />
-              Enquire About This Masterpiece
-            </a>
-          </div>
-        </div>
-      </section>
     </section>
   );
 }
