@@ -29,10 +29,6 @@ const BUSINESS_CONFIG = {
   email: {
     address: 'heritage.jewellary@gmail.com',
   },
-  social: {
-    instagram: 'https://www.instagram.com/_heritagejewellery_?igsh=Ym5qd3ptYzZlcDli',
-    facebook: 'https://www.facebook.com/share/18hSQxoych/',
-  },
 };
 
 /* ─── FOUR-CATEGORY DATA ───
@@ -628,35 +624,29 @@ function BookConsultation() {
           </div>
         </div>
 
-        {/* To connect us: Social links below Book a Consultation */}
+        {/* To connect us: */}
         <div className="consultation-connect" data-reveal="up">
           <p className="consultation-connect-heading">To connect us:</p>
-          <div className="consultation-social-list">
+          <div className="consultation-social-logos">
             <a
-              href={BUSINESS_CONFIG.social.instagram}
+              href="https://www.instagram.com/_heritagejewellery_?igsh=Ym5qd3ptYzZlcDli"
               target="_blank"
               rel="noopener noreferrer"
-              className="consultation-social-item"
+              className="consultation-social-btn"
               aria-label="Instagram"
-              title="Visit Heritage Jewellery on Instagram"
+              title="Instagram"
             >
-              <div className="consultation-social-btn">
-                <Instagram size={24} />
-              </div>
-              <span>Instagram</span>
+              <Instagram size={28} />
             </a>
             <a
-              href={BUSINESS_CONFIG.social.facebook}
+              href="https://www.facebook.com/share/18hSQxoych/"
               target="_blank"
               rel="noopener noreferrer"
-              className="consultation-social-item"
+              className="consultation-social-btn"
               aria-label="Facebook"
-              title="Visit Heritage Jewellery on Facebook"
+              title="Facebook"
             >
-              <div className="consultation-social-btn">
-                <Facebook size={24} />
-              </div>
-              <span>Facebook</span>
+              <Facebook size={28} />
             </a>
           </div>
         </div>
@@ -922,8 +912,8 @@ function Footer({ onNavigate }) {
       { label: 'Appointments' },
     ]},
     { heading: 'SOCIAL', links: [
-      { label: 'Instagram', href: BUSINESS_CONFIG.social.instagram },
-      { label: 'Facebook', href: BUSINESS_CONFIG.social.facebook },
+      { label: 'Instagram', href: 'https://www.instagram.com/_heritagejewellery_?igsh=Ym5qd3ptYzZlcDli' },
+      { label: 'Facebook', href: 'https://www.facebook.com/share/18hSQxoych/' },
     ]},
     { heading: 'CORPORATE', links: [
       { label: 'Privacy Policy' },
