@@ -48,17 +48,6 @@ const pages = [
     eyebrow: 'TRADITIONAL CRAFTSMANSHIP',
     intro: 'Its  a classic design and meticulous detailing make it more than details of legacy— it becomes a statement of Heritage and everlasting allure.',
     hero: images[0],
-    subcategories: [
-      'Kundan Necklace Sets',
-      'Kundan Chokers',
-      'Kundan Earrings',
-      'Kundan Jhumkas',
-      'Kundan Maang Tikka',
-      'Kundan Bangles',
-      'Kundan Rings',
-      'Kundan Pendants',
-      'Bridal Kundan Sets',
-    ],
     sections: [
       {
         title: 'THE ROYAL KUNDAN NECKLACE',
@@ -81,18 +70,6 @@ const pages = [
     eyebrow: 'SOUTH INDIAN HERITAGE',
     intro: 'Sacred motifs sculpted in antique gold — Lakshmi forms, peacock silhouettes, and intricate nakashi relief work honouring centuries of South Indian temple artistry and devotional craftsmanship.',
     hero: images[9],
-    subcategories: [
-      'Temple Necklace Sets',
-      'Lakshmi Necklaces',
-      'Temple Haram',
-      'Temple Chokers',
-      'Nakashi Earrings',
-      'Temple Jhumkas',
-      'Temple Bangles',
-      'Temple Rings',
-      'Peacock Motif Jewellery',
-      'Antique Temple Jewellery',
-    ],
     sections: [
       {
         title: 'LAKSHMI AND PEACOCK MOTIFS',
@@ -115,17 +92,6 @@ const pages = [
     eyebrow: 'NATURAL STONE CHARACTER',
     intro: 'The raw beauty of uncut diamonds set in traditional frameworks — Polki jewellery celebrates the natural character of each stone, creating pieces of ceremonial elegance and timeless distinction.',
     hero: images[6],
-    subcategories: [
-      'Polki Necklace Sets',
-      'Polki Chokers',
-      'Polki Earrings',
-      'Polki Jhumkas',
-      'Polki Rings',
-      'Polki Pendants',
-      'Polki Bangles',
-      'Polki Bridal Sets',
-      'Uncut Diamond Necklaces',
-    ],
     sections: [
       {
         title: 'POLKI CEREMONIAL NECKLACES',
@@ -148,25 +114,6 @@ const pages = [
     eyebrow: 'EVERYDAY ELEGANCE & PERSONALISATION',
     intro: 'From minimal daily wear to bespoke creations — jewellery that bridges heritage craftsmanship with contemporary lifestyle and personal expression, combining comfort with custom artistry.',
     hero: images[20],
-    subcategories: [
-      'Gold Chains',
-      'Mangalsutra',
-      'Daily Wear Rings',
-      'Daily Wear Earrings',
-      'Stud Earrings',
-      'Hoop Earrings',
-      'Daily Wear Pendants',
-      'Bracelets',
-      'Lightweight Bangles',
-      'Custom Necklaces',
-      'Custom Earrings',
-      'Custom Rings',
-      'Custom Pendants',
-      'Lightweight Necklace Sets',
-      'Personalised Jewellery',
-      'Custom Mangalsutra',
-      'Custom Bracelet Designs',
-    ],
     sections: [
       {
         title: 'BANGLES AND SMALL TREASURES',
@@ -279,7 +226,6 @@ function useDarkMode() {
 function Header({ activePage, onNavigate, darkMode, onThemeToggle }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [expandedMobile, setExpandedMobile] = useState(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -292,7 +238,6 @@ function Header({ activePage, onNavigate, darkMode, onThemeToggle }) {
     event?.currentTarget?.blur();
     onNavigate(pageId);
     setOpen(false);
-    setExpandedMobile(null);
   };
 
   return (
@@ -305,29 +250,14 @@ function Header({ activePage, onNavigate, darkMode, onThemeToggle }) {
         <span className="brand-name">HERITAGE JEWELARY</span>
       </button>
       <nav className="desktop-nav" aria-label="Primary navigation">
-        {pages.map((item, itemIndex) => (
+        {pages.map((item) => (
           <div className="nav-item" key={item.id}>
-            <button className={activePage === item.id ? 'is-active' : ''} onClick={(event) => navigate(item.id, event)}>
+            <button
+              className={activePage === item.id ? 'is-active' : ''}
+              onClick={(event) => navigate(item.id, event)}
+            >
               {item.label}
             </button>
-            <div className="mega-menu">
-              <div className="mega-inner">
-                <div className="mega-links">
-                  <p>{item.label}</p>
-                  {item.subcategories.map((sub) => (
-                    <button onClick={(event) => navigate(item.id, event)} key={sub}>{sub}</button>
-                  ))}
-                </div>
-                <div className="mega-tiles">
-                  {pick(itemIndex * 8, 3).map((image, index) => (
-                    <button className="mega-tile" onClick={(event) => navigate(item.id, event)} key={`${item.id}-mega-${index}`}>
-                      <img src={image} alt="" loading="lazy" />
-                      <span>{item.subcategories[index] || item.sections[index % item.sections.length].title}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
         ))}
       </nav>
@@ -344,31 +274,13 @@ function Header({ activePage, onNavigate, darkMode, onThemeToggle }) {
         <div className="drawer-brand">HERITAGE JEWELARY</div>
         <button className="drawer-link drawer-home-link" onClick={(event) => navigate('home', event)}>Home</button>
         {pages.map((item) => (
-          <div key={item.id} className="drawer-category">
-            <button
-              className={`drawer-link ${activePage === item.id ? 'drawer-link-active' : ''}`}
-              onClick={(event) => {
-                if (expandedMobile === item.id) {
-                  navigate(item.id, event);
-                } else {
-                  setExpandedMobile(item.id);
-                }
-              }}
-            >
-              {item.label}
-              <ChevronRight size={14} className={`drawer-chevron ${expandedMobile === item.id ? 'drawer-chevron-open' : ''}`} />
-            </button>
-            {expandedMobile === item.id && (
-              <div className="drawer-subcategories">
-                <button className="drawer-sub-link drawer-sub-viewall" onClick={(event) => navigate(item.id, event)}>
-                  View All {item.label}
-                </button>
-                {item.subcategories.map((sub) => (
-                  <button className="drawer-sub-link" onClick={(event) => navigate(item.id, event)} key={sub}>{sub}</button>
-                ))}
-              </div>
-            )}
-          </div>
+          <button
+            key={item.id}
+            className={`drawer-link ${activePage === item.id ? 'drawer-link-active' : ''}`}
+            onClick={(event) => navigate(item.id, event)}
+          >
+            {item.label}
+          </button>
         ))}
       </div>
     </header>
@@ -718,8 +630,7 @@ function HomePage({ onNavigate }) {
     <div className="page-hero-copy" data-reveal="up">
       <img className="hero-logo-mark hero-bg" src={logoImage} alt="Heritage Jewellery logo" />
       <h2 className="para-style">ಪರಂಪರೆ ಮುಂದುವರೆಯಬೇಕು, ಮರೆಯಾಗಬಾರದು.</h2>
-      <p>We believe heritage deserves to evolve.</p>
-      {/* REMOVE THIS LINE: <br/> */}
+      <p>We believe heritage deserves to be preserved.</p>
       <p className="hero-quote">"Trust and Value"</p>
       <p className="hero-brand-description">
         A luxury editorial archive of antique gold, Kundan work, Temple forms, pearls, ruby-green contrasts, and hand-finished heirloom jewellery.
@@ -733,7 +644,7 @@ function HomePage({ onNavigate }) {
           <img src={frontpageImage} alt="Handcrafted heritage gold necklace with uncut gems and pearls" loading="lazy" />
           <div>
             <p className="eyebrow">THE HOUSE</p>
-            <h2>Made Slowly, Worn For Generations</h2>
+            <h2>Made Designs, Worn For Generations</h2>
             <p>Every ornament is presented as a fragment of memory: antique gold, kundan, pearls, and ruby-green contrast composed with a boutique editorial rhythm.</p>
             <button className="btn-primary btn-magnetic" onClick={() => onNavigate('kundan')}>Explore Collections</button>
           </div>
@@ -900,47 +811,148 @@ function MobileBottomNav({ activePage, onNavigate }) {
 }
 
 function Footer({ onNavigate }) {
+  const [modalContent, setModalContent] = useState(null);
+
+  const handleNav = (target, e) => {
+    if (e) e.preventDefault();
+    if (target.startsWith('#')) {
+      const id = target.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        onNavigate('home');
+        setTimeout(() => {
+          const targetEl = document.getElementById(id);
+          if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    } else {
+      onNavigate(target);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const columns = [
-    { heading: 'COLLECTIONS', links: [
-      { label: 'Kundan', id: 'kundan' },
-      { label: 'Temple', id: 'temple' },
-      { label: 'Polki', id: 'polki' },
-      { label: 'Lightweight / Daily Wears', id: 'lightweight-daily wears' },
-    ]},
-    { heading: 'CUSTOMER CARE', links: [
-      { label: 'Contact' },
-      { label: 'Appointments' },
-    ]},
-    { heading: 'SOCIAL', links: [
-      { label: 'Instagram', href: 'https://www.instagram.com/_heritagejewellery_?igsh=Ym5qd3ptYzZlcDli' },
-      { label: 'Facebook', href: 'https://www.facebook.com/share/18hSQxoych/' },
-    ]},
-    { heading: 'CORPORATE', links: [
-      { label: 'Privacy Policy' },
-      { label: 'Terms of Use' },
-    ]},
+    {
+      heading: 'COLLECTIONS',
+      links: [
+        { label: 'Kundan', id: 'kundan' },
+        { label: 'Temple', id: 'temple' },
+        { label: 'Polki', id: 'polki' },
+        { label: 'Lightweight / Daily Wears', id: 'lightweight-daily wears' },
+      ],
+    },
+    {
+      heading: 'CUSTOMER CARE',
+      links: [
+        { label: 'Contact', action: () => handleNav('#consultation') },
+        { label: 'Appointments', action: () => handleNav('#consultation') },
+      ],
+    },
+    {
+      heading: 'SOCIAL',
+      links: [
+        { label: 'Instagram', href: 'https://www.instagram.com/_heritagejewellery_?igsh=Ym5qd3ptYzZlcDli' },
+        { label: 'Facebook', href: 'https://www.facebook.com/share/18hSQxoych/' },
+      ],
+    },
+    {
+      heading: 'CORPORATE',
+      links: [
+        {
+          label: 'Privacy Policy',
+          action: () => setModalContent({
+            title: 'Privacy Policy',
+            body: 'At Heritage Jewellery, your privacy and trust are paramount. Any personal information shared with us—including your name, phone number, email address, bespoke consultation preferences, and purchase history—is treated with the utmost confidentiality. We do not sell, rent, or trade your data to third parties. Information collected during appointments or digital consultations is used solely to provide bespoke craftsmanship, curated service, and seamless communication. For any inquiries regarding your data, contact us at heritage.jewellary@gmail.com.',
+          }),
+        },
+        {
+          label: 'Terms of Use',
+          action: () => setModalContent({
+            title: 'Terms of Use',
+            body: 'Welcome to Heritage Jewellery. All designs, photographs, jewellery models, imagery, brand marks, and editorial narratives presented across this website are the intellectual property of Heritage Jewellery and protected by copyright laws. Bespoke consultations and customized jewellery orders are handcrafted to order following confirmation of design specifications and precious metal hallmarks. By browsing or booking an appointment, you agree to respect our craftsmanship standards and terms of service. For custom commissions and appraisal policies, reach out to our concierge team.',
+          }),
+        },
+      ],
+    },
   ];
 
   return (
-    <footer className="footer">
-      <div className="footer-logo">HERITAGE JEWELARY</div>
-      <div className="footer-grid">
-        {columns.map((col) => (
-          <div key={col.heading}>
-            <h3>{col.heading}</h3>
-            {col.links.map((link) => (
-              link.href ? (
-                <a href={link.href} key={link.label} target="_blank" rel="noopener noreferrer">{link.label}</a>
-              ) : link.id ? (
-                <a href={`#/${link.id}`} key={link.label} onClick={(e) => { e.preventDefault(); onNavigate(link.id); }}>{link.label}</a>
-              ) : (
-                <a href="#footer" key={link.label}>{link.label}</a>
-              )
-            ))}
+    <>
+      <footer className="footer">
+        <div className="footer-logo">HERITAGE JEWELARY</div>
+        <div className="footer-grid">
+          {columns.map((col) => (
+            <div key={col.heading} className="footer-col">
+              <h3>{col.heading}</h3>
+              {col.links.map((link) => (
+                link.href ? (
+                  <a
+                    href={link.href}
+                    key={link.label}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-link"
+                  >
+                    {link.label}
+                  </a>
+                ) : link.id ? (
+                  <a
+                    href={`#/${link.id}`}
+                    key={link.label}
+                    onClick={(e) => handleNav(link.id, e)}
+                    className="footer-link"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    key={link.label}
+                    onClick={link.action}
+                    className="footer-link footer-btn-link"
+                  >
+                    {link.label}
+                  </button>
+                )
+              ))}
+            </div>
+          ))}
+        </div>
+      </footer>
+
+      {/* Corporate Policy Modal */}
+      {modalContent && (
+        <div className="policy-modal-overlay" onClick={() => setModalContent(null)}>
+          <div className="policy-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="policy-modal-header">
+              <h3>{modalContent.title}</h3>
+              <button
+                type="button"
+                className="policy-modal-close"
+                onClick={() => setModalContent(null)}
+                aria-label="Close"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div className="policy-modal-body">
+              <p>{modalContent.body}</p>
+            </div>
+            <div className="policy-modal-footer">
+              <button
+                type="button"
+                className="btn-primary btn-magnetic"
+                onClick={() => setModalContent(null)}
+              >
+                Close
+              </button>
+            </div>
           </div>
-        ))}
-      </div>
-    </footer>
+        </div>
+      )}
+    </>
   );
 }
 
