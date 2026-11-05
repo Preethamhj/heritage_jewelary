@@ -1,16 +1,16 @@
 :root {
   --gold-warm: #c9a84c;
   --gold-light: #e8d5a3;
-  --ivory: #faf6ee;
-  --paper: #faf6ee;
-  --bone: #efe4cf;
+  --ivory: #f4de8f;
+  --paper: #f4de8f;
+  --bone: #ecd482;
   --ink: #1a1410;
   --onyx: #1a1410;
-  --soft-ink: #6f665f;
-  --warm-gray: #8a8480;
+  --soft-ink: #54462e;
+  --warm-gray: #786646;
   --gold: var(--gold-warm);
   --charcoal: #15110e;
-  --line: rgba(23, 20, 17, 0.12);
+  --line: rgba(50, 36, 12, 0.14);
   --display-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --nav-serif: "Jost", "Helvetica Neue", Arial, sans-serif;
   --body-sans: "Jost", "Helvetica Neue", Arial, sans-serif;
@@ -18,7 +18,7 @@
   --ease-luxury: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --dur-slow: 0.7s;
   --dur-med: 0.4s;
-  --shadow-soft: 0 20px 80px rgba(26, 20, 16, 0.12);
+  --shadow-soft: 0 20px 80px rgba(45, 32, 10, 0.12);
   font-family: var(--body-sans);
   color: var(--ink);
   background: var(--paper);
@@ -75,18 +75,18 @@ button {
   align-items: center;
   min-height: 122px;
   padding: 0 clamp(24px, 3.2vw, 52px);
-  background: rgba(250, 246, 238, 0.62);
-  border-bottom: 1px solid rgba(201, 168, 76, 0.08);
-  -webkit-backdrop-filter: blur(10);
-  backdrop-filter: blur(0);
+  background: rgba(244, 222, 143, 0.72);
+  border-bottom: 1px solid rgba(50, 36, 12, 0.1);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   transition: background var(--dur-med) var(--ease-luxury), backdrop-filter var(--dur-med) var(--ease-luxury), border-color var(--dur-med) var(--ease-luxury);
 }
 
 .site-header.is-scrolled {
-  background: rgba(250, 246, 238, 0.88);
-  border-bottom-color: rgba(201, 168, 76, 0.2);
-  -webkit-backdrop-filter: blur(10);
-  backdrop-filter: blur(20px) saturate(1.35);
+  background: rgba(244, 222, 143, 0.94);
+  border-bottom-color: rgba(50, 36, 12, 0.18);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px) saturate(1.2);
 }
 
 :root[data-theme="dark"] .site-header,
@@ -206,12 +206,12 @@ button {
   left: 0;
   width: 100%;
   padding: 44px 8vw;
-  background: rgba(250, 246, 238, 0.94);
+  background: rgba(244, 222, 143, 0.96);
   border-bottom: 1px solid var(--line);
   opacity: 0;
   pointer-events: none;
   transform: translateY(-10px);
-  -webkit-backdrop-filter: blur(10);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(24px);
   transition: opacity var(--dur-med) var(--ease-luxury), transform var(--dur-med) var(--ease-luxury);
 }
@@ -498,7 +498,7 @@ button {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(255, 253, 247, 0.92), rgba(255, 253, 247, 0.78), rgba(255, 253, 247, 0.92)),
+    linear-gradient(90deg, rgba(244, 222, 143, 0.92), rgba(244, 222, 143, 0.78), rgba(244, 222, 143, 0.92)),
     url("./assets/heritage-logo.jpg") center / min(780px, 68vw) auto no-repeat;
   opacity: 0.35;
   filter: saturate(0.95);
@@ -961,7 +961,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   padding: clamp(32px, 3.5vw, 44px) clamp(20px, 2.5vw, 32px);
-  background: var(--paper);
+  background: rgba(255, 248, 224, 0.55);
   border: 1px solid var(--line);
   transition: transform var(--dur-med) var(--ease-luxury), border-color var(--dur-med) var(--ease-luxury), box-shadow var(--dur-med) var(--ease-luxury);
 }
@@ -1009,6 +1009,78 @@ h1 {
   margin-top: auto;
   width: 100%;
   max-width: 240px;
+}
+
+/* ─── TO CONNECT US (SOCIAL LINKS) ─── */
+.consultation-connect {
+  margin-top: clamp(36px, 4.5vw, 54px);
+  padding-top: clamp(28px, 3.5vw, 40px);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.consultation-connect-heading {
+  margin: 0;
+  font-family: var(--display-serif);
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.consultation-social-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 44px);
+}
+
+.consultation-social-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--ink);
+  font-family: var(--nav-serif);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color var(--dur-med) var(--ease-luxury), transform var(--dur-med) var(--ease-luxury);
+}
+
+.consultation-social-btn {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 248, 224, 0.7);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  transition: all var(--dur-med) var(--ease-luxury);
+  box-shadow: 0 4px 14px rgba(50, 36, 12, 0.08);
+}
+
+.consultation-social-item:hover {
+  transform: translateY(-3px);
+  color: #1a1410;
+}
+
+.consultation-social-item:hover .consultation-social-btn {
+  background: var(--gold-warm);
+  border-color: var(--gold-warm);
+  color: #1a1410;
+  box-shadow: 0 8px 24px rgba(201, 168, 76, 0.35);
+  transform: scale(1.08);
+}
+
+:root[data-theme="dark"] .consultation-social-btn {
+  background: var(--bone);
+  color: var(--ink);
 }
 
 /* ─── PULL QUOTE & STATEMENT ─── */
@@ -1233,8 +1305,8 @@ h1 {
   gap: 4px;
   padding: 8px;
   border: 1px solid rgba(201, 168, 76, 0.24);
-  background: rgba(250, 246, 238, 0.9);
-  -webkit-backdrop-filter: blur(10);
+  background: rgba(244, 222, 143, 0.92);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(18px);
 }
 
@@ -1425,7 +1497,7 @@ h1 {
 
   .page-hero.logo-hero::before {
     background:
-      linear-gradient(180deg, rgba(255, 253, 247, 0.84), rgba(255, 253, 247, 0.95)),
+      linear-gradient(180deg, rgba(244, 222, 143, 0.88), rgba(244, 222, 143, 0.96)),
       url("./assets/heritage-logo.jpg") center 16% / min(520px, 110vw) auto no-repeat;
     opacity: 0.5;
   }

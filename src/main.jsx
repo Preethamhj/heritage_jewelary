@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Home, Menu, Moon, Search, Sun, X, ChevronRight, Sparkles, Gem, MessageCircle, Mail } from 'lucide-react';
+import { Home, Menu, Moon, Search, Sun, X, ChevronRight, Sparkles, Gem, MessageCircle, Mail, Instagram, Facebook } from 'lucide-react';
 import './styles.css';
 import logoImage from './assets/heritage-logo.jpg';
 import frontpageImage from './assets/heritage-frontpage.jpg';
@@ -28,6 +28,10 @@ const BUSINESS_CONFIG = {
   },
   email: {
     address: 'heritage.jewellary@gmail.com',
+  },
+  social: {
+    instagram: 'https://www.instagram.com/_heritagejewellery_?igsh=Ym5qd3ptYzZlcDli',
+    facebook: 'https://www.facebook.com/share/18hSQxoych/',
   },
 };
 
@@ -569,7 +573,7 @@ function JewelleryShowcase() {
 
         {/* Text directly below the pendant */}
         <div className="showcase-caption-wrap" data-reveal="up">
-          <h2 className="showcase-caption-heading">what is heritage jewellery?</h2>
+          <h2 className="showcase-caption-heading">why heritage jewellery?</h2>
           <p className="showcase-caption-text">
             Heritage jewelry represents purity and holiness, more than ornaments—it is a reflection of culture, traditional legacy, emotional value, craftsmanship, and stories passed down through generations. Each piece is inspired by traditional artistry, where skilled hands transform precious metals and stones into timeless designs rooted in history. These jewels carry the essence of rituals, celebrations, and identity, preserving the beauty of the past while remaining relevant in the present.
           </p>
@@ -620,6 +624,39 @@ function BookConsultation() {
               aria-label="Send email enquiry"
             >
               Send Enquiry
+            </a>
+          </div>
+        </div>
+
+        {/* To connect us: Social links below Book a Consultation */}
+        <div className="consultation-connect" data-reveal="up">
+          <p className="consultation-connect-heading">To connect us:</p>
+          <div className="consultation-social-list">
+            <a
+              href={BUSINESS_CONFIG.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="consultation-social-item"
+              aria-label="Instagram"
+              title="Visit Heritage Jewellery on Instagram"
+            >
+              <div className="consultation-social-btn">
+                <Instagram size={24} />
+              </div>
+              <span>Instagram</span>
+            </a>
+            <a
+              href={BUSINESS_CONFIG.social.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="consultation-social-item"
+              aria-label="Facebook"
+              title="Visit Heritage Jewellery on Facebook"
+            >
+              <div className="consultation-social-btn">
+                <Facebook size={24} />
+              </div>
+              <span>Facebook</span>
             </a>
           </div>
         </div>
@@ -885,8 +922,8 @@ function Footer({ onNavigate }) {
       { label: 'Appointments' },
     ]},
     { heading: 'SOCIAL', links: [
-      { label: 'Instagram' },
-      { label: 'Facebook' },
+      { label: 'Instagram', href: BUSINESS_CONFIG.social.instagram },
+      { label: 'Facebook', href: BUSINESS_CONFIG.social.facebook },
     ]},
     { heading: 'CORPORATE', links: [
       { label: 'Privacy Policy' },
@@ -902,7 +939,9 @@ function Footer({ onNavigate }) {
           <div key={col.heading}>
             <h3>{col.heading}</h3>
             {col.links.map((link) => (
-              link.id ? (
+              link.href ? (
+                <a href={link.href} key={link.label} target="_blank" rel="noopener noreferrer">{link.label}</a>
+              ) : link.id ? (
                 <a href={`#/${link.id}`} key={link.label} onClick={(e) => { e.preventDefault(); onNavigate(link.id); }}>{link.label}</a>
               ) : (
                 <a href="#footer" key={link.label}>{link.label}</a>
