@@ -29,7 +29,14 @@ const BUSINESS_CONFIG = {
   },
 };
 
-/* ─── FOUR-CATEGORY DATA ─── */
+/* ─── FOUR-CATEGORY DATA ───
+   Note: All gallery images have been removed from category pages to make it easy
+   to replace with your customized images.
+   - To replace the main heading image: update the `hero` property for that category.
+   - To add your customized collection images: add your image imports or URLs into
+     the `images: []` array of any section below. The section and image grid
+     will automatically appear!
+─── */
 
 const pages = [
   {
@@ -55,13 +62,13 @@ const pages = [
         title: 'THE ROYAL KUNDAN NECKLACE',
         text: 'Grand necklaces composed through jadau forms, river pearls, kundan settings, and dramatic pendants — each piece an expression of regal elegance.',
         layout: 'triptych hero-grid',
-        images: pick(0, 3),
+        images: [],
       },
       {
         title: 'KUNDAN BRIDAL ADORNMENTS',
         text: 'Ruby-green contrasts, pearl borders, and meenakari reverses create ornaments with weight, presence, and ceremonial grandeur.',
         layout: 'dense',
-        images: pick(3, 9),
+        images: [],
       },
     ],
   },
@@ -89,13 +96,13 @@ const pages = [
         title: 'LAKSHMI AND PEACOCK MOTIFS',
         text: 'Gold relief gives each ornament a carved, almost architectural presence — deity forms and sacred geometry shaped by generations of temple goldsmiths.',
         layout: 'triptych',
-        images: pick(9, 3),
+        images: [],
       },
       {
         title: 'NAKASHI GOLD SURFACES',
         text: 'Nakashi-inspired surfaces gather depth, shadow, and ceremonial rhythm in antique-finished gold that carries the warmth of Southern heritage.',
         layout: 'dense',
-        images: pick(50, 9),
+        images: [],
       },
     ],
   },
@@ -122,18 +129,18 @@ const pages = [
         title: 'POLKI CEREMONIAL NECKLACES',
         text: 'Large neckpieces anchor the collection with sculptural pendants, uncut diamond clusters, and pearl edges that frame the face with luminous softness.',
         layout: 'dense',
-        images: pick(6, 9),
+        images: [],
       },
       {
         title: 'POLKI BRIDAL ELEGANCE',
         text: 'Pearl clusters and uncut diamond settings create motion around the neckline — each bridal set composed for presence, weight, and heirloom distinction.',
         layout: 'asymmetric',
-        images: pick(40, 2),
+        images: [],
       },
     ],
   },
   {
-    id: 'lightweight-dialy wears',
+    id: 'lightweight-daily wears',
     label: 'LIGHTWEIGHT / DAILY WEARS',
     title: 'LIGHTWEIGHT & DAILY WEAR JEWELLERY',
     eyebrow: 'EVERYDAY ELEGANCE & PERSONALISATION',
@@ -163,25 +170,25 @@ const pages = [
         title: 'BANGLES AND SMALL TREASURES',
         text: 'Floral bezels, emerald centres, and engraved gold complete the collection with everyday ceremony — each piece scaled for comfort and daily grace.',
         layout: 'dense',
-        images: pick(20, 12),
+        images: [],
       },
       {
         title: 'PENDANT AND EARRING DETAILS',
         text: 'Small pieces let the handwork come close, revealing the rhythm of stone setting and gold carving in intimate, wearable scale.',
         layout: 'triptych',
-        images: pick(30, 3),
+        images: [],
       },
       {
         title: 'BESPOKE CREATIONS',
         text: 'The collection balances personalised design with heritage goldsmithing — each piece crafted to the individual while honouring traditional handwork.',
         layout: 'dense',
-        images: pick(15, 12),
+        images: [],
       },
       {
         title: 'LIGHTWEIGHT CRAFT',
         text: 'Modern lightweight construction meets artisanal detail — custom pieces that carry heritage character without weight.',
         layout: 'two',
-        images: pick(59, 2),
+        images: [],
       },
     ],
   },
@@ -193,6 +200,8 @@ const pageMap = Object.fromEntries(pages.map((page) => [page.id, page]));
 const legacyRedirects = {
   daily: 'lightweight-daily wears',
   custom: 'lightweight-daily wears',
+  'lightweight-custom': 'lightweight-daily wears',
+  'lightweight-dialy wears': 'lightweight-daily wears',
 };
 
 /* ─── CATEGORY TILES DATA (4 tiles) ─── */
@@ -474,13 +483,15 @@ function BookConsultation() {
 
 /* ─── COLLECTION PAGE ─── */
 function CollectionPage({ page }) {
+  if (!page) return null;
   const story = collectionStories[page.id];
 
   return (
     <main className="page-shell" id="top" key={page.id}>
+      {/* Main heading section with its primary image */}
       <section className="page-hero">
         <div className="page-hero-media">
-          <img src={page.hero} alt="" />
+          <img src={page.hero} alt={page.title} />
         </div>
         <div className="page-hero-copy" data-reveal="up">
           <p className="category">{page.eyebrow}</p>
@@ -490,19 +501,21 @@ function CollectionPage({ page }) {
         </div>
       </section>
 
-      <SubcategoryNav subcategories={page.subcategories} label={page.label} />
-
-      {page.sections.map((section, index) => (
-        <React.Fragment key={section.title}>
-          <section className={`text-block ${index % 2 ? 'center' : 'left'}`} data-reveal={index % 2 ? 'right' : 'left'}>
-            <p className="eyebrow">{page.label}</p>
-            <h2>{section.title}</h2>
-            <p>{section.text}</p>
-          </section>
-          <ImageGrid variant={section.layout} items={section.images} />
-        </React.Fragment>
+      {/* Render sections & image grids if customized images are added */}
+      {page.sections && page.sections.map((section, index) => (
+        section.images && section.images.length > 0 ? (
+          <React.Fragment key={section.title}>
+            <section className={`text-block ${index % 2 ? 'center' : 'left'}`} data-reveal={index % 2 ? 'right' : 'left'}>
+              <p className="eyebrow">{page.label}</p>
+              <h2>{section.title}</h2>
+              <p>{section.text}</p>
+            </section>
+            <ImageGrid variant={section.layout} items={section.images} />
+          </React.Fragment>
+        ) : null
       ))}
 
+      {/* THE CRAFT section */}
       {story && (
         <section className="collection-story" data-reveal="scale">
           <div className="collection-story-inner">
@@ -539,7 +552,7 @@ function HomePage({ onNavigate }) {
       </p>
     </div>
   </section>
-  
+
       {/* House story */}
       <section className="story-home">
         <section className="story-split" data-reveal="left">
@@ -615,7 +628,6 @@ function App() {
         setActivePage(resolved);
         setTransitionKey((key) => key + 1);
       }
-      // Fix the URL if a legacy redirect was applied
       if (legacyRedirects[rawId]) {
         window.history.replaceState(null, '', `#/${resolved}`);
       }
