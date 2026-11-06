@@ -210,7 +210,7 @@ const pages = [
     editorialShowcase: [
       {
         badge: 'IMPERIAL HEIRLOOM',
-        title: 'The Rajkumari Emerald Choker Suite',
+        title: 'The Rajkumari Emerald Choker',
         text: 'Luminous cabochon emeralds encased in hand-engraved antique gold plaques with delicate seed pearl borders, harmoniously paired with polki-topped jhumka earrings over rich fuchsia velvet.',
         image: polki1,
         imageAlt: 'Antique gold and cabochon emerald choker with seed pearls and matching earrings on fuchsia pink velvet',
@@ -218,7 +218,7 @@ const pages = [
       },
       {
         badge: 'ROYAL COURTYARD',
-        title: 'The Maharani Polki Suite',
+        title: 'The Maharani Polki Gundu Patlu',
         text: 'A grand ceremonial necklace with uncut diamonds, ruby florets, and a sculpted peacock medallion fringed with cascading river pearls, harmonized with matching peacock earrings on black silk.',
         image: polki2,
         imageAlt: 'Royal Polki uncut diamond necklace with peacock medallion and matching earrings on black silk',
