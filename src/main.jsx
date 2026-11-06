@@ -32,6 +32,11 @@ import kundan3 from './assets/kundan-3.jpg';
 import kundan4 from './assets/kundan-4.jpg';
 import kundanHero from './assets/kundan-hero.jpg';
 import polkiHero from './assets/polki-hero.jpg';
+import polki1 from './assets/polki-1.jpg';
+import polki2 from './assets/polki-2.jpg';
+import polki3 from './assets/polki-3.jpg';
+import polki4 from './assets/polki-4.jpg';
+import polki5 from './assets/polki-5.jpg';
 import templeHero from './assets/temple-hero.jpg';
 import temple1 from './assets/temple-1.jpg';
 import temple2 from './assets/temple-2.jpg';
@@ -202,6 +207,48 @@ const pages = [
     hero: polkiHero,
     heroStyle: { objectFit: 'contain', objectPosition: 'center', background: '#0d0c0c' },
     heroMediaStyle: { background: '#0d0c0c' },
+    editorialShowcase: [
+      {
+        badge: 'ROYAL COURTYARD',
+        title: 'The Maharani Polki Suite',
+        text: 'A grand ceremonial necklace with uncut diamonds, ruby florets, and a sculpted peacock medallion fringed with cascading river pearls, harmonized with matching peacock earrings.',
+        image: polki1,
+        imageAlt: 'Royal Polki uncut diamond necklace with peacock medallion and matching earrings on black silk',
+        objectPosition: 'center 54%',
+      },
+      {
+        badge: 'LUMINOUS HEIRLOOM',
+        title: 'Crescent Moon Chandbali',
+        text: 'A breathtaking crescent motif holding natural uncut polki diamonds and glowing emerald drops, bordered by fine seed pearls in the classical Mughal tradition.',
+        image: polki2,
+        imageAlt: 'Crescent moon Polki uncut diamond ornament with emerald drops on deep maroon velvet',
+        objectPosition: 'center 50%',
+      },
+      {
+        badge: 'CELESTIAL HARMONY',
+        title: 'Navratna Imperial Choker',
+        text: 'Nine sacred celestial gemstones set alongside uncut diamonds within engraved antique gold frames, accompanied by royal drop earrings on regal violet velvet.',
+        image: polki3,
+        imageAlt: 'Navratna gemstone and uncut diamond Polki choker with matching drop earrings on violet velvet',
+        objectPosition: 'center 55%',
+      },
+      {
+        badge: 'IMPERIAL MAJESTY',
+        title: 'Emerald Peacock Collar',
+        text: 'Square-cut vibrant emeralds and lustrous pearl edging lead into an opulent dual-peacock polki pendant with an exuberant waterfall of seed pearls.',
+        image: polki4,
+        imageAlt: 'Square emerald step-cut and pearl choker with dual peacock Polki pendant on golden velvet',
+        objectPosition: 'center 52%',
+      },
+      {
+        badge: 'ANTIQUE SPLENDOUR',
+        title: 'Jadau Cabochon Choker',
+        text: 'Enormous cabochon rubies and emeralds nestled among polki diamonds, framed with hand-engraved meenakari scrollwork and deep ruby droplet fringes on sapphire silk.',
+        image: polki5,
+        imageAlt: 'Antique gold jadau Polki choker with large cabochon rubies and emeralds on royal blue silk',
+        objectPosition: 'center 49%',
+      },
+    ],
     sections: [
       {
         title: 'POLKI CEREMONIAL NECKLACES',
