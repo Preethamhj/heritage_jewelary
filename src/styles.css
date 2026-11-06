@@ -1319,6 +1319,236 @@ h1 {
   color: #1a1410;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   CATEGORY EDITORIAL SHOWCASE (ZIG-ZAG ARCHED PRESENTATION)
+   ═══════════════════════════════════════════════════════════ */
+
+.category-editorial-showcase {
+  position: relative;
+  padding: clamp(48px, 6vw, 92px) clamp(20px, 4vw, 48px);
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.editorial-showcase-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(52px, 7vw, 92px);
+}
+
+.editorial-showcase-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: clamp(32px, 5.5vw, 84px);
+  align-items: center;
+}
+
+.editorial-showcase-row.is-reversed {
+  grid-template-columns: minmax(320px, 0.85fr) minmax(0, 1.15fr);
+}
+
+.editorial-showcase-row.is-reversed .editorial-showcase-media {
+  order: 2;
+}
+
+.editorial-showcase-row.is-reversed .editorial-showcase-content {
+  order: 1;
+}
+
+/* Arched Frame */
+.editorial-showcase-media {
+  width: 100%;
+}
+
+.editorial-arch-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  border-radius: 200px 200px 24px 24px;
+  overflow: hidden;
+  box-shadow: 0 18px 48px rgba(45, 32, 10, 0.12);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  background: var(--bone);
+  transition: transform 0.4s var(--ease-luxury), box-shadow 0.4s var(--ease-luxury);
+}
+
+.editorial-arch-frame:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 56px rgba(45, 32, 10, 0.18);
+}
+
+:root[data-theme="dark"] .editorial-arch-frame {
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
+  border-color: rgba(201, 168, 76, 0.35);
+}
+
+:root[data-theme="dark"] .editorial-arch-frame:hover {
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.85);
+}
+
+.editorial-arch-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.7s var(--ease-luxury);
+}
+
+.editorial-arch-frame:hover img {
+  transform: scale(1.03);
+}
+
+/* Content Column */
+.editorial-showcase-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(8px, 1.5vw, 24px);
+}
+
+.editorial-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  font-family: var(--nav-serif);
+  font-size: 11.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-warm);
+  font-weight: 600;
+}
+
+.editorial-star {
+  font-size: 11.5px;
+  color: var(--gold-warm);
+}
+
+.editorial-title {
+  font-family: var(--display-serif);
+  font-size: clamp(30px, 3.5vw, 48px);
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.15;
+  margin: 0 0 16px;
+  letter-spacing: 0.02em;
+}
+
+.editorial-text {
+  font-family: var(--display-serif);
+  font-size: clamp(16px, 1.25vw, 19.5px);
+  line-height: 1.7;
+  color: var(--soft-ink);
+  margin: 0 0 22px;
+  max-width: 480px;
+}
+
+/* Luxury Flourish Divider */
+.editorial-flourish {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(200px, 100%);
+  margin-top: 4px;
+}
+
+.flourish-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(201, 168, 76, 0.45), transparent);
+}
+
+.editorial-showcase-row.is-reversed .flourish-line:first-child {
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.45));
+}
+
+.flourish-diamond {
+  color: var(--gold-warm);
+  font-size: 11px;
+}
+
+/* Bottom CTA Pill */
+.editorial-bottom-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(20px, 2.5vw, 36px);
+}
+
+.btn-pill-editorial {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 36px;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--nav-serif);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-luxury);
+}
+
+:root[data-theme="dark"] .btn-pill-editorial {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.btn-pill-editorial:hover {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(201, 168, 76, 0.2);
+}
+
+.btn-pill-editorial .arrow-icon {
+  font-size: 14px;
+  transition: transform 0.25s ease;
+}
+
+.btn-pill-editorial:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+  .editorial-showcase-row,
+  .editorial-showcase-row.is-reversed {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .editorial-showcase-row.is-reversed .editorial-showcase-media {
+    order: 1;
+  }
+
+  .editorial-showcase-row.is-reversed .editorial-showcase-content {
+    order: 2;
+  }
+
+  .editorial-arch-frame {
+    aspect-ratio: 16 / 11;
+    border-radius: 120px 120px 18px 18px;
+  }
+
+  .editorial-showcase-content {
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 540px) {
+  .editorial-arch-frame {
+    border-radius: 80px 80px 14px 14px;
+  }
+}
+
 /* ─── COLLECTION STORY SECTION ─── */
 
 .collection-story {
@@ -2304,427 +2534,5 @@ h1 {
   }
   .showcase-specular-shimmer {
     display: none;
-  }
-}
-
-/* ──────────────────────────────────────────────────────────
-   KUNDAN EDITORIAL SHOWCASE SECTION (HIGH-END LUXURY ARCHES)
-   Matches the luxury reference layout & styling precisely
-   ────────────────────────────────────────────────────────── */
-
-.kundan-editorial-wrap {
-  position: relative;
-  background: var(--paper);
-  overflow: hidden;
-  padding-bottom: clamp(40px, 6vw, 80px);
-}
-
-/* Subtle luxury filigree watermarks in corners */
-.kundan-editorial-wrap::before {
-  content: "";
-  position: absolute;
-  top: 40px;
-  right: -80px;
-  width: 380px;
-  height: 380px;
-  background-image: radial-gradient(circle, rgba(201, 168, 76, 0.12) 1px, transparent 1px),
-    radial-gradient(circle, rgba(201, 168, 76, 0.08) 2px, transparent 2px);
-  background-size: 24px 24px, 48px 48px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.6;
-}
-
-.kundan-editorial-wrap::after {
-  content: "";
-  position: absolute;
-  top: 45%;
-  left: -100px;
-  width: 420px;
-  height: 420px;
-  border: 1px dashed rgba(201, 168, 76, 0.14);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ─── Kundan Hero ─── */
-.kundan-editorial-hero {
-  position: relative;
-  z-index: 1;
-  width: min(1280px, calc(100% - clamp(36px, 6vw, 96px)));
-  margin: 0 auto;
-  padding: clamp(48px, 6vw, 88px) 0 clamp(48px, 6vw, 80px);
-}
-
-.kundan-hero-grid {
-  display: grid;
-  grid-template-columns: minmax(320px, 1fr) minmax(340px, 1.15fr);
-  gap: clamp(40px, 7vw, 96px);
-  align-items: center;
-}
-
-.kundan-hero-copy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-}
-
-.kundan-eyebrow {
-  font-family: var(--body-sans);
-  font-size: clamp(10.5px, 0.85vw, 12px);
-  letter-spacing: 0.26em;
-  font-weight: 500;
-  color: var(--gold-warm);
-  text-transform: uppercase;
-  margin: 0 0 clamp(16px, 2vw, 24px);
-}
-
-.kundan-hero-title {
-  font-family: var(--display-serif);
-  font-size: clamp(44px, 5.8vw, 76px);
-  font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  margin: 0 0 clamp(16px, 1.8vw, 22px);
-}
-
-.kundan-hero-subtitle {
-  font-family: var(--display-serif);
-  font-size: clamp(19px, 1.65vw, 25px);
-  font-style: italic;
-  font-weight: 300;
-  color: var(--soft-ink);
-  line-height: 1.45;
-  margin: 0 0 clamp(28px, 3.2vw, 40px);
-}
-
-/* ─── Hero Halo and Arched Visual ─── */
-.kundan-hero-visual-wrap {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 24px;
-}
-
-.kundan-hero-halo {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% + 44px);
-  max-width: 530px;
-  height: 240px;
-  border: 1px solid rgba(201, 168, 76, 0.35);
-  border-bottom: 0;
-  border-radius: 300px 300px 0 0;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-}
-
-.kundan-halo-star {
-  margin-top: -8px;
-  padding: 0 10px;
-  background: var(--paper);
-  color: var(--gold-warm);
-  font-size: 13px;
-  line-height: 1;
-}
-
-/* ─── Generic Arched Frame ─── */
-.kundan-arch-frame {
-  position: relative;
-  overflow: hidden;
-  background: var(--bone);
-  border: 1px solid rgba(201, 168, 76, 0.32);
-  box-shadow: 0 20px 60px rgba(45, 32, 10, 0.09);
-  transition: transform 0.6s var(--ease-luxury), box-shadow 0.6s var(--ease-luxury), border-color 0.4s var(--ease-luxury);
-  isolation: isolate;
-}
-
-.kundan-hero-arch {
-  width: 100%;
-  max-width: 480px;
-  aspect-ratio: 0.72;
-  border-radius: 260px 260px 24px 24px;
-}
-
-.kundan-arch-frame img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s var(--ease-luxury);
-}
-
-.kundan-arch-frame:hover img {
-  transform: scale(1.035);
-}
-
-.kundan-arch-frame:hover {
-  box-shadow: 0 24px 70px rgba(45, 32, 10, 0.14);
-  border-color: rgba(201, 168, 76, 0.55);
-}
-
-/* ─── Showcase Rows Grid ─── */
-.kundan-editorial-grid {
-  position: relative;
-  z-index: 1;
-  width: min(1200px, calc(100% - clamp(36px, 6vw, 96px)));
-  margin: 0 auto clamp(48px, 6vw, 96px);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(56px, 8vw, 110px);
-}
-
-.kundan-showcase-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-  gap: clamp(40px, 7vw, 96px);
-  align-items: center;
-}
-
-.kundan-row-img-right {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-}
-
-.kundan-showcase-arch {
-  width: 100%;
-  max-width: 500px;
-  border-radius: 220px 220px 24px 24px;
-}
-
-.kundan-arch-row1 {
-  aspect-ratio: 1.05;
-}
-
-.kundan-arch-row2,
-.kundan-arch-row3 {
-  aspect-ratio: 1.25;
-}
-
-/* ─── Showcase Copy Content ─── */
-.kundan-showcase-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-}
-
-.kundan-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--body-sans);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  color: var(--gold-warm);
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-
-.kundan-badge-star {
-  font-size: 11px;
-  color: var(--gold-warm);
-}
-
-.kundan-showcase-heading {
-  font-family: var(--display-serif);
-  font-size: clamp(30px, 3.4vw, 46px);
-  font-weight: 400;
-  color: var(--ink);
-  line-height: 1.15;
-  margin: 0 0 16px;
-}
-
-.kundan-showcase-description {
-  font-family: var(--body-sans);
-  font-size: clamp(15px, 1.15vw, 17px);
-  color: var(--soft-ink);
-  line-height: 1.75;
-  max-width: 440px;
-  margin: 0 0 14px;
-}
-
-/* ─── Flourish Divider (— ✦ —) ─── */
-.kundan-flourish-divider {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--gold-warm);
-  margin-top: 8px;
-  opacity: 0.85;
-}
-
-.kundan-flourish-line {
-  display: block;
-  width: 44px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.55;
-}
-
-.kundan-flourish-symbol {
-  font-size: 11px;
-  color: var(--gold-warm);
-  line-height: 1;
-}
-
-/* ─── Pill Buttons ─── */
-.kundan-pill-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 13px 32px;
-  border-radius: 9999px;
-  border: 1px solid rgba(26, 20, 16, 0.7);
-  background: transparent;
-  color: var(--ink);
-  font-family: var(--body-sans);
-  font-size: 11.5px;
-  letter-spacing: 0.14em;
-  font-weight: 500;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.35s var(--ease-luxury);
-  outline: none;
-  text-decoration: none;
-}
-
-.kundan-pill-btn:hover {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(26, 20, 16, 0.16);
-}
-
-.kundan-btn-arrow {
-  display: inline-block;
-  transition: transform 0.3s ease;
-}
-
-.kundan-pill-btn:hover .kundan-btn-arrow {
-  transform: translateX(4px);
-}
-
-/* ─── Closing CTA ─── */
-.kundan-closing-cta {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-  margin: clamp(24px, 4vw, 48px) auto clamp(60px, 8vw, 100px);
-  text-align: center;
-}
-
-.kundan-closing-flourish .kundan-flourish-line {
-  width: 72px;
-}
-
-/* ─── Dark Mode Adaptations ─── */
-:root[data-theme="dark"] .kundan-arch-frame {
-  border-color: rgba(201, 168, 76, 0.24);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
-}
-
-:root[data-theme="dark"] .kundan-arch-frame:hover {
-  border-color: rgba(201, 168, 76, 0.55);
-  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.85);
-}
-
-:root[data-theme="dark"] .kundan-hero-halo {
-  border-color: rgba(201, 168, 76, 0.28);
-}
-
-:root[data-theme="dark"] .kundan-halo-star {
-  background: var(--paper);
-}
-
-:root[data-theme="dark"] .kundan-pill-btn {
-  border-color: rgba(245, 232, 200, 0.55);
-  color: var(--ink);
-}
-
-:root[data-theme="dark"] .kundan-pill-btn:hover {
-  background: var(--gold-warm);
-  color: #1a1410;
-  border-color: var(--gold-warm);
-  box-shadow: 0 10px 24px rgba(201, 168, 76, 0.35);
-}
-
-:root[data-theme="dark"] .kundan-editorial-wrap::after {
-  border-color: rgba(201, 168, 76, 0.09);
-}
-
-/* ─── Mobile Responsiveness ─── */
-@media (max-width: 900px) {
-  .kundan-editorial-hero {
-    padding: 36px 0 44px;
-  }
-
-  .kundan-hero-grid {
-    grid-template-columns: 1fr;
-    gap: 36px;
-    text-align: center;
-  }
-
-  .kundan-hero-copy {
-    align-items: center;
-    text-align: center;
-  }
-
-  .kundan-hero-arch {
-    max-width: min(340px, 86vw);
-    border-radius: 200px 200px 20px 20px;
-  }
-
-  .kundan-hero-halo {
-    display: none;
-  }
-
-  .kundan-editorial-grid {
-    gap: 52px;
-    margin-bottom: 56px;
-  }
-
-  .kundan-showcase-row {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    text-align: center;
-  }
-
-  .kundan-row-img-right .kundan-arch-frame,
-  .kundan-row-img-left .kundan-arch-frame {
-    order: 1;
-    max-width: min(360px, 92vw);
-    margin: 0 auto;
-    border-radius: 180px 180px 20px 20px;
-  }
-
-  .kundan-row-img-right .kundan-showcase-content,
-  .kundan-row-img-left .kundan-showcase-content {
-    order: 2;
-    align-items: center;
-    text-align: center;
-  }
-
-  .kundan-showcase-description {
-    max-width: 100%;
-  }
-
-  .kundan-flourish-divider {
-    justify-content: center;
   }
 }
