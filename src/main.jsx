@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Home, Menu, Moon, Search, Sun, X, ChevronRight, Sparkles, Gem, MessageCircle, Mail, Instagram, Facebook } from 'lucide-react';
+import { Home, Menu, Moon, Search, Sun, X, ChevronRight, ChevronLeft, Sparkles, Gem, MessageCircle, Mail, Instagram, Facebook } from 'lucide-react';
 import './styles.css';
 
 // Safeguard against Google Translate DOM modifications causing React reconcile errors
@@ -68,7 +68,7 @@ const BUSINESS_CONFIG = {
   whatsapp: {
     number: '917483458586',
     displayNumber: '+91 74834 58586',
-    message: 'Hello Heritage Jewellery! I would like to book a private jewellery consultation. Please share the available details.',
+    message: 'Hello Heritage Jewellery! I would like to know more about jewellery ideas and designs. Please share the available details.',
   },
   email: {
     address: 'heritage.jewellary@gmail.com',
@@ -427,7 +427,7 @@ function useDarkMode() {
   const getInitialTheme = () => {
     const saved = localStorage.getItem('heritage-theme');
     if (saved) return saved === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return false; // Default to light theme
   };
   const [darkMode, setDarkMode] = useState(getInitialTheme);
 
@@ -500,7 +500,7 @@ function useLanguageTranslation() {
   return [currentLang, switchLanguage];
 }
 
-function Header({ activePage, onNavigate, darkMode, onThemeToggle, currentLang, onLanguageChange }) {
+function Header({ activePage, onNavigate, darkMode, onThemeToggle, currentLang, onLanguageChange, onOpenSearch }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -565,13 +565,33 @@ function Header({ activePage, onNavigate, darkMode, onThemeToggle, currentLang, 
         <button className="icon-button" onClick={onThemeToggle} aria-label="Toggle evening mode">
           {darkMode ? <Sun size={22} /> : <Moon size={22} />}
         </button>
-        <button className="icon-button search-button" aria-label="Search"><Search size={22} /></button>
+        <button
+          className="icon-button search-button"
+          onClick={onOpenSearch}
+          aria-label="Search website content"
+          title="Search"
+        >
+          <Search size={22} />
+        </button>
       </div>
       <div className={`mobile-drawer ${open ? 'is-open' : ''}`}>
         <button className="icon-button drawer-close" onClick={() => setOpen(false)} aria-label="Close menu">
           <X size={20} />
         </button>
         <div className="drawer-brand">HERITAGE JEWELARY</div>
+
+        <button
+          className="drawer-search-btn"
+          onClick={() => {
+            setOpen(false);
+            onOpenSearch();
+          }}
+          aria-label="Search Collection"
+        >
+          <Search size={18} />
+          <span>Search jewellery & stories...</span>
+        </button>
+
         <button className="drawer-link drawer-home-link" onClick={(event) => navigate('home', event)}>Home</button>
         {pages.map((item) => (
           <button
@@ -893,12 +913,31 @@ function BookConsultation() {
 }
 
 /* ─── COLLECTION PAGE ─── */
-function CollectionPage({ page }) {
+function CollectionPage({ page, onNavigate }) {
   if (!page) return null;
   const story = collectionStories[page.id];
 
   return (
     <main className="page-shell" id="top" key={page.id}>
+      {/* Mobile-friendly Back Button to return directly to the Category Menu on Home */}
+      <div className="collection-back-header">
+        <button
+          className="btn-back-categories"
+          onClick={() => onNavigate('home', { returnToCategory: page.id })}
+          aria-label={`Back to ${page.label} in Categories`}
+        >
+          <ChevronLeft size={16} />
+          <span>Back to Categories</span>
+        </button>
+        <div className="collection-breadcrumb-trail">
+          <button onClick={() => onNavigate('home')} className="crumb-link">Home</button>
+          <span className="crumb-sep">/</span>
+          <button onClick={() => onNavigate('home', { returnToCategory: page.id })} className="crumb-link">Categories</button>
+          <span className="crumb-sep">/</span>
+          <span className="crumb-active">{page.label}</span>
+        </div>
+      </div>
+
       {/* Main heading section with its primary image */}
       <section className="page-hero">
         <div className="page-hero-media" style={page.heroMediaStyle}>
@@ -916,38 +955,48 @@ function CollectionPage({ page }) {
       {page.editorialShowcase && page.editorialShowcase.length > 0 && (
         <section className="category-editorial-showcase" aria-label={`${page.label} Curated Collection`}>
           <div className="editorial-showcase-container">
-            {page.editorialShowcase.map((item, idx) => (
-              <div
-                key={item.title}
-                className={`editorial-showcase-row ${idx % 2 === 1 ? 'is-reversed' : ''}`}
-                data-reveal={idx % 2 === 1 ? 'right' : 'left'}
-              >
-                <div className="editorial-showcase-media">
-                  <div className="editorial-arch-frame">
-                    <img
-                      src={item.image}
-                      alt={item.imageAlt || item.title}
-                      style={item.objectPosition ? { objectPosition: item.objectPosition } : undefined}
-                      loading="lazy"
-                    />
+            {page.editorialShowcase.map((item, idx) => {
+              const anchorId = `item-${item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+              return (
+                <div
+                  id={anchorId}
+                  key={item.title}
+                  className={`editorial-showcase-row ${idx % 2 === 1 ? 'is-reversed' : ''}`}
+                  data-reveal={idx % 2 === 1 ? 'right' : 'left'}
+                >
+                  <div className="editorial-showcase-media">
+                    <div className="editorial-arch-frame">
+                      <img
+                        src={item.image}
+                        alt={item.imageAlt || item.title}
+                        style={item.objectPosition ? { objectPosition: item.objectPosition } : undefined}
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                  <div className="editorial-showcase-content">
+                    <p className="editorial-badge">
+                      <span className="editorial-star" aria-hidden="true">✦</span> {item.badge}
+                    </p>
+                    <h3 className="editorial-title">{item.title}</h3>
+                    <p className="editorial-text">{item.text}</p>
+                    <div className="editorial-flourish" aria-hidden="true">
+                      <span className="flourish-line" />
+                      <span className="flourish-diamond">✦</span>
+                      <span className="flourish-line" />
+                    </div>
                   </div>
                 </div>
-                <div className="editorial-showcase-content">
-                  <p className="editorial-badge">
-                    <span className="editorial-star" aria-hidden="true">✦</span> {item.badge}
-                  </p>
-                  <h3 className="editorial-title">{item.title}</h3>
-                  <p className="editorial-text">{item.text}</p>
-                  <div className="editorial-flourish" aria-hidden="true">
-                    <span className="flourish-line" />
-                    <span className="flourish-diamond">✦</span>
-                    <span className="flourish-line" />
-                  </div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
 
-            <div className="editorial-bottom-cta" data-reveal="up">
+            <div className="editorial-bottom-cta" data-reveal="up" style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <button
+                className="btn-pill-editorial"
+                onClick={() => onNavigate('home', { returnToCategory: page.id })}
+              >
+                <ChevronLeft size={16} style={{ marginRight: '6px' }} /> Back to Categories
+              </button>
               <button
                 className="btn-pill-editorial"
                 onClick={() => {
@@ -955,7 +1004,7 @@ function CollectionPage({ page }) {
                   if (el) {
                     el.scrollIntoView({ behavior: 'smooth' });
                   } else {
-                    window.location.hash = '#/home';
+                    onNavigate('home');
                     setTimeout(() => {
                       const c = document.getElementById('consultation');
                       if (c) c.scrollIntoView({ behavior: 'smooth' });
@@ -963,7 +1012,7 @@ function CollectionPage({ page }) {
                   }
                 }}
               >
-                Explore More Pieces <span className="arrow-icon">→</span>
+                Book Consultation <span className="arrow-icon">→</span>
               </button>
             </div>
           </div>
@@ -986,7 +1035,7 @@ function CollectionPage({ page }) {
 
       {/* THE CRAFT section */}
       {story && (
-        <section className="collection-story" data-reveal="scale">
+        <section id="craft" className="collection-story" data-reveal="scale">
           <div className="collection-story-inner">
             <p className="eyebrow">THE CRAFT</p>
             <h2>{story.title}</h2>
@@ -1034,9 +1083,14 @@ function HomePage({ onNavigate }) {
         </section>
 
         {/* Four category tiles */}
-        <section className="category-tiles" data-reveal="up">
+        <section className="category-tiles" id="categories" data-reveal="up">
           {categoryTiles.map((tile) => (
-            <button className="category-tile product-card" onClick={() => onNavigate(tile.id)} key={tile.id}>
+            <button
+              id={`category-tile-${tile.id}`}
+              className="category-tile product-card"
+              onClick={() => onNavigate(tile.id)}
+              key={tile.id}
+            >
               <img
                 src={tile.image || images[tile.imageIndex]}
                 alt={`${tile.label} collection`}
@@ -1067,6 +1121,237 @@ function HomePage({ onNavigate }) {
   );
 }
 
+/* ─── LUXURY SEARCH MODAL ─── */
+function SearchModal({ isOpen, onClose, onNavigate }) {
+  const [query, setQuery] = useState('');
+  const inputRef = React.useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setQuery('');
+      setTimeout(() => inputRef.current?.focus(), 80);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  const searchIndex = [
+    // Categories
+    ...pages.map((p) => ({
+      id: `cat-${p.id}`,
+      type: 'Collection',
+      category: p.label,
+      title: p.title,
+      text: p.intro,
+      image: p.hero,
+      pageId: p.id,
+      anchor: null,
+    })),
+    // Editorial Showcase Items across all categories
+    ...pages.flatMap((p) =>
+      (p.editorialShowcase || []).map((item) => ({
+        id: `showcase-${item.title}`,
+        type: 'Jewellery Piece',
+        category: p.label,
+        badge: item.badge,
+        title: item.title,
+        text: item.text,
+        image: item.image,
+        pageId: p.id,
+        anchor: `item-${item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+      }))
+    ),
+    // Collection Craft stories
+    ...pages.map((p) => {
+      const s = collectionStories[p.id];
+      return s
+        ? {
+            id: `story-${p.id}`,
+            type: 'Heritage Craft',
+            category: p.label,
+            title: s.title,
+            text: s.text,
+            image: p.hero,
+            pageId: p.id,
+            anchor: 'craft',
+          }
+        : null;
+    }).filter(Boolean),
+    // Bespoke Consultation
+    {
+      id: 'service-consultation',
+      type: 'Appointments',
+      category: 'CONSULTATION',
+      title: 'Book a Private Jewellery Consultation',
+      text: 'Schedule an in-person boutique visit or virtual video consultation with master jewellers.',
+      image: logoImage,
+      pageId: 'home',
+      anchor: 'consultation',
+    },
+    // 360 Showcase
+    {
+      id: 'showcase-360',
+      type: 'Heirloom Archive',
+      category: '360° SHOWCASE',
+      title: 'Heritage Jewellery 360° Pendant Showcase',
+      text: 'Interactive front and reverse rotation of archival antique gold temple pendant.',
+      image: showcasePendant,
+      pageId: 'home',
+      anchor: 'showcase',
+    },
+  ];
+
+  const q = query.trim().toLowerCase();
+  const results = q
+    ? searchIndex.filter((item) => {
+        return (
+          item.title.toLowerCase().includes(q) ||
+          item.text.toLowerCase().includes(q) ||
+          item.category.toLowerCase().includes(q) ||
+          (item.badge && item.badge.toLowerCase().includes(q)) ||
+          item.type.toLowerCase().includes(q)
+        );
+      })
+    : [];
+
+  const handleSelect = (item) => {
+    onClose();
+    onNavigate(item.pageId);
+    if (item.anchor) {
+      setTimeout(() => {
+        const el = document.getElementById(item.anchor);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 150);
+    }
+  };
+
+  const quickPills = [
+    'Kundan',
+    'Temple',
+    'Polki',
+    'Daily Wear',
+    'Emerald',
+    'Diamond',
+    'Mangalsutra',
+    'Choker',
+    'Earrings',
+    'Gold Chain',
+  ];
+
+  return (
+    <div className="search-modal-backdrop" onClick={onClose} role="dialog" aria-modal="true" aria-label="Search website content">
+      <div className="search-modal-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="search-header-bar">
+          <div className="search-input-box">
+            <Search className="search-input-icon" size={20} />
+            <input
+              ref={inputRef}
+              type="search"
+              className="search-input-field"
+              placeholder="Search jewellery, stones, categories, craftsmanship..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Search"
+            />
+            {query && (
+              <button
+                type="button"
+                className="search-clear-btn"
+                onClick={() => setQuery('')}
+                aria-label="Clear search input"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+          <button className="search-close-button" onClick={onClose} aria-label="Close search">
+            <X size={22} />
+          </button>
+        </div>
+
+        {/* Quick Suggestion Pills */}
+        <div className="search-quick-tags">
+          <span className="search-tag-label">Popular Searches:</span>
+          <div className="search-tags-row">
+            {quickPills.map((pill) => (
+              <button
+                key={pill}
+                type="button"
+                className={`search-pill-btn ${query.toLowerCase() === pill.toLowerCase() ? 'is-active' : ''}`}
+                onClick={() => setQuery(pill)}
+              >
+                {pill}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Results Container */}
+        <div className="search-results-area">
+          {q && results.length > 0 && (
+            <div className="search-results-list">
+              <p className="search-results-count">
+                Found {results.length} {results.length === 1 ? 'match' : 'matches'} for "{query}":
+              </p>
+              {results.map((item) => (
+                <button
+                  key={item.id}
+                  className="search-result-card"
+                  onClick={() => handleSelect(item)}
+                >
+                  {item.image && (
+                    <div className="search-result-thumb">
+                      <img src={item.image} alt={item.title} />
+                    </div>
+                  )}
+                  <div className="search-result-info">
+                    <div className="search-result-meta">
+                      <span className="search-result-category">{item.category}</span>
+                      {item.badge && <span className="search-result-badge">✦ {item.badge}</span>}
+                    </div>
+                    <h4 className="search-result-title">{item.title}</h4>
+                    <p className="search-result-snippet">{item.text}</p>
+                  </div>
+                  <ChevronRight className="search-result-arrow" size={20} />
+                </button>
+              ))}
+            </div>
+          )}
+
+          {q && results.length === 0 && (
+            <div className="search-empty-state">
+              <p className="search-empty-title">No pieces found matching "{query}"</p>
+              <p className="search-empty-hint">Try searching with broader terms such as Kundan, Temple, Polki, Gold, Emerald, or Pearls.</p>
+            </div>
+          )}
+
+          {!q && (
+            <div className="search-initial-state">
+              <p className="search-initial-hint">Type to search collections, individual pieces, gemstones, and artisanal heritage crafts.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── APP ─── */
 function App() {
   const validIds = ['home', ...pages.map((p) => p.id)];
@@ -1083,24 +1368,62 @@ function App() {
   const [transitionKey, setTransitionKey] = useState(0);
   const [darkMode, setDarkMode] = useDarkMode();
   const [currentLang, switchLanguage] = useLanguageTranslation();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const lastCategoryRef = React.useRef(null);
+  const shouldScrollToCategoryRef = React.useRef(false);
+
   useScrollReveal(transitionKey);
 
-  const navigate = (pageId) => {
+  const navigate = (pageId, options = {}) => {
     const resolved = resolvePageId(pageId);
-    if (resolved === activePage) return;
+    if (resolved !== 'home') {
+      lastCategoryRef.current = resolved;
+    }
+    if (resolved === 'home') {
+      if (options && options.returnToCategory) {
+        shouldScrollToCategoryRef.current = options.returnToCategory;
+      } else if (lastCategoryRef.current) {
+        shouldScrollToCategoryRef.current = lastCategoryRef.current;
+      }
+    } else {
+      shouldScrollToCategoryRef.current = false;
+    }
+
+    if (resolved === activePage) {
+      if (resolved === 'home' && shouldScrollToCategoryRef.current) {
+        const catId = shouldScrollToCategoryRef.current;
+        const target = document.getElementById(`category-tile-${catId}`) || document.getElementById('categories');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
     setActivePage(resolved);
     setTransitionKey((key) => key + 1);
     window.history.pushState(null, '', `#/${resolved}`);
   };
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (activePage === 'home' && shouldScrollToCategoryRef.current) {
+      const catId = shouldScrollToCategoryRef.current;
+      shouldScrollToCategoryRef.current = false;
+      setTimeout(() => {
+        const target = document.getElementById(`category-tile-${catId}`) || document.getElementById('categories');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [activePage]);
 
   useEffect(() => {
     const onHashChange = () => {
       const rawId = window.location.hash.replace('#/', '');
       const resolved = resolvePageId(rawId);
+      if (resolved === 'home' && lastCategoryRef.current) {
+        shouldScrollToCategoryRef.current = lastCategoryRef.current;
+      }
       if (resolved !== activePage) {
         setActivePage(resolved);
         setTransitionKey((key) => key + 1);
@@ -1125,12 +1448,18 @@ function App() {
         onThemeToggle={() => setDarkMode((value) => !value)}
         currentLang={currentLang}
         onLanguageChange={switchLanguage}
+        onOpenSearch={() => setSearchOpen(true)}
+      />
+      <SearchModal
+        isOpen={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        onNavigate={navigate}
       />
       <div className="page-transition" key={transitionKey}>
         {activePage === 'home' ? (
           <HomePage onNavigate={navigate} />
         ) : (
-          <CollectionPage page={pageMap[activePage]} />
+          <CollectionPage page={pageMap[activePage]} onNavigate={navigate} />
         )}
       </div>
       <MobileBottomNav activePage={activePage} onNavigate={navigate} />
