@@ -26,6 +26,10 @@ import logoImage from './assets/heritage-logo.jpg';
 import frontpageImage from './assets/heritage-frontpage.jpg';
 import showcasePendant from './assets/heritage-showcase-pendant.webp';
 import showcasePendantBack from './assets/heritage-showcase-pendant-back.webp';
+import kundanHero from './assets/kundan-hero.jpg';
+import kundan1 from './assets/kundan-1.jpg';
+import kundan2 from './assets/kundan-2.jpg';
+import kundan3 from './assets/kundan-3.jpg';
 
 const heritageModules = import.meta.glob('./assets/heritage/*.jpeg', {
   eager: true,
@@ -66,8 +70,8 @@ const pages = [
     label: 'KUNDAN',
     title: 'KUNDAN JEWELLERY',
     eyebrow: 'TRADITIONAL CRAFTSMANSHIP',
-    intro: 'Its  a classic design and meticulous detailing make it more than details of legacy— it becomes a statement of Heritage and everlasting allure.',
-    hero: images[0],
+    intro: 'Its a classic design and meticulous detailing make it more than details of legacy— it becomes a statement of Heritage and everlasting allure.',
+    hero: kundanHero,
     sections: [
       {
         title: 'THE ROYAL KUNDAN NECKLACE',
@@ -696,9 +700,176 @@ function BookConsultation() {
   );
 }
 
-/* ─── COLLECTION PAGE ─── */
-function CollectionPage({ page }) {
+/* ─── KUNDAN EDITORIAL SHOWCASE (REFERENCE LUXURY DESIGN) ─── */
+function KundanCollectionPage({ page, onNavigate }) {
+  const story = collectionStories['kundan'];
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  return (
+    <main className="page-shell kundan-editorial-wrap" id="top" key="kundan">
+      {/* ─── HERO EDITORIAL SECTION ─── */}
+      <section className="kundan-editorial-hero" data-reveal="up">
+        <div className="kundan-hero-grid">
+          <div className="kundan-hero-copy">
+            <p className="kundan-eyebrow">— THE SIGNATURE COLLECTION</p>
+            <h1 className="kundan-hero-title">Kundan Jewellery</h1>
+            <p className="kundan-hero-subtitle">Timeless beauty, crafted in tradition.</p>
+            <button
+              type="button"
+              className="kundan-pill-btn"
+              onClick={() => scrollToSection('kundan-showcase')}
+            >
+              Explore Collection <span className="kundan-btn-arrow" aria-hidden="true">→</span>
+            </button>
+          </div>
+
+          <div className="kundan-hero-visual-wrap">
+            <div className="kundan-hero-halo" aria-hidden="true">
+              <span className="kundan-halo-star">✦</span>
+            </div>
+            <div className="kundan-arch-frame kundan-hero-arch">
+              <img
+                src={kundanHero}
+                alt="Signature Kundan Jewellery Mala with Ruby Spheres and Earrings on rich drapery"
+                loading="eager"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── SHOWCASE ROWS ─── */}
+      <section className="kundan-editorial-grid" id="kundan-showcase">
+        {/* Row 1: Image Left, Content Right */}
+        <div className="kundan-showcase-row kundan-row-img-left" data-reveal="up">
+          <div className="kundan-arch-frame kundan-showcase-arch kundan-arch-row1">
+            <img
+              src={kundan1}
+              alt="Handcrafted Kundan Choker and Pendant with Pearls, Rubies, and Emerald"
+              loading="lazy"
+            />
+          </div>
+          <div className="kundan-showcase-content">
+            <span className="kundan-badge">
+              <span className="kundan-badge-star" aria-hidden="true">✦</span> PURE CRAFTSMANSHIP
+            </span>
+            <h2 className="kundan-showcase-heading">Intricate Detailing</h2>
+            <p className="kundan-showcase-description">
+              Each piece is a celebration of artistry, tradition and timeless elegance.
+            </p>
+            <div className="kundan-flourish-divider" aria-hidden="true">
+              <span className="kundan-flourish-line" />
+              <span className="kundan-flourish-symbol">✦</span>
+              <span className="kundan-flourish-line" />
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: Content Left, Image Right */}
+        <div className="kundan-showcase-row kundan-row-img-right" data-reveal="up">
+          <div className="kundan-showcase-content">
+            <span className="kundan-badge">
+              <span className="kundan-badge-star" aria-hidden="true">✦</span> A LEGACY OF ELEGANCE
+            </span>
+            <h2 className="kundan-showcase-heading">Regal Designs</h2>
+            <p className="kundan-showcase-description">
+              Designed to make every moment more memorable.
+            </p>
+            <div className="kundan-flourish-divider" aria-hidden="true">
+              <span className="kundan-flourish-line" />
+              <span className="kundan-flourish-symbol">✦</span>
+              <span className="kundan-flourish-line" />
+            </div>
+          </div>
+          <div className="kundan-arch-frame kundan-showcase-arch kundan-arch-row2">
+            <img
+              src={kundan2}
+              alt="Regal Royal Peacock and Floral Kundan Pendant adorned with Natural Gemstones"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        {/* Row 3: Image Left, Content Right */}
+        <div className="kundan-showcase-row kundan-row-img-left" data-reveal="up">
+          <div className="kundan-arch-frame kundan-showcase-arch kundan-arch-row3">
+            <img
+              src={kundan3}
+              alt="Antique Crescent Moon Kundan Hasli on Maroon Velvet with Heirloom Memorabilia"
+              loading="lazy"
+            />
+          </div>
+          <div className="kundan-showcase-content">
+            <span className="kundan-badge">
+              <span className="kundan-badge-star" aria-hidden="true">✦</span> TIMELESS APPEAL
+            </span>
+            <h2 className="kundan-showcase-heading">Forever Elegant</h2>
+            <p className="kundan-showcase-description">
+              A perfect blend of tradition and sophistication.
+            </p>
+            <div className="kundan-flourish-divider" aria-hidden="true">
+              <span className="kundan-flourish-line" />
+              <span className="kundan-flourish-symbol">✦</span>
+              <span className="kundan-flourish-line" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CLOSING CTA BUTTON ─── */}
+      <div className="kundan-closing-cta" data-reveal="up">
+        <button
+          type="button"
+          className="kundan-pill-btn kundan-pill-btn-center"
+          onClick={() => scrollToSection('consultation')}
+        >
+          Explore More Pieces <span className="kundan-btn-arrow" aria-hidden="true">→</span>
+        </button>
+        <div className="kundan-flourish-divider kundan-closing-flourish" aria-hidden="true">
+          <span className="kundan-flourish-line" />
+          <span className="kundan-flourish-symbol">✦</span>
+          <span className="kundan-flourish-line" />
+        </div>
+      </div>
+
+      {/* ─── THE CRAFT STORY ─── */}
+      {story && (
+        <section className="collection-story" data-reveal="scale">
+          <div className="collection-story-inner">
+            <p className="eyebrow">THE CRAFT</p>
+            <h2>{story.title}</h2>
+            <p>{story.text}</p>
+          </div>
+        </section>
+      )}
+
+      {/* ─── CONSULTATION SECTION ─── */}
+      <BookConsultation />
+
+      {/* ─── STATEMENT ─── */}
+      <section className="statement" data-reveal="scale">
+        <p>
+          Heritage Jewellery is built as a living archive: every page gives the collection space,
+          movement, and the quiet pace of a luxury editorial.
+        </p>
+      </section>
+    </main>
+  );
+}
+
+/* ─── COLLECTION PAGE DISPATCHER ─── */
+function CollectionPage({ page, onNavigate }) {
   if (!page) return null;
+  if (page.id === 'kundan') {
+    return <KundanCollectionPage page={page} onNavigate={onNavigate} />;
+  }
+
   const story = collectionStories[page.id];
 
   return (
@@ -740,6 +911,8 @@ function CollectionPage({ page }) {
           </div>
         </section>
       )}
+
+      <BookConsultation />
 
       <section className="statement" data-reveal="scale">
         <p>
@@ -871,7 +1044,7 @@ function App() {
         {activePage === 'home' ? (
           <HomePage onNavigate={navigate} />
         ) : (
-          <CollectionPage page={pageMap[activePage]} />
+          <CollectionPage page={pageMap[activePage]} onNavigate={navigate} />
         )}
       </div>
       <MobileBottomNav activePage={activePage} onNavigate={navigate} />
