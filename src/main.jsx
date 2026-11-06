@@ -44,6 +44,11 @@ import temple3 from './assets/temple-3.jpg';
 import temple4 from './assets/temple-4.jpg';
 import temple5 from './assets/temple-5.jpg';
 import lightweightHero from './assets/lightweight-hero.jpg';
+import daily1 from './assets/daily-1.jpg';
+import daily2 from './assets/daily-2.jpg';
+import daily3 from './assets/daily-3.jpg';
+import daily4 from './assets/daily-4.jpg';
+import daily5 from './assets/daily-5.jpg';
 
 const heritageModules = import.meta.glob('./assets/heritage/*.jpeg', {
   eager: true,
@@ -274,6 +279,48 @@ const pages = [
     hero: lightweightHero,
     heroStyle: { objectFit: 'contain', objectPosition: 'center', background: '#010826' },
     heroMediaStyle: { background: '#010826' },
+    editorialShowcase: [
+      {
+        badge: 'DEVOTIONAL GRACE',
+        title: 'Lakshmi Kasu Medallions',
+        text: 'Sacred Kasu pendants embossed with Goddess Lakshmi seated upon a lotus, framed by granulated beadwork and crowned with a cabochon ruby eye, set on vibrant fuchsia velvet.',
+        image: daily1,
+        imageAlt: 'Five antique gold Lakshmi coin pendants with ruby accents on fuchsia velvet',
+        objectPosition: 'center 48%',
+      },
+      {
+        badge: 'TIMELESS TRADITION',
+        title: 'Classic Mangalsutra Chain',
+        text: 'A graceful daily-wear gold chain strung with auspicious black beads and finished with twin micro-textured gold globes, reflecting understated elegance and enduring marital grace.',
+        image: daily2,
+        imageAlt: 'Gold black bead Mangalsutra chain with twin textured gold pendants on deep red velvet',
+        objectPosition: 'center 56%',
+      },
+      {
+        badge: 'ARTISANAL CHARM',
+        title: 'Mayura Diamond Earstuds',
+        text: 'Sculptural peacock tops carved in yellow gold, adorned with brilliant-cut diamonds across the crest and ruby eye accents, presented over textured ivory fabric.',
+        image: daily3,
+        imageAlt: 'Pair of gold peacock earrings with diamonds and ruby accents on textured white fabric',
+        objectPosition: 'center 50%',
+      },
+      {
+        badge: 'HERITAGE ESSENTIALS',
+        title: 'Gundlu Gold Charm Suite',
+        text: 'Traditional South Indian convex gold beads with carved crowns and ruby finials, designed for custom neckpieces, mangalsutra styling, or heirloom talisman clusters.',
+        image: daily4,
+        imageAlt: 'Collection of traditional gold gundlu beads with ruby finials arranged on royal purple velvet',
+        objectPosition: 'center 50%',
+      },
+      {
+        badge: 'DAILY REFINEMENT',
+        title: 'Twisted Rope Gold Chain',
+        text: 'Hand-woven coiled rope chain in radiant 22kt yellow gold with a classic handcrafted S-hook clasp, offering lightweight durability and quiet luxury for everyday wear.',
+        image: daily5,
+        imageAlt: 'Hand-woven twisted rope gold chain with traditional S-clasp on emerald green silk',
+        objectPosition: 'center 53%',
+      },
+    ],
     sections: [
       {
         title: 'BANGLES AND SMALL TREASURES',
