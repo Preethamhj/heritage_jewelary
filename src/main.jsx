@@ -85,6 +85,7 @@ const pages = [
         text: 'Each piece is a celebration of artistry, tradition and timeless elegance, featuring handset uncut gems and delicate meenakari detailing.',
         image: kundan2,
         imageAlt: 'Handcrafted royal Kundan choker with pearls, rubies and emerald on blue silk',
+        objectPosition: 'center 52%',
       },
       {
         badge: 'A LEGACY OF ELEGANCE',
@@ -92,6 +93,7 @@ const pages = [
         text: 'Designed to make every moment more memorable—sculpted jadau frameworks with vibrant ruby-green contrast and timeless grace.',
         image: kundan3,
         imageAlt: 'Imperial peacock Kundan pendant with rubies and emeralds nestled among roses',
+        objectPosition: 'center 50%',
       },
       {
         badge: 'TIMELESS APPEAL',
@@ -99,6 +101,7 @@ const pages = [
         text: 'A perfect blend of tradition and sophistication. Hand-selected stones set within 24-karat gold foil to create heirlooms for generations.',
         image: kundan4,
         imageAlt: 'Crescent moon Kundan ornament on deep maroon velvet with vintage elements',
+        objectPosition: 'center 50%',
       },
       {
         badge: 'ROYAL HEIRLOOM',
@@ -106,6 +109,7 @@ const pages = [
         text: 'Magnificent spherical ruby-studded beads and ornate kundan stud earrings, embodying centuries of imperial Indian aristocracy.',
         image: kundan1,
         imageAlt: 'Royal Kundan ruby bead necklace with matching round stud earrings on crimson velvet',
+        objectPosition: 'center 50%',
       },
     ],
     sections: [
@@ -137,6 +141,7 @@ const pages = [
         text: 'An opulent repoussé medallion celebrating the celestial harmony of Radha and Krishna, framed by peacock flourishes and strung upon sculpted gold motifs.',
         image: temple1,
         imageAlt: 'Handcrafted antique gold Radha-Krishna medallion necklace on deep wine silk',
+        objectPosition: 'center 78%',
       },
       {
         badge: 'ROYAL ARCHITECTURE',
@@ -144,6 +149,7 @@ const pages = [
         text: 'Chevron repoussé patterns crowned by a central ruby cabochon with rhythmic gold bead edging, harmonized with bell-shaped nakashi jhumkas.',
         image: temple2,
         imageAlt: 'Sculpted antique gold chevron choker with ruby cabochon and matching jhumkas on royal blue silk',
+        objectPosition: 'center 56%',
       },
       {
         badge: 'SANCTUM EMBLEM',
@@ -151,6 +157,7 @@ const pages = [
         text: 'Intricately carved deity figures radiating around an emerald core encircled by uncut polki diamonds and auspicious teardrop emerald beads.',
         image: temple3,
         imageAlt: 'Sacred antique gold deity medallion with central emerald, polki diamonds, and hanging beads on royal violet silk',
+        objectPosition: 'center 54%',
       },
       {
         badge: 'DEVOTIONAL ART',
@@ -158,6 +165,7 @@ const pages = [
         text: 'A breathtaking sculptural relief of Goddess Saraswati playing the divine veena, enveloped within an ornate floral prabhavali and dancing peacock aura.',
         image: temple4,
         imageAlt: 'Intricately carved Goddess Saraswati nakashi gold pendant with veena on ivory silk',
+        objectPosition: 'center 55%',
       },
       {
         badge: 'HEIRLOOM TRADITION',
@@ -165,6 +173,7 @@ const pages = [
         text: 'Lord Krishna playing the celestial flute beneath a sacred serpent canopy, surrounded by a dramatic crescent of radiant spherical gold beads.',
         image: temple5,
         imageAlt: 'Antique gold Krishna flute pendant encircled by spherical gold beads on deep charcoal silk',
+        objectPosition: 'center 53%',
       },
     ],
     sections: [
@@ -805,7 +814,12 @@ function CollectionPage({ page }) {
               >
                 <div className="editorial-showcase-media">
                   <div className="editorial-arch-frame">
-                    <img src={item.image} alt={item.imageAlt || item.title} loading="lazy" />
+                    <img
+                      src={item.image}
+                      alt={item.imageAlt || item.title}
+                      style={item.objectPosition ? { objectPosition: item.objectPosition } : undefined}
+                      loading="lazy"
+                    />
                   </div>
                 </div>
                 <div className="editorial-showcase-content">
