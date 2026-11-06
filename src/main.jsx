@@ -43,6 +43,7 @@ import temple2 from './assets/temple-2.jpg';
 import temple3 from './assets/temple-3.jpg';
 import temple4 from './assets/temple-4.jpg';
 import temple5 from './assets/temple-5.jpg';
+import lightweightHero from './assets/lightweight-hero.jpg';
 
 const heritageModules = import.meta.glob('./assets/heritage/*.jpeg', {
   eager: true,
@@ -270,7 +271,9 @@ const pages = [
     title: 'LIGHTWEIGHT & DAILY WEAR JEWELLERY',
     eyebrow: 'EVERYDAY ELEGANCE & PERSONALISATION',
     intro: 'From minimal daily wear to bespoke creations — jewellery that bridges heritage craftsmanship with contemporary lifestyle and personal expression, combining comfort with custom artistry.',
-    hero: images[20],
+    hero: lightweightHero,
+    heroStyle: { objectFit: 'contain', objectPosition: 'center', background: '#010826' },
+    heroMediaStyle: { background: '#010826' },
     sections: [
       {
         title: 'BANGLES AND SMALL TREASURES',
@@ -315,7 +318,7 @@ const categoryTiles = [
   { id: 'kundan', label: 'Kundan', image: kundanHero, subtitle: 'Explore Collection' },
   { id: 'temple', label: 'Temple', image: templeHero, subtitle: 'Explore Collection' },
   { id: 'polki', label: 'Polki', image: polkiHero, style: { objectFit: 'contain', objectPosition: 'center', background: '#0d0c0c' }, subtitle: 'Explore Collection' },
-  { id: 'lightweight-daily wears', label: 'Lightweight / Daily Wears', imageIndex: 20, subtitle: 'Explore Collection' },
+  { id: 'lightweight-daily wears', label: 'Lightweight / Daily Wears', image: lightweightHero, style: { objectFit: 'contain', objectPosition: 'center', background: '#010826' }, subtitle: 'Explore Collection' },
 ];
 
 /* ─── COLLECTION STORYTELLING ─── */
