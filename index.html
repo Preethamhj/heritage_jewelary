@@ -14,6 +14,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <!-- Hidden Google Translate Element -->
+    <div id="google_translate_element" style="display:none; visibility:hidden; position:absolute; top:-9999px;"></div>
+    <script type="text/javascript">
+      window.googleTranslateElementInit = function() {
+        new window.google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'en,kn',
+          autoDisplay: false
+        }, 'google_translate_element');
+      };
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

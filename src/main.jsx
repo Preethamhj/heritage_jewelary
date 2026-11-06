@@ -2,6 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Home, Menu, Moon, Search, Sun, X, ChevronRight, Sparkles, Gem, MessageCircle, Mail, Instagram, Facebook } from 'lucide-react';
 import './styles.css';
+
+// Safeguard against Google Translate DOM modifications causing React reconcile errors
+if (typeof Node === 'function' && Node.prototype) {
+  const originalRemoveChild = Node.prototype.removeChild;
+  Node.prototype.removeChild = function (child) {
+    if (child.parentNode !== this) {
+      return child;
+    }
+    return originalRemoveChild.apply(this, arguments);
+  };
+
+  const originalInsertBefore = Node.prototype.insertBefore;
+  Node.prototype.insertBefore = function (newNode, referenceNode) {
+    if (referenceNode && referenceNode.parentNode !== this) {
+      return newNode;
+    }
+    return originalInsertBefore.apply(this, arguments);
+  };
+}
+
 import logoImage from './assets/heritage-logo.jpg';
 import frontpageImage from './assets/heritage-frontpage.jpg';
 import showcasePendant from './assets/heritage-showcase-pendant.webp';
@@ -223,7 +243,68 @@ function useDarkMode() {
   return [darkMode, setDarkMode];
 }
 
-function Header({ activePage, onNavigate, darkMode, onThemeToggle }) {
+/* ─── GOOGLE TRANSLATOR (KANNADA / ENGLISH) ─── */
+function useLanguageTranslation() {
+  const getInitialLang = () => {
+    if (typeof document !== 'undefined') {
+      const match = document.cookie.match(/googtrans=\/en\/(en|kn)/);
+      if (match && match[1]) return match[1];
+      try {
+        const saved = localStorage.getItem('preferred_lang');
+        if (saved === 'kn' || saved === 'en') return saved;
+      } catch (e) {}
+    }
+    return 'en';
+  };
+
+  const [currentLang, setCurrentLang] = useState(getInitialLang);
+
+  const switchLanguage = (lang) => {
+    if (lang === currentLang) return;
+    setCurrentLang(lang);
+    try {
+      localStorage.setItem('preferred_lang', lang);
+    } catch (e) {}
+
+    // Set standard Google Translate cookie
+    const cookieVal = `/en/${lang}`;
+    const hostname = window.location.hostname;
+    document.cookie = `googtrans=${cookieVal}; path=/;`;
+    document.cookie = `googtrans=${cookieVal}; path=/; domain=${hostname};`;
+    if (hostname.includes('.')) {
+      const parts = hostname.split('.');
+      if (parts.length >= 2) {
+        const rootDomain = parts.slice(-2).join('.');
+        document.cookie = `googtrans=${cookieVal}; path=/; domain=.${rootDomain};`;
+      }
+    }
+
+    if (lang === 'en') {
+      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${hostname};`;
+    }
+
+    // Trigger translation via Google Translate combo box
+    const select = document.querySelector('.goog-te-combo');
+    if (select) {
+      const hasEn = Array.from(select.options).some((o) => o.value === 'en');
+      select.value = lang === 'kn' ? 'kn' : (hasEn ? 'en' : '');
+      select.dispatchEvent(new Event('change'));
+
+      if (lang === 'en') {
+        setTimeout(() => {
+          window.location.reload();
+        }, 120);
+      }
+    } else {
+      window.location.reload();
+    }
+  };
+
+  return [currentLang, switchLanguage];
+}
+
+function Header({ activePage, onNavigate, darkMode, onThemeToggle, currentLang, onLanguageChange }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -262,6 +343,29 @@ function Header({ activePage, onNavigate, darkMode, onThemeToggle }) {
         ))}
       </nav>
       <div className="header-actions">
+        {/* Language translation buttons (English & Kannada via Google Translator) */}
+        <div className="lang-switcher" role="group" aria-label="Language translation">
+          <button
+            type="button"
+            className={`lang-btn ${currentLang === 'en' ? 'is-active' : ''}`}
+            onClick={() => onLanguageChange('en')}
+            aria-label="Translate to English"
+            title="English"
+          >
+            English
+          </button>
+          <span className="lang-sep" aria-hidden="true">|</span>
+          <button
+            type="button"
+            className={`lang-btn ${currentLang === 'kn' ? 'is-active' : ''}`}
+            onClick={() => onLanguageChange('kn')}
+            aria-label="Translate to Kannada"
+            title="ಕನ್ನಡ (Kannada)"
+          >
+            ಕನ್ನಡ
+          </button>
+        </div>
+
         <button className="icon-button" onClick={onThemeToggle} aria-label="Toggle evening mode">
           {darkMode ? <Sun size={22} /> : <Moon size={22} />}
         </button>
@@ -282,6 +386,29 @@ function Header({ activePage, onNavigate, darkMode, onThemeToggle }) {
             {item.label}
           </button>
         ))}
+
+        <div className="drawer-lang-switcher">
+          <span className="drawer-lang-label">LANGUAGE:</span>
+          <div className="lang-switcher" role="group" aria-label="Language selection">
+            <button
+              type="button"
+              className={`lang-btn ${currentLang === 'en' ? 'is-active' : ''}`}
+              onClick={() => { onLanguageChange('en'); setOpen(false); }}
+              title="English"
+            >
+              English
+            </button>
+            <span className="lang-sep" aria-hidden="true">|</span>
+            <button
+              type="button"
+              className={`lang-btn ${currentLang === 'kn' ? 'is-active' : ''}`}
+              onClick={() => { onLanguageChange('kn'); setOpen(false); }}
+              title="ಕನ್ನಡ (Kannada)"
+            >
+              ಕನ್ನಡ
+            </button>
+          </div>
+        </div>
       </div>
     </header>
   );
@@ -696,6 +823,7 @@ function App() {
   const [activePage, setActivePage] = useState(resolvePageId(initialHash));
   const [transitionKey, setTransitionKey] = useState(0);
   const [darkMode, setDarkMode] = useDarkMode();
+  const [currentLang, switchLanguage] = useLanguageTranslation();
   useScrollReveal(transitionKey);
 
   const navigate = (pageId) => {
@@ -731,7 +859,14 @@ function App() {
       <ProgressBar />
       <CustomCursor />
       <MovingLogoBackground />
-      <Header activePage={activePage} onNavigate={navigate} darkMode={darkMode} onThemeToggle={() => setDarkMode((value) => !value)} />
+      <Header
+        activePage={activePage}
+        onNavigate={navigate}
+        darkMode={darkMode}
+        onThemeToggle={() => setDarkMode((value) => !value)}
+        currentLang={currentLang}
+        onLanguageChange={switchLanguage}
+      />
       <div className="page-transition" key={transitionKey}>
         {activePage === 'home' ? (
           <HomePage onNavigate={navigate} />
