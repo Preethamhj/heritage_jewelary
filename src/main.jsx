@@ -49,6 +49,7 @@ import daily2 from './assets/daily-2.jpg';
 import daily3 from './assets/daily-3.jpg';
 import daily4 from './assets/daily-4.jpg';
 import daily5 from './assets/daily-5.jpg';
+import daily6 from './assets/daily-6.jpg';
 
 const heritageModules = import.meta.glob('./assets/heritage/*.jpeg', {
   eager: true,
@@ -306,7 +307,7 @@ const pages = [
       },
       {
         badge: 'HERITAGE ESSENTIALS',
-        title: 'Gundlu Gold Charm Suite',
+        title: 'Gundlu Gold Mangalya',
         text: 'Traditional South Indian convex gold beads with carved crowns and ruby finials, designed for custom neckpieces, mangalsutra styling, or heirloom talisman clusters.',
         image: daily4,
         imageAlt: 'Collection of traditional gold gundlu beads with ruby finials arranged on royal purple velvet',
@@ -319,6 +320,14 @@ const pages = [
         image: daily5,
         imageAlt: 'Hand-woven twisted rope gold chain with traditional S-clasp on emerald green silk',
         objectPosition: 'center 53%',
+      },
+      {
+        badge: 'SOLAR SPLENDOUR',
+        title: 'Suryakanti Diamond Studs',
+        text: 'Radiant solar starburst motifs crafted in textured gold rays with delicate satellite beads, centering brilliant solitaire stones that catch the light with quiet daily brilliance.',
+        image: daily6,
+        imageAlt: 'Pair of gold solar starburst diamond stud earrings on black textured silk',
+        objectPosition: 'center 50%',
       },
     ],
     sections: [
