@@ -30,6 +30,7 @@ import kundan1 from './assets/kundan-1.jpg';
 import kundan2 from './assets/kundan-2.jpg';
 import kundan3 from './assets/kundan-3.jpg';
 import kundan4 from './assets/kundan-4.jpg';
+import templeHero from './assets/temple-hero.jpg';
 
 const heritageModules = import.meta.glob('./assets/heritage/*.jpeg', {
   eager: true,
@@ -123,7 +124,7 @@ const pages = [
     title: 'NAKASHI / TEMPLE JEWELLERY',
     eyebrow: 'SOUTH INDIAN HERITAGE',
     intro: 'Sacred motifs sculpted in antique gold — Lakshmi forms, peacock silhouettes, and intricate nakashi relief work honouring centuries of South Indian temple artistry and devotional craftsmanship.',
-    hero: images[9],
+    hero: templeHero,
     sections: [
       {
         title: 'LAKSHMI AND PEACOCK MOTIFS',
@@ -210,7 +211,7 @@ const legacyRedirects = {
 /* ─── CATEGORY TILES DATA (4 tiles) ─── */
 const categoryTiles = [
   { id: 'kundan', label: 'Kundan', imageIndex: 0, subtitle: 'Explore Collection' },
-  { id: 'temple', label: 'Temple', imageIndex: 9, subtitle: 'Explore Collection' },
+  { id: 'temple', label: 'Temple', image: templeHero, subtitle: 'Explore Collection' },
   { id: 'polki', label: 'Polki', imageIndex: 6, subtitle: 'Explore Collection' },
   { id: 'lightweight-daily wears', label: 'Lightweight / Daily Wears', imageIndex: 20, subtitle: 'Explore Collection' },
 ];
@@ -870,7 +871,7 @@ function HomePage({ onNavigate }) {
         <section className="category-tiles" data-reveal="up">
           {categoryTiles.map((tile) => (
             <button className="category-tile product-card" onClick={() => onNavigate(tile.id)} key={tile.id}>
-              <img src={images[tile.imageIndex]} alt={`${tile.label} collection`} loading="lazy" />
+              <img src={tile.image || images[tile.imageIndex]} alt={`${tile.label} collection`} loading="lazy" />
               <span>{tile.label}</span>
               <small>{tile.subtitle}</small>
             </button>
