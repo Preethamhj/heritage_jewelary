@@ -200,6 +200,8 @@ const pages = [
     eyebrow: 'NATURAL STONE CHARACTER',
     intro: 'The raw beauty of uncut diamonds set in traditional frameworks — Polki jewellery celebrates the natural character of each stone, creating pieces of ceremonial elegance and timeless distinction.',
     hero: polkiHero,
+    heroStyle: { objectFit: 'contain', objectPosition: 'center', background: '#0d0c0c' },
+    heroMediaStyle: { background: '#0d0c0c' },
     sections: [
       {
         title: 'POLKI CEREMONIAL NECKLACES',
@@ -265,7 +267,7 @@ const legacyRedirects = {
 const categoryTiles = [
   { id: 'kundan', label: 'Kundan', image: kundanHero, subtitle: 'Explore Collection' },
   { id: 'temple', label: 'Temple', image: templeHero, subtitle: 'Explore Collection' },
-  { id: 'polki', label: 'Polki', image: polkiHero, subtitle: 'Explore Collection' },
+  { id: 'polki', label: 'Polki', image: polkiHero, style: { objectFit: 'contain', objectPosition: 'center', background: '#0d0c0c' }, subtitle: 'Explore Collection' },
   { id: 'lightweight-daily wears', label: 'Lightweight / Daily Wears', imageIndex: 20, subtitle: 'Explore Collection' },
 ];
 
@@ -793,8 +795,8 @@ function CollectionPage({ page }) {
     <main className="page-shell" id="top" key={page.id}>
       {/* Main heading section with its primary image */}
       <section className="page-hero">
-        <div className="page-hero-media">
-          <img src={page.hero} alt={page.title} />
+        <div className="page-hero-media" style={page.heroMediaStyle}>
+          <img src={page.hero} alt={page.title} style={page.heroStyle} />
         </div>
         <div className="page-hero-copy" data-reveal="up">
           <p className="category">{page.eyebrow}</p>
@@ -929,7 +931,12 @@ function HomePage({ onNavigate }) {
         <section className="category-tiles" data-reveal="up">
           {categoryTiles.map((tile) => (
             <button className="category-tile product-card" onClick={() => onNavigate(tile.id)} key={tile.id}>
-              <img src={tile.image || images[tile.imageIndex]} alt={`${tile.label} collection`} loading="lazy" />
+              <img
+                src={tile.image || images[tile.imageIndex]}
+                alt={`${tile.label} collection`}
+                style={tile.style}
+                loading="lazy"
+              />
               <span>{tile.label}</span>
               <small>{tile.subtitle}</small>
             </button>
