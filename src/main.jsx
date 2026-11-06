@@ -31,6 +31,11 @@ import kundan2 from './assets/kundan-2.jpg';
 import kundan3 from './assets/kundan-3.jpg';
 import kundan4 from './assets/kundan-4.jpg';
 import templeHero from './assets/temple-hero.jpg';
+import temple1 from './assets/temple-1.jpg';
+import temple2 from './assets/temple-2.jpg';
+import temple3 from './assets/temple-3.jpg';
+import temple4 from './assets/temple-4.jpg';
+import temple5 from './assets/temple-5.jpg';
 
 const heritageModules = import.meta.glob('./assets/heritage/*.jpeg', {
   eager: true,
@@ -125,6 +130,43 @@ const pages = [
     eyebrow: 'SOUTH INDIAN HERITAGE',
     intro: 'Sacred motifs sculpted in antique gold — Lakshmi forms, peacock silhouettes, and intricate nakashi relief work honouring centuries of South Indian temple artistry and devotional craftsmanship.',
     hero: templeHero,
+    editorialShowcase: [
+      {
+        badge: 'SACRED CRAFTSMANSHIP',
+        title: 'Divine Union',
+        text: 'An opulent repoussé medallion celebrating the celestial harmony of Radha and Krishna, framed by peacock flourishes and strung upon sculpted gold motifs.',
+        image: temple1,
+        imageAlt: 'Handcrafted antique gold Radha-Krishna medallion necklace on deep wine silk',
+      },
+      {
+        badge: 'ROYAL ARCHITECTURE',
+        title: 'Regal Choker & Jhumkas',
+        text: 'Chevron repoussé patterns crowned by a central ruby cabochon with rhythmic gold bead edging, harmonized with bell-shaped nakashi jhumkas.',
+        image: temple2,
+        imageAlt: 'Sculpted antique gold chevron choker with ruby cabochon and matching jhumkas on royal blue silk',
+      },
+      {
+        badge: 'SANCTUM EMBLEM',
+        title: 'Celestial Medallion',
+        text: 'Intricately carved deity figures radiating around an emerald core encircled by uncut polki diamonds and auspicious teardrop emerald beads.',
+        image: temple3,
+        imageAlt: 'Sacred antique gold deity medallion with central emerald, polki diamonds, and hanging beads on royal violet silk',
+      },
+      {
+        badge: 'DEVOTIONAL ART',
+        title: 'Goddess of Harmony',
+        text: 'A breathtaking sculptural relief of Goddess Saraswati playing the divine veena, enveloped within an ornate floral prabhavali and dancing peacock aura.',
+        image: temple4,
+        imageAlt: 'Intricately carved Goddess Saraswati nakashi gold pendant with veena on ivory silk',
+      },
+      {
+        badge: 'HEIRLOOM TRADITION',
+        title: 'Lord of Melody',
+        text: 'Lord Krishna playing the celestial flute beneath a sacred serpent canopy, surrounded by a dramatic crescent of radiant spherical gold beads.',
+        image: temple5,
+        imageAlt: 'Antique gold Krishna flute pendant encircled by spherical gold beads on deep charcoal silk',
+      },
+    ],
     sections: [
       {
         title: 'LAKSHMI AND PEACOCK MOTIFS',
