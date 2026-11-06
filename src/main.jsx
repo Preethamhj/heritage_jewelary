@@ -154,7 +154,7 @@ const pages = [
       },
       {
         badge: 'SANCTUM EMBLEM',
-        title: 'Celestial Medallion',
+        title: 'Ideaology of Iconography',
         text: 'Intricately carved deity figures radiating around an emerald core encircled by uncut polki diamonds and auspicious teardrop emerald beads.',
         image: temple3,
         imageAlt: 'Sacred antique gold deity medallion with central emerald, polki diamonds, and hanging beads on royal violet silk',
