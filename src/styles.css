@@ -1716,36 +1716,52 @@ h1 {
   .site-header {
     min-height: 74px;
     padding: 0 16px;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    position: sticky;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
   }
 
   .menu-toggle {
     display: none !important;
   }
 
+  /* Center the logo in the middle of the mobile nav bar */
   .brand {
-    grid-column: 2;
-    justify-self: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     margin: 0;
+    min-width: 0;
+    justify-content: center;
+    z-index: 2;
   }
 
-  .header-actions {
-    grid-column: 3;
-    justify-self: end;
-    gap: 4px;
-  }
-
+  /* Position translator button to the left of the mobile nav bar */
   .lang-switcher {
-    padding: 2px 4px;
-    margin-right: 2px;
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 3px 6px;
+    gap: 2px;
+    z-index: 2;
   }
 
   .lang-btn {
-    padding: 3px 6px;
-    font-size: 10px;
+    padding: 3px 7px;
+    font-size: 10.5px;
     letter-spacing: 0.04em;
+  }
+
+  /* Action buttons on the right of the mobile nav bar */
+  .header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
   }
 
   .brand-name {
