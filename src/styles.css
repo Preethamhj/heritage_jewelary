@@ -1740,19 +1740,31 @@ h1 {
   /* Position translator button to the left of the mobile nav bar */
   .lang-switcher {
     position: absolute;
-    left: 16px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     margin: 0;
-    padding: 3px 6px;
-    gap: 2px;
+    padding: 2px 3px;
+    gap: 1px;
     z-index: 2;
+    border-radius: 999px;
+    background: rgba(247, 239, 216, 0.85);
+  }
+
+  :root[data-theme="dark"] .lang-switcher {
+    background: rgba(26, 20, 16, 0.85);
   }
 
   .lang-btn {
-    padding: 3px 7px;
-    font-size: 10.5px;
-    letter-spacing: 0.04em;
+    padding: 2.5px 6px;
+    font-size: 9.5px;
+    letter-spacing: 0.03em;
+    line-height: 1.15;
+  }
+
+  .lang-sep {
+    font-size: 8.5px;
+    opacity: 0.5;
   }
 
   /* Action buttons on the right of the mobile nav bar */
