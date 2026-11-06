@@ -200,8 +200,8 @@ const pages = [
   },
   {
     id: 'polki',
-    label: 'POLKI',
-    title: 'UNCUT DIAMOND / POLKI JEWELLERY',
+    label: 'POLKI & GEMS STONE',
+    title: 'POLKI JEWELLERY',
     eyebrow: 'NATURAL STONE CHARACTER',
     intro: 'The raw beauty of uncut diamonds set in traditional frameworks — Polki jewellery celebrates the natural character of each stone, creating pieces of ceremonial elegance and timeless distinction.',
     hero: polkiHero,
