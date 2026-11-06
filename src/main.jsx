@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Home, Menu, Moon, Search, Sun, X, ChevronRight, ChevronLeft, Sparkles, Gem, MessageCircle, Mail, Instagram, Facebook } from 'lucide-react';
+import { Home, Menu, Moon, Search, Sun, X, ChevronRight, Sparkles, Gem, MessageCircle, Mail, Instagram, Facebook } from 'lucide-react';
 import './styles.css';
 
 // Safeguard against Google Translate DOM modifications causing React reconcile errors
@@ -913,31 +913,12 @@ function BookConsultation() {
 }
 
 /* ─── COLLECTION PAGE ─── */
-function CollectionPage({ page, onNavigate }) {
+function CollectionPage({ page }) {
   if (!page) return null;
   const story = collectionStories[page.id];
 
   return (
     <main className="page-shell" id="top" key={page.id}>
-      {/* Mobile-friendly Back Button to return directly to the Category Menu on Home */}
-      <div className="collection-back-header">
-        <button
-          className="btn-back-categories"
-          onClick={() => onNavigate('home', { returnToCategory: page.id })}
-          aria-label={`Back to ${page.label} in Categories`}
-        >
-          <ChevronLeft size={16} />
-          <span>Back to Categories</span>
-        </button>
-        <div className="collection-breadcrumb-trail">
-          <button onClick={() => onNavigate('home')} className="crumb-link">Home</button>
-          <span className="crumb-sep">/</span>
-          <button onClick={() => onNavigate('home', { returnToCategory: page.id })} className="crumb-link">Categories</button>
-          <span className="crumb-sep">/</span>
-          <span className="crumb-active">{page.label}</span>
-        </div>
-      </div>
-
       {/* Main heading section with its primary image */}
       <section className="page-hero">
         <div className="page-hero-media" style={page.heroMediaStyle}>
@@ -989,32 +970,6 @@ function CollectionPage({ page, onNavigate }) {
                 </div>
               );
             })}
-
-            <div className="editorial-bottom-cta" data-reveal="up" style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <button
-                className="btn-pill-editorial"
-                onClick={() => onNavigate('home', { returnToCategory: page.id })}
-              >
-                <ChevronLeft size={16} style={{ marginRight: '6px' }} /> Back to Categories
-              </button>
-              <button
-                className="btn-pill-editorial"
-                onClick={() => {
-                  const el = document.getElementById('consultation');
-                  if (el) {
-                    el.scrollIntoView({ behavior: 'smooth' });
-                  } else {
-                    onNavigate('home');
-                    setTimeout(() => {
-                      const c = document.getElementById('consultation');
-                      if (c) c.scrollIntoView({ behavior: 'smooth' });
-                    }, 150);
-                  }
-                }}
-              >
-                Book Consultation <span className="arrow-icon">→</span>
-              </button>
-            </div>
           </div>
         </section>
       )}
