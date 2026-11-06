@@ -30,6 +30,7 @@ import kundan1 from './assets/kundan-1.jpg';
 import kundan2 from './assets/kundan-2.jpg';
 import kundan3 from './assets/kundan-3.jpg';
 import kundan4 from './assets/kundan-4.jpg';
+import kundanHero from './assets/kundan-hero.jpg';
 import templeHero from './assets/temple-hero.jpg';
 import temple1 from './assets/temple-1.jpg';
 import temple2 from './assets/temple-2.jpg';
@@ -77,7 +78,7 @@ const pages = [
     title: 'KUNDAN JEWELLERY',
     eyebrow: 'TRADITIONAL CRAFTSMANSHIP',
     intro: 'Its  a classic design and meticulous detailing make it more than details of legacy— it becomes a statement of Heritage and everlasting allure.',
-    hero: images[0],
+    hero: kundanHero,
     editorialShowcase: [
       {
         badge: 'PURE CRAFTSMANSHIP',
@@ -261,7 +262,7 @@ const legacyRedirects = {
 
 /* ─── CATEGORY TILES DATA (4 tiles) ─── */
 const categoryTiles = [
-  { id: 'kundan', label: 'Kundan', imageIndex: 0, subtitle: 'Explore Collection' },
+  { id: 'kundan', label: 'Kundan', image: kundanHero, subtitle: 'Explore Collection' },
   { id: 'temple', label: 'Temple', image: templeHero, subtitle: 'Explore Collection' },
   { id: 'polki', label: 'Polki', imageIndex: 6, subtitle: 'Explore Collection' },
   { id: 'lightweight-daily wears', label: 'Lightweight / Daily Wears', imageIndex: 20, subtitle: 'Explore Collection' },
