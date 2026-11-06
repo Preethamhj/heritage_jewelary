@@ -31,6 +31,7 @@ import kundan2 from './assets/kundan-2.jpg';
 import kundan3 from './assets/kundan-3.jpg';
 import kundan4 from './assets/kundan-4.jpg';
 import kundanHero from './assets/kundan-hero.jpg';
+import polkiHero from './assets/polki-hero.jpg';
 import templeHero from './assets/temple-hero.jpg';
 import temple1 from './assets/temple-1.jpg';
 import temple2 from './assets/temple-2.jpg';
@@ -198,7 +199,7 @@ const pages = [
     title: 'UNCUT DIAMOND / POLKI JEWELLERY',
     eyebrow: 'NATURAL STONE CHARACTER',
     intro: 'The raw beauty of uncut diamonds set in traditional frameworks — Polki jewellery celebrates the natural character of each stone, creating pieces of ceremonial elegance and timeless distinction.',
-    hero: images[6],
+    hero: polkiHero,
     sections: [
       {
         title: 'POLKI CEREMONIAL NECKLACES',
@@ -264,7 +265,7 @@ const legacyRedirects = {
 const categoryTiles = [
   { id: 'kundan', label: 'Kundan', image: kundanHero, subtitle: 'Explore Collection' },
   { id: 'temple', label: 'Temple', image: templeHero, subtitle: 'Explore Collection' },
-  { id: 'polki', label: 'Polki', imageIndex: 6, subtitle: 'Explore Collection' },
+  { id: 'polki', label: 'Polki', image: polkiHero, subtitle: 'Explore Collection' },
   { id: 'lightweight-daily wears', label: 'Lightweight / Daily Wears', imageIndex: 20, subtitle: 'Explore Collection' },
 ];
 
