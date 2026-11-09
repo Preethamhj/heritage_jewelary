@@ -1307,6 +1307,293 @@ function SearchModal({ isOpen, onClose, onNavigate }) {
   );
 }
 
+/* ─── GOLD GLITTER & SPARKLE SHOWER CANVAS ─── */
+function GoldGlitterRain({ active, durationMs = 5600, onComplete }) {
+  const canvasRef = React.useRef(null);
+
+  useEffect(() => {
+    if (!active) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    const updateSize = () => {
+      if (!canvas) return;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.scale(dpr, dpr);
+    };
+    updateSize();
+
+    const handleResize = () => {
+      if (!canvas) return;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+    };
+    window.addEventListener('resize', handleResize);
+
+    const startTime = performance.now();
+    let isSpawning = true;
+
+    // Palette of regal golds, champagne, bright diamonds, and jewel flecks
+    const palette = [
+      '#FFD700', // Imperial Gold
+      '#FFE57F', // Light Radiant Gold
+      '#D4AF37', // Antique Gold Leaf
+      '#FBF5B7', // Champagne Sparkle
+      '#FFF9E6', // Diamond White Glimmer
+      '#C59B27', // Deep Yellow Gold
+      '#E53935', // Ruby Micro Gem
+      '#00897B', // Emerald Micro Gem
+    ];
+
+    const particles = [];
+    const isMobile = window.innerWidth < 768;
+    const maxParticles = isMobile ? 110 : 200;
+
+    function createParticle(spawnAbove = true) {
+      const typeRand = Math.random();
+      const type = typeRand < 0.45 ? 'leaf' : typeRand < 0.78 ? 'star' : 'dust';
+      const color = palette[Math.floor(Math.random() * palette.length)];
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      return {
+        x: Math.random() * w,
+        y: spawnAbove ? -15 - Math.random() * 45 : Math.random() * (h * 0.5),
+        vx: (Math.random() - 0.5) * 1.6,
+        vy: 2.0 + Math.random() * 2.8,
+        size: type === 'leaf' ? 6 + Math.random() * 8 : type === 'star' ? 4 + Math.random() * 8 : 2.5 + Math.random() * 3,
+        rot: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.07,
+        pitch: Math.random() * Math.PI * 2,
+        pitchSpeed: 0.03 + Math.random() * 0.06,
+        opacity: 0.85 + Math.random() * 0.15,
+        swayPhase: Math.random() * Math.PI * 2,
+        swaySpeed: 0.025 + Math.random() * 0.035,
+        swayDist: 1.5 + Math.random() * 2.6,
+        type,
+        color,
+      };
+    }
+
+    // Initial burst on door opening
+    const initialCount = Math.floor(maxParticles * 0.5);
+    for (let i = 0; i < initialCount; i++) {
+      particles.push(createParticle(true));
+    }
+
+    const render = (now) => {
+      const elapsed = now - startTime;
+      if (elapsed >= durationMs) {
+        isSpawning = false;
+      }
+
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      // Continuously spawn fresh falling flakes during active duration
+      if (isSpawning && particles.length < maxParticles) {
+        const toAdd = isMobile ? 2 : 4;
+        for (let i = 0; i < toAdd; i++) {
+          particles.push(createParticle(true));
+        }
+      }
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.swayPhase += p.swaySpeed;
+        p.x += p.vx + Math.sin(p.swayPhase) * p.swayDist;
+        p.y += p.vy;
+        p.rot += p.rotSpeed;
+        p.pitch += p.pitchSpeed;
+
+        if (!isSpawning) {
+          p.opacity -= 0.016; // Smooth fade-out after duration ends
+        }
+
+        if (p.y > h + 30 || p.opacity <= 0) {
+          if (isSpawning) {
+            particles[i] = createParticle(true);
+          } else {
+            particles.splice(i, 1);
+          }
+          continue;
+        }
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = Math.max(0, p.opacity);
+
+        if (p.type === 'leaf') {
+          // Fluttering 3D Gold Leaf Flake
+          const scaleY = Math.cos(p.pitch);
+          ctx.scale(1, scaleY);
+          ctx.fillStyle = p.color;
+          ctx.shadowColor = 'rgba(212, 175, 55, 0.45)';
+          ctx.shadowBlur = 4;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.75);
+        } else if (p.type === 'star') {
+          // 4-point Diamond Star Sparkle
+          const s = p.size;
+          ctx.fillStyle = p.color;
+          ctx.shadowColor = 'rgba(255, 235, 120, 0.7)';
+          ctx.shadowBlur = 6;
+          ctx.beginPath();
+          ctx.moveTo(0, -s);
+          ctx.quadraticCurveTo(0, 0, s, 0);
+          ctx.quadraticCurveTo(0, 0, 0, s);
+          ctx.quadraticCurveTo(0, 0, -s, 0);
+          ctx.quadraticCurveTo(0, 0, 0, -s);
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          // Glimmering Gold Dust Particle
+          ctx.fillStyle = p.color;
+          ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
+          ctx.shadowBlur = 5;
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      if (particles.length > 0 || isSpawning) {
+        animId = requestAnimationFrame(render);
+      } else {
+        if (onComplete) onComplete();
+      }
+    };
+
+    animId = requestAnimationFrame(render);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [active, durationMs, onComplete]);
+
+  if (!active) return null;
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="gold-glitter-canvas"
+      aria-hidden="true"
+    />
+  );
+}
+
+/* ─── ROYAL ENTRANCE VAULT OPENING ─── */
+function RoyalEntrance({ onOpened }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isRendered, setIsRendered] = useState(true);
+
+  const handleOpen = () => {
+    if (isOpen) return;
+    setIsOpen(true);
+    if (navigator.vibrate) {
+      try { navigator.vibrate(35); } catch (_) {}
+    }
+    if (onOpened) onOpened();
+
+    // Remove from DOM once doors have fully glided out
+    setTimeout(() => {
+      setIsRendered(false);
+    }, 1450);
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  if (!isRendered) return null;
+
+  return (
+    <div
+      className={`royal-vault-overlay ${isOpen ? 'is-open' : ''}`}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Welcome to Heritage Jewellery"
+    >
+      {/* Left Royal Door */}
+      <div className="royal-gate-panel royal-gate-left" aria-hidden="true">
+        <div className="gate-filigree-overlay" />
+        <div className="gate-edge-spine" />
+        <div className="gate-corner gate-corner-tl" />
+        <div className="gate-corner gate-corner-bl" />
+      </div>
+
+      {/* Right Royal Door */}
+      <div className="royal-gate-panel royal-gate-right" aria-hidden="true">
+        <div className="gate-filigree-overlay" />
+        <div className="gate-edge-spine" />
+        <div className="gate-corner gate-corner-tr" />
+        <div className="gate-corner gate-corner-br" />
+      </div>
+
+      {/* Central Royal Medallion with Heritage Jewellery Logo & Click Me Indicator */}
+      <div
+        className="royal-vault-center"
+        onClick={handleOpen}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleOpen();
+          }
+        }}
+        tabIndex={0}
+        role="button"
+        aria-label="Click to unveil Heritage Jewellery website"
+      >
+        {/* Pulsating Golden Aura Rings */}
+        <div className="vault-aura-ring vault-aura-1" aria-hidden="true" />
+        <div className="vault-aura-ring vault-aura-2" aria-hidden="true" />
+
+        {/* Central Royal Medallion Disc */}
+        <div className="vault-medallion-disc">
+          {/* Gandaberunda Heritage Jewellery Logo */}
+          <div className="vault-logo-frame">
+            <img
+              src={logoImage}
+              alt="Heritage Jewellery logo"
+              className="vault-logo-img"
+              loading="eager"
+            />
+          </div>
+
+          <p className="vault-motto-kannada">ಪರಂಪರೆ ಮುಂದುವರೆಯಬೇಕು, ಮರೆಯಾಗಬಾರದು.</p>
+          <p className="vault-motto-english">Heirloom Elegance Since Generations</p>
+        </div>
+
+        {/* Click Me Indicator */}
+        <div className="vault-click-indicator">
+          <span className="vault-indicator-sparkle" aria-hidden="true">✦</span>
+          <span className="vault-indicator-text">CLICK TO UNVEIL</span>
+          <span className="vault-indicator-sparkle" aria-hidden="true">✦</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── APP ─── */
 function App() {
   const validIds = ['home', ...pages.map((p) => p.id)];
@@ -1324,6 +1611,7 @@ function App() {
   const [darkMode, setDarkMode] = useDarkMode();
   const [currentLang, switchLanguage] = useLanguageTranslation();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [showGlitter, setShowGlitter] = useState(false);
   const lastCategoryRef = React.useRef(null);
   const shouldScrollToCategoryRef = React.useRef(false);
 
@@ -1393,6 +1681,16 @@ function App() {
 
   return (
     <>
+      {/* Grand Royal Vault Entrance Overlay */}
+      <RoyalEntrance onOpened={() => setShowGlitter(true)} />
+
+      {/* Gold & Glitter Shower falling for 5-6 seconds upon opening */}
+      <GoldGlitterRain
+        active={showGlitter}
+        durationMs={5600}
+        onComplete={() => setShowGlitter(false)}
+      />
+
       <ProgressBar />
       <CustomCursor />
       <MovingLogoBackground />
