@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Home, Menu, Moon, Search, Sun, X, ChevronRight, Sparkles, Gem, MessageCircle, Mail, Instagram, Facebook } from 'lucide-react';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import './styles.css';
 
 // Safeguard against Google Translate DOM modifications causing React reconcile errors
@@ -421,6 +423,51 @@ function useScrollReveal(key) {
 
     return () => observer.disconnect();
   }, [key]);
+}
+
+/* ─── LUXURY MEDIUM-SLOW SMOOTH SCROLL (LENIS) ─── */
+function useSmoothScroll() {
+  const lenisRef = React.useRef(null);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined;
+    }
+
+    const lenis = new Lenis({
+      duration: 2.0, // Medium-slow, luxurious 2s glide duration
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 0.6, // Slower scroll speed: reduces wheel travel by 40%
+      touchMultiplier: 0.75, // Slower touch swipe travel
+      syncTouch: true,
+      syncTouchLerp: 0.05, // Soft, medium-slow touch deceleration
+      autoRaf: true,
+    });
+
+    lenisRef.current = lenis;
+    window.__lenis = lenis;
+
+    return () => {
+      lenis.destroy();
+      lenisRef.current = null;
+      window.__lenis = null;
+    };
+  }, []);
+
+  return lenisRef;
+}
+
+function smoothScrollTo(target, options = {}) {
+  if (window.__lenis) {
+    window.__lenis.scrollTo(target, { duration: 1.8, ...options });
+  } else if (typeof target === 'number') {
+    window.scrollTo({ top: target, behavior: options.immediate ? 'auto' : 'smooth' });
+  } else if (target && target.scrollIntoView) {
+    target.scrollIntoView({ behavior: options.immediate ? 'auto' : 'smooth', block: options.block || 'start' });
+  }
 }
 
 function useDarkMode() {
@@ -1086,11 +1133,14 @@ function SearchModal({ isOpen, onClose, onNavigate }) {
       setQuery('');
       setTimeout(() => inputRef.current?.focus(), 80);
       document.body.style.overflow = 'hidden';
+      if (window.__lenis) window.__lenis.stop();
     } else {
       document.body.style.overflow = '';
+      if (window.__lenis) window.__lenis.start();
     }
     return () => {
       document.body.style.overflow = '';
+      if (window.__lenis) window.__lenis.start();
     };
   }, [isOpen]);
 
@@ -1191,7 +1241,7 @@ function SearchModal({ isOpen, onClose, onNavigate }) {
     if (item.anchor) {
       setTimeout(() => {
         const el = document.getElementById(item.anchor);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (el) smoothScrollTo(el, { offset: -90, duration: 1.8 });
       }, 150);
     }
   };
@@ -1516,11 +1566,14 @@ function RoyalEntrance({ onOpened }) {
   useEffect(() => {
     if (!isOpen) {
       document.body.style.overflow = 'hidden';
+      if (window.__lenis) window.__lenis.stop();
     } else {
       document.body.style.overflow = '';
+      if (window.__lenis) window.__lenis.start();
     }
     return () => {
       document.body.style.overflow = '';
+      if (window.__lenis) window.__lenis.start();
     };
   }, [isOpen]);
 
@@ -1615,6 +1668,7 @@ function App() {
   const lastCategoryRef = React.useRef(null);
   const shouldScrollToCategoryRef = React.useRef(false);
 
+  useSmoothScroll();
   useScrollReveal(transitionKey);
 
   const navigate = (pageId, options = {}) => {
@@ -1636,7 +1690,7 @@ function App() {
       if (resolved === 'home' && shouldScrollToCategoryRef.current) {
         const catId = shouldScrollToCategoryRef.current;
         const target = document.getElementById(`category-tile-${catId}`) || document.getElementById('categories');
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (target) smoothScrollTo(target, { offset: -90, duration: 1.8 });
       }
       return;
     }
@@ -1652,11 +1706,15 @@ function App() {
       setTimeout(() => {
         const target = document.getElementById(`category-tile-${catId}`) || document.getElementById('categories');
         if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          smoothScrollTo(target, { offset: -90, duration: 1.8 });
         }
       }, 100);
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.__lenis) {
+        window.__lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   }, [activePage]);
 
@@ -1791,23 +1849,38 @@ function MobileBottomNav({ activePage, onNavigate }) {
 function Footer({ onNavigate }) {
   const [modalContent, setModalContent] = useState(null);
 
+  useEffect(() => {
+    if (modalContent) {
+      if (window.__lenis) window.__lenis.stop();
+    } else {
+      if (window.__lenis) window.__lenis.start();
+    }
+    return () => {
+      if (window.__lenis) window.__lenis.start();
+    };
+  }, [modalContent]);
+
   const handleNav = (target, e) => {
     if (e) e.preventDefault();
     if (target.startsWith('#')) {
       const id = target.replace('#', '');
       const el = document.getElementById(id);
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+        smoothScrollTo(el, { offset: -80, duration: 1.8 });
       } else {
         onNavigate('home');
         setTimeout(() => {
           const targetEl = document.getElementById(id);
-          if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+          if (targetEl) smoothScrollTo(targetEl, { offset: -80, duration: 1.8 });
         }, 150);
       }
     } else {
       onNavigate(target);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.__lenis) {
+        window.__lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo({ top: 0 });
+      }
     }
   };
 
